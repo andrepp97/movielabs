@@ -14,7 +14,7 @@ const MovieSlider = ({ title, movies }) => {
         if (movies.length > 0) {
             setTimeout(() => {
                 setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth)
-            }, 500)
+            }, 1000)
         }
     }, [movies.length])
 
@@ -37,6 +37,7 @@ const MovieSlider = ({ title, movies }) => {
                     >
                         {movies.map(movie => (
                             <motion.div
+                                key={movie.id}
                                 className="item"
                                 whileTap={{ scale: 1 }}
                                 whileHover={{ y: -2, scale: 1.01, transition: { duration: .2 } }}

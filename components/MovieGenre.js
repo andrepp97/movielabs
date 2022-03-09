@@ -54,7 +54,7 @@ const MovieGenre = ({ title, popular, setFiltered, activeGenre, setActiveGenre }
 
         const filtered = popular.filter(movie => movie.genre_ids.includes(activeGenre))
         setFiltered(filtered)
-    }, [activeGenre])
+    }, [popular, activeGenre, setFiltered])
 
     // Render
     return (

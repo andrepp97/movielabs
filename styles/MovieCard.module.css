@@ -1,0 +1,24 @@
+.movieCard {
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.movieYear {
+    margin: 8px 0;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.movieTitle {
+    margin: 4px 0;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: 20px;
+    height: 40px;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}

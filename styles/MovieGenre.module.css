@@ -1,0 +1,43 @@
+.genreContainer {
+    margin-bottom: 20px;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+}
+
+.genreItem {
+    letter-spacing: 1px;
+    text-align: center;
+    font-size: 16px;
+    padding: 6px;
+    margin: 6px 0;
+    cursor: pointer;
+    width: 100%;
+    min-width: 120px;
+    max-width: 150px;
+    background: #fff;
+    border-radius: 1rem;
+    border: 2px solid #666666;
+    transition: .2s ease;
+}
+.genreItem:hover {
+    box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 3px;
+}
+
+.genreActive {
+    letter-spacing: 1px;
+    text-align: center;
+    font-size: 16px;
+    color: #f4f4f4;
+    padding: 6px;
+    margin: 4px 0;
+    cursor: pointer;
+    width: 100%;
+    min-width: 120px;
+    max-width: 150px;
+    border-radius: 1rem;
+    border: 2px solid #663AB7;
+    background: #663AB7;
+    transition: .2s ease;
+    box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 3px;
+}

@@ -19,7 +19,6 @@ const Home = () => {
         const movies = await result.json()
         setPopular(movies.results)
         setFiltered(movies.results)
-        console.log(movies.results)
     }
 
     const getUpcomingMovies = async () => {
@@ -51,9 +50,10 @@ const Home = () => {
             <div className="main">
                 <p className="main-text">
                     Welcome to MovieDB
-                    <p className="secondary-text">
+                    <br />
+                    <small className="secondary-text">
                         Movie database for your needs, explore now.
-                    </p>
+                    </small>
                 </p>
             </div>
 

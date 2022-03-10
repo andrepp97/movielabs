@@ -3,8 +3,6 @@ import { MovieCard, MovieGenre, MovieSlider } from '../components'
 import { motion, AnimatePresence } from 'framer-motion'
 import styles from '../styles/Home.module.css'
 
-const url = `https://api.themoviedb.org/3/movie`
-
 const Home = () => {
     // State
     const [upcoming, setUpcoming] = useState([])
@@ -15,26 +13,26 @@ const Home = () => {
 
     // Function
     const getPopularMovies = async () => {
-        const result = await fetch(url + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const movies = await result.json()
         setPopular(movies.results)
         setFiltered(movies.results)
     }
 
     const getUpcomingMovies = async () => {
-        const result = await fetch(url + `/upcoming?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/upcoming?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const movies = await result.json()
         setTimeout(() => {
             setUpcoming(movies.results)
-        }, 500)
+        }, 250)
     }
 
     const getTopMovies = async () => {
-        const result = await fetch(url + `/top_rated?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/top_rated?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const movies = await result.json()
         setTimeout(() => {
             setTopRated(movies.results)
-        }, 500)
+        }, 250)
     }
 
     // Lifecycle
@@ -46,7 +44,7 @@ const Home = () => {
 
     // Render
     return (
-        <div className={styles.container}>
+        <div>
             <div className="main">
                 <p className="main-text">
                     Welcome to MovieDB

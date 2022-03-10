@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion'
+import { useState, useRef, useEffect } from 'react'
 import { Skeleton } from '../components'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
 
-const imgURL = 'https://image.tmdb.org/t/p/w500'
+const imgURL = 'https://image.tmdb.org/t/p/w300'
 
 const MovieSlider = ({ title, movies }) => {
     // Ref & State
@@ -11,16 +12,16 @@ const MovieSlider = ({ title, movies }) => {
 
     // Lifecycle
     useEffect(() => {
-        if (movies.length > 0) {
-            setTimeout(() => {
-                setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth)
-            }, 1000)
-        }
+        let delayDebounceFn = setTimeout(() => {
+            if (movies.length > 0) setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 40)
+        }, 1250)
+
+        return () => clearTimeout(delayDebounceFn)
     }, [movies.length])
 
     // Render
     return movies.length < 1
-        ? <Skeleton />
+        ? <Skeleton type="slider" />
         : (
             <div className="slider">
                 <p className="sectionTitle">
@@ -33,27 +34,33 @@ const MovieSlider = ({ title, movies }) => {
                     <motion.div
                         drag="x"
                         dragConstraints={{ right: 0, left: -width }}
+                        whileDrag={{ pointerEvents: 'none' }}
                         className="inner-carousel"
                     >
                         {movies.map(movie => (
-                            <motion.div
-                                key={movie.id}
-                                className="item"
-                                whileTap={{ scale: 1 }}
-                                whileHover={{ y: -2, scale: 1.01, transition: { duration: .2 } }}
-                            >
-                                <img
-                                    alt={movie.title}
-                                    draggable={false}
-                                    src={imgURL + movie.poster_path}
-                                />
-                                <p className="movieYear">
-                                    ({movie.release_date.split('-')[0]})
-                                </p>
-                                <p className="movieTitle">
-                                    {movie.title}
-                                </p>
-                            </motion.div>
+                            <Link href={'/movies/' + movie.id} key={movie.id}>
+                                <motion.div
+                                    className="item"
+                                    whileTap={{ scale: 1, cursor: 'grabbing' }}
+                                    whileHover={{
+                                        cursor: 'pointer',
+                                        y: -2, scale: 1.01,
+                                        transition: { duration: .2 },
+                                    }}
+                                >
+                                    <img
+                                        alt={movie.title}
+                                        draggable={false}
+                                        src={imgURL + movie.poster_path}
+                                    />
+                                    <p className="movieYear">
+                                        ({movie.release_date.split('-')[0]})
+                                    </p>
+                                    <p className="movieTitle">
+                                        {movie.title}
+                                    </p>
+                                </motion.div>
+                            </Link>
                         ))}
                     </motion.div>
                 </motion.div>

@@ -4,7 +4,7 @@ const NotFound = () => {
     return (
         <div className="pageContainer notFound">
             <h2>Ooopss...</h2>
-            <h3>The page you're looking was not found</h3>
+            <h3>The page you are looking was not found</h3>
             <br />
             <Link href="/" passHref={true}>
                 <button className="btn-main">

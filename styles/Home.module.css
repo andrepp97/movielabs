@@ -1,7 +1,3 @@
-.container {
-    padding: 3rem 6rem;
-}
-
 .popular {
     display: grid;
     grid-row-gap: 1rem;

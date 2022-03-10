@@ -1,0 +1,97 @@
+.root {
+    border-radius: 1rem;
+    /* background-color: #f6f6f6; */
+    /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+}
+
+.imgContainer {
+    flex: 2;
+}
+
+.movieImg {
+    object-fit: cover;
+    object-position: center;
+    border-radius: 1rem;
+}
+
+.movieDetail {
+    flex: 4;
+    margin: 2rem 0;
+}
+
+.movieDetail h1 {
+    margin: 0;
+}
+
+.movieDetail h1 span {
+    opacity: .75;
+    font-weight: 500;
+    margin-left: 8px;
+    letter-spacing: 1px;
+}
+
+.movieGenre {
+    opacity: .8;
+    margin: 8px 0;
+    letter-spacing: 1px;
+}
+
+.synopsis {
+    margin: 3rem 0;
+}
+
+.synopsis h3 {
+    margin-bottom: 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.synopsis p {
+    opacity: .8;
+    width: 90%;
+}
+
+.video h3 {
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.trailer {
+    flex: 1;
+    width: 90%;
+    height: 420px;
+    border-radius: 1rem;
+}
+
+
+
+@media screen and (max-width: 1366px) {
+    .movieDetail {
+        flex: 2;
+    }
+    
+    .synopsis p {
+        width: 100%;
+    }
+
+    .trailer {
+        width: 100%;
+        height: 360px;
+    }
+}
+
+
+@media only screen and (min-width: 991px) {
+    .movieDetail {
+        margin: 0 2rem;
+    }
+
+    .root {
+        display: flex;
+    }
+
+    .movieDetail {
+        margin: 0 2rem;
+    }
+}

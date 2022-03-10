@@ -6,7 +6,7 @@ const imgURL = 'https://image.tmdb.org/t/p/w500'
 
 const MovieCard = ({ data }) => {
     return (
-        <Link href={'/movies/' + data.id}>
+        <Link href={'/movies/' + data.id} passHref={true}>
             <motion.div
                 layout
                 animate={{ opacity: 1 }}

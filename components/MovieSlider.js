@@ -38,7 +38,7 @@ const MovieSlider = ({ title, movies }) => {
                         className="inner-carousel"
                     >
                         {movies.map(movie => (
-                            <Link href={'/movies/' + movie.id} key={movie.id}>
+                            <Link href={'/movies/' + movie.id} key={movie.id} passHref={true}>
                                 <motion.div
                                     className="item"
                                     whileTap={{ scale: 1, cursor: 'grabbing' }}

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Skeleton } from '../../components'
 import styles from '../../styles/MovieDetails.module.css'
 
@@ -15,7 +15,7 @@ const MovieDetails = () => {
     const [video, setVideo] = useState(null)
 
     // Function
-    const getMovieDetails = async () => {
+    const getMovieDetails = useCallback(async () => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const data = await result.json()
 
@@ -24,22 +24,21 @@ const MovieDetails = () => {
         }, 750)
 
         return () => clearTimeout(delayDebounceFn)
-    }
+    }, [id])
 
-    const getMovieVideo = async () => {
+    const getMovieVideo = useCallback(async () => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/videos?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const data = await result.json()
         const trailer = data.results.filter(obj => {
             return obj.type === "Trailer"
         })
-        console.log(trailer)
 
         let delayDebounceFn = setTimeout(() => {
             setVideo(trailer)
         }, 750)
 
         return () => clearTimeout(delayDebounceFn)
-    }
+    }, [id])
 
     // Lifecycle
     useEffect(() => {
@@ -47,7 +46,7 @@ const MovieDetails = () => {
             getMovieDetails()
             getMovieVideo()
         }
-    }, [id])
+    }, [id, getMovieDetails, getMovieVideo])
 
     // Render
     return details
@@ -63,6 +62,7 @@ const MovieDetails = () => {
                             <Image
                                 width={480}
                                 height={720}
+                                alt={details.title}
                                 className={styles.movieImg}
                                 src={imgURL + details.poster_path}
                             />
@@ -94,8 +94,7 @@ const MovieDetails = () => {
                                 <div className={styles.video}>
                                     <h3>Trailer</h3>
                                     <iframe
-                                        allowfullscreen
-                                        frameborder="0"
+                                        allowFullScreen
                                         className={styles.trailer}
                                         title="YouTube video player"
                                         src={`https://www.youtube.com/embed/${video[0].key}`}

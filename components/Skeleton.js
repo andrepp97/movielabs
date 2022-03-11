@@ -2,7 +2,7 @@ import ContentLoader from "react-content-loader"
 
 const Skeleton = ({ type }) => {
     return (
-        <div style={{ display: 'grid', margin: '48px 0' }}>
+        <div style={{ margin: '48px 0', overflow: 'hidden' }}>
             {
                 type === "slider"
                     ? (

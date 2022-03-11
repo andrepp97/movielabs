@@ -1,11 +1,10 @@
-.root {
-    border-radius: 1rem;
-    /* background-color: #f6f6f6; */
-    /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
-}
-
 .imgContainer {
     flex: 2;
+}
+
+.imgContainer span {
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .movieImg {
@@ -33,7 +32,51 @@
 .movieGenre {
     opacity: .8;
     margin: 8px 0;
+    display: flex;
+    flex-wrap: wrap;
     letter-spacing: 1px;
+}
+
+.cast {
+    margin: 3rem 0;
+}
+
+.cast h3 {
+    margin-bottom: 0;
+    padding-left: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-left: 4px solid #52299e;
+}
+
+.castWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 16px;
+}
+
+.castBox {
+    width: 128px;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.castBox span {
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.castBox p {
+    margin: 0;
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.castImg {
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .synopsis {
@@ -42,8 +85,10 @@
 
 .synopsis h3 {
     margin-bottom: 0;
+    padding-left: 12px;
     letter-spacing: 1px;
     text-transform: uppercase;
+    border-left: 4px solid #52299e;
 }
 
 .synopsis p {
@@ -51,19 +96,13 @@
     width: 90%;
 }
 
-.video h3 {
+.media h3 {
     margin-bottom: 16px;
+    padding-left: 12px;
     letter-spacing: 1px;
     text-transform: uppercase;
+    border-left: 4px solid #52299e;
 }
-
-.trailer {
-    flex: 1;
-    width: 90%;
-    height: 420px;
-    border-radius: 1rem;
-}
-
 
 
 @media screen and (max-width: 1366px) {

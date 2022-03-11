@@ -23,7 +23,6 @@ const dropIn = {
     },
 }
 
-
 const Modal = ({ handleClose, type, video, gallery }) => {
     return (
         <Backdrop onClick={handleClose}>
@@ -59,6 +58,8 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                                         <div className="flex-1 p-1">
                                             <p>Poster</p>
                                             <img
+                                                loading="lazy"
+                                                alt="Poster Image"
                                                 className="galleryPoster img-responsive"
                                                 src={gallery.posterURL + gallery.poster}
                                             />
@@ -66,6 +67,8 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                                         <div className="flex-2 p-1">
                                             <p>Backdrop</p>
                                             <img
+                                                loading="lazy"
+                                                alt="Backdrop Image"
                                                 className="galleryBackdrop  img-responsive"
                                                 src={gallery.backdropURL + gallery.backdrop}
                                             />

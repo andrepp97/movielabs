@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }) {
     return (
         <Layout>
             <Head>
-                <title>MovieDB</title>
+                <title>Movieku</title>
                 <link rel="icon" href="/favicon.png" />
                 <meta name="keyword" content="Movie DB" />
             </Head>

@@ -17,6 +17,7 @@ const MovieCard = ({ data }) => {
                 className={styles.movieCard}
             >
                 <img
+                    loading="lazy"
                     alt={data.title}
                     src={imgURL + data.poster_path}
                 />

@@ -53,6 +53,7 @@ const MovieCarousel = ({ movies }) => {
                                                 src={backdropURL + movie.backdrop_path}
                                                 className="embla__slide__img"
                                                 alt={movie.title}
+                                                loading="lazy"
                                             />
                                         </div>
                                     </div>

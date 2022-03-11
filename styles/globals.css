@@ -5,7 +5,6 @@ body {
     margin: 0;
     padding: 0;
     color: #606060;
-    background: #e7e7e7;
     font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', sans-serif;
 }
 
@@ -26,8 +25,8 @@ footer {
     display: block;
     text-align: center;
     padding: 30px 0;
-    color: #777;
-    background: #fff;
+    color: #666666;
+    background: #f5f5f5;
     border-top: 1px solid #eaeaea;
 }
 
@@ -134,22 +133,126 @@ footer {
 }
 
 
+/* === Display === */
+.d-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-1 {
+    flex: 1;
+}
+.flex-2 {
+    flex: 2;
+}
+.flex-3 {
+    flex: 3;
+}
+
+.backdrop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    background: rgba(0,0,0,0.6);
+}
+
+.modal {
+    width: 75vw;
+    height: 75vh;
+    max-height: 75h;
+    overflow: auto;
+}
+
+.modalBtn {
+    position: fixed;
+    right: 0;
+    top: 0;
+    padding: 4px !important;
+}
+
+.modalContent {
+    width: 100%;
+    height: 100%;
+}
+
+.trailer {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 1rem;
+}
+
+.gallery {
+    background: #f1f1f1;
+    border-radius: 2px;
+    padding: 1rem 2rem;
+}
+
+.gallery p {
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.img-responsive {
+    width: 100%;
+    height: 60vh;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 1rem;
+}
+
+
 /* === Button === */
 .btn-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     color: #f0f0f0;
     background: #663AB7;
     transition: .2s ease;
-    padding: 8px 16px;
+    padding: 10px 24px;
     margin: 8px;
     font-size: 14px;
     font-weight: 600;
     font-family: 'Montserrat';
 }
 .btn-main:hover {
+    background: #5022a5;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.btn-main:active {
+    background: #663AB7;
+}
+
+
+/* === Margin & Padding === */
+.m-2 {
+    margin: 16px;
+}
+.ml-1 {
+    margin-left: 8px;
+}
+.ml-2 {
+    margin-left: 16px;
+}
+.mr-2 {
+    margin-right: 16px;
+}
+
+.p-1 {
+    padding: 8px;
+}
+.p-2 {
+    padding: 16px;
 }
 
 
@@ -170,7 +273,7 @@ footer {
     top: 0;
     right: 0;
     pointer-events: none;
-    background-image: linear-gradient(to right, rgba(255,255,255,0) 0%, #e7e7e7 100%);
+    background-image: linear-gradient(to right, rgba(255,255,255,0) 0%, #ffffff 100%);
 }
 
 .inner-carousel {
@@ -222,13 +325,41 @@ footer {
     }
 }
 
+@media only screen and (max-width: 991px) {
+    .modal {
+        width: 80vw;
+        height: 50vh;
+    }
+
+    .galleryBackdrop, .galleryPoster {
+        height: auto;
+    }
+}
+
 @media only screen and (max-width: 600px) {
     .container {
-        padding: 2rem 4rem;
+        padding: 2rem;
     }
 
     .item img {
         max-width: 180px;
         max-height: 260px;
+    }
+
+    .modal {
+        width: 80vw;
+        height: auto;
+        max-height: 75vh;
+    }
+
+    .trailer {
+        width: 100%;
+        height: 25vh;
+    }
+}
+
+@media only screen and (min-width: 1081px) {
+    .gallery {
+        display: flex;
     }
 }

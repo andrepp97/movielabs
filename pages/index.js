@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { MovieCard, MovieGenre, MovieSlider } from '../components'
+import { MovieCard, MovieGenre, MovieSlider, Carousel } from '../components'
 import { motion, AnimatePresence } from 'framer-motion'
 import styles from '../styles/Home.module.css'
 
 const Home = () => {
     // State
+    const [trending, setTrending] = useState([])
     const [upcoming, setUpcoming] = useState([])
     const [topRated, setTopRated] = useState([])
     const [popular, setPopular] = useState([])
@@ -12,8 +13,24 @@ const Home = () => {
     const [activeGenre, setActiveGenre] = useState(0)
 
     // Function
-    const getPopularMovies = async () => {
+    const getTrendingMovies = async () => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+        const movies = await result.json()
+
+        let temp = []
+        movies.results.forEach((movie, index) => {
+            if (index < 5) {
+                temp.push(movie)
+            } else {
+                return
+            }
+        })
+
+        setTrending(temp)
+    }
+
+    const getPopularMovies = async () => {
+        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=2`)
         const movies = await result.json()
         setPopular(movies.results)
         setFiltered(movies.results)
@@ -38,22 +55,16 @@ const Home = () => {
     // Lifecycle
     useEffect(() => {
         getUpcomingMovies()
+        getTrendingMovies()
         getTopMovies()
         getPopularMovies()
     }, [])
 
     // Render
     return (
-        <div>
-            <div className="main">
-                <p className="main-text">
-                    Welcome to MovieDB
-                    <br />
-                    <small className="secondary-text">
-                        Movie database for your needs, explore now.
-                    </small>
-                </p>
-            </div>
+        <div style={{ marginTop: '60px' }}>
+
+            <Carousel movies={trending} />
 
             <MovieSlider
                 movies={upcoming}
@@ -83,6 +94,7 @@ const Home = () => {
                     ))}
                 </AnimatePresence>
             </motion.div>
+
         </div>
     )
 }

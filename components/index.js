@@ -1,3 +1,4 @@
+export { default as Carousel } from './Carousel';
 export { default as MovieCard } from './MovieCard';
 export { default as MovieGenre } from './MovieGenre';
 export { default as MovieSlider } from './MovieSlider';

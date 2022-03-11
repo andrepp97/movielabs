@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Layout from '../layout/Layout'
 import '../styles/globals.css'
+import '../styles/Carousel.css'
 
 function MyApp({ Component, pageProps }) {
     return (

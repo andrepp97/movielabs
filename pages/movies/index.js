@@ -93,7 +93,7 @@ const Movies = () => {
                     : null
             }
 
-            <motion.div className={loading || result.length === 0 ? styles.loadingWrapper : styles.popular}>
+            <motion.div className={(loading || result && result.length === 0) ? styles.loadingWrapper : styles.popular}>
                 <AnimatePresence>
                     {
                         loading

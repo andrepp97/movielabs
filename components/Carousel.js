@@ -34,6 +34,9 @@ const MovieCarousel = ({ movies }) => {
     return movies.length
         ? (
             <>
+                <p className="sectionTitle">
+                    What's Popular
+                </p>
                 <div className="embla">
                     <div className="embla__viewport" ref={viewportRef}>
                         <div className="embla__container">

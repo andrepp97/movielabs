@@ -35,7 +35,7 @@ const MovieDetails = () => {
 
         let delayDebounceFn = setTimeout(() => {
             setDetails(data)
-        }, 750)
+        }, 500)
 
         return () => clearTimeout(delayDebounceFn)
     }, [id])
@@ -49,7 +49,7 @@ const MovieDetails = () => {
 
         let delayDebounceFn = setTimeout(() => {
             setVideo(trailer)
-        }, 750)
+        }, 500)
 
         return () => clearTimeout(delayDebounceFn)
     }, [id])
@@ -60,7 +60,7 @@ const MovieDetails = () => {
 
         let delayDebounceFn = setTimeout(() => {
             setCasts(data.cast)
-        }, 750)
+        }, 500)
 
         return () => clearTimeout(delayDebounceFn)
     }, [id])

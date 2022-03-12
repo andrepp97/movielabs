@@ -54,8 +54,8 @@ const Home = () => {
 
     // Lifecycle
     useEffect(() => {
-        getUpcomingMovies()
         getTrendingMovies()
+        getUpcomingMovies()
         getTopMovies()
         getPopularMovies()
     }, [])

@@ -25,29 +25,31 @@
     letter-spacing: 1px;
 }
 
-.search {
+.noResult {
+    opacity: .8;
     width: 100%;
-    padding: 4px 20px;
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    border: 2px solid #ccc;
-    border-radius: 1rem;
-    font-size: large;
-    transition: .25s ease-in-out;
+    letter-spacing: 1px;
 }
 
 .searchInput {
     width: 100%;
-    height: auto;
+    height: fit-content;
     border: none;
-    padding: 8px;
-    padding-bottom: 10px;
-    margin-left: 8px;
+    padding: 1rem 4rem;
+    margin-bottom: 2rem;
+    font-size: 22px;
     font-family: 'Montserrat';
-    font-size: 21px;
+    letter-spacing: 1px;
     outline: none;
-    transition: .25s ease-in-out;
+    border-radius: 2rem;    
+    transition: .2s ease-in-out;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background: url(/icons8_search.svg);
+    background-position: 1.5rem; 
+    background-repeat: no-repeat;
+}
+.searchInput:focus {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 8px;
 }
 
 .searchSvg {

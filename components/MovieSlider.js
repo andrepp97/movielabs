@@ -41,17 +41,19 @@ const MovieSlider = ({ title, movies }) => {
                             <Link href={'/movies/' + movie.id} key={movie.id} passHref={true}>
                                 <motion.div
                                     className="item"
-                                    whileTap={{ scale: 1, cursor: 'grabbing' }}
+                                    whileTap={{
+                                        y: 0,
+                                        cursor: "grabbing",
+                                    }}
                                     whileHover={{
-                                        cursor: 'pointer',
-                                        y: -2, scale: 1.01,
-                                        transition: { duration: .2 },
+                                        y: "-3px",
+                                        transition: { duration: .15 },
                                     }}
                                 >
-                                    <img
+                                    <motion.img
                                         alt={movie.title}
-                                        draggable={false}
                                         src={imgURL + movie.poster_path}
+                                        whileHover={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
                                     />
                                     <p className="movieYear">
                                         ({movie.release_date.split('-')[0]})

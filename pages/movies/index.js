@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ImSearch } from 'react-icons/im'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MovieCard, Skeleton } from '../../components'
@@ -14,7 +14,7 @@ const Movies = () => {
     const [loading, setLoading] = useState(false)
 
     // Function
-    const searchMovies = async () => {
+    const searchMovies = useCallback(async () => {
         // Get the movies
         setLoading(true)
         const query = `&query=${text}`
@@ -34,7 +34,7 @@ const Movies = () => {
         setResult(temp)
         setDisplay(text)
         setLoading(false)
-    }
+    }, [text])
 
     const preventDefault = (e) => {
         if (e.key === "Enter") {
@@ -51,7 +51,7 @@ const Movies = () => {
 
             return () => clearTimeout(debounceFunction)
         }
-    }, [text])
+    }, [text, searchMovies])
 
     // Render
     return (
@@ -91,7 +91,7 @@ const Movies = () => {
                 result && loading === false
                     ? (
                         <p className={styles.resultText}>
-                            Showing <strong>{result.length}</strong> {result.length > 1 ? "results" : "result"} for "<strong>{display}</strong>"
+                            Showing <strong>{result.length}</strong> {result.length > 1 ? "results" : "result"} for &quot;<strong>{display}</strong>&quot;
                         </p>
                     )
                     : null

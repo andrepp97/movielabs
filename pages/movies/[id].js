@@ -124,6 +124,7 @@ const MovieDetails = () => {
                                                 <Image
                                                     width={80}
                                                     height={80}
+                                                    alt={cast.name}
                                                     className={styles.castImg}
                                                     src={castURL + cast.profile_path}
                                                 />

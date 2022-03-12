@@ -35,7 +35,7 @@ const MovieCarousel = ({ movies }) => {
         ? (
             <>
                 <p className="sectionTitle">
-                    What's Popular
+                    What&apos;s Popular
                 </p>
                 <div className="embla">
                     <div className="embla__viewport" ref={viewportRef}>

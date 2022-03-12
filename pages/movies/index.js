@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState, useEffect, useCallback } from 'react'
-import { ImSearch } from 'react-icons/im'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MovieCard, Skeleton } from '../../components'
 import styles from '../../styles/Home.module.css'
@@ -61,17 +60,14 @@ const Movies = () => {
                 <title>{display && display + ' - '}Movieku</title>
             </Head>
 
-            <form className={styles.search}>
-                <ImSearch />
-                <input
-                    type="text"
-                    className={styles.searchInput}
-                    placeholder="Search for a movie . . ."
-                    onKeyDown={e => preventDefault(e)}
-                    onChange={e => setText(e.target.value)}
-                    value={text}
-                />
-            </form>
+            <input
+                type="text"
+                className={styles.searchInput}
+                placeholder="Search for a movie . . ."
+                onKeyDown={e => preventDefault(e)}
+                onChange={e => setText(e.target.value)}
+                value={text}
+            />
 
             {(!result && loading === false) && (
                 <div className={styles.searchSvg}>
@@ -97,7 +93,7 @@ const Movies = () => {
                     : null
             }
 
-            <motion.div className={loading ? styles.loadingWrapper : styles.popular}>
+            <motion.div className={loading || result.length === 0 ? styles.loadingWrapper : styles.popular}>
                 <AnimatePresence>
                     {
                         loading
@@ -112,7 +108,7 @@ const Movies = () => {
                                             />
                                         ))
                                         : (
-                                            <h3 className="movieYear">
+                                            <h3 className={styles.noResult}>
                                                 There are no movies that matched your keyword
                                             </h3>
                                         )

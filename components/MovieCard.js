@@ -13,20 +13,30 @@ const MovieCard = ({ data }) => {
                 initial={{ opacity: 0 }}
                 exit={{ opacity: 0 }}
                 whileTap={{ scale: 1 }}
-                whileHover={{ scale: 1.02, transition: { duration: .2 } }}
+                whileHover={{
+                    scale: 1.02,
+                    transition: { duration: .15 },
+                }}
                 className={styles.movieCard}
             >
-                <img
-                    loading="lazy"
-                    alt={data.title}
-                    src={imgURL + data.poster_path}
-                />
-                <p className={styles.movieYear}>
-                    ({data.release_date.split('-')[0]})
-                </p>
-                <p className={styles.movieTitle}>
-                    {data.title}
-                </p>
+                <div className={styles.movieImage}>
+                    <motion.img
+                        loading="lazy"
+                        alt={data.title}
+                        src={imgURL + data.poster_path}
+                        whileHover={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
+                    />
+                </div>
+                <div className={styles.movieText}>
+                    {data.release_date && (
+                        <p className={styles.movieYear}>
+                            ({data.release_date.split('-')[0]})
+                        </p>
+                    )}
+                    <p className={styles.movieTitle}>
+                        {data.title}
+                    </p>
+                </div>
             </motion.div>
         </Link>
     );

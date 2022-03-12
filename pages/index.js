@@ -31,9 +31,15 @@ const Home = () => {
 
     const getPopularMovies = async () => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=2`)
+        const result2 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=3`)
         const movies = await result.json()
-        setPopular(movies.results)
-        setFiltered(movies.results)
+        const movies2 = await result2.json()
+
+        let temp = [...movies.results]
+        temp = temp.concat(movies2.results)
+
+        setPopular(temp)
+        setFiltered(temp)
     }
 
     const getUpcomingMovies = async () => {

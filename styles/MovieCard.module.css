@@ -1,9 +1,34 @@
 .movieCard {
-    cursor: pointer;
+    display: flex;
+    flex-direction: column;
     border-radius: 10px;
+    height: 100%;
+    width: fit-content;
+    cursor: pointer;
+    float: left;
+}
+
+.movieImage {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.movieImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.movieText {
+    flex: 1;
+    height: fit-content;
 }
 
 .movieYear {
+    opacity: .8;
     margin: 8px 0;
     font-weight: 500;
     letter-spacing: 1px;
@@ -21,4 +46,12 @@
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    .movieTitle {
+        font-size: medium;
+    }
 }

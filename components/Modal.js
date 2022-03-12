@@ -42,7 +42,7 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                                     allowFullScreen
                                     className="trailer"
                                     title="YouTube video player"
-                                    src={`https://www.youtube.com/embed/${video[0].key}`}
+                                    src={`https://www.youtube.com/embed/${video.length && video[0].key}`}
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 />
                             )

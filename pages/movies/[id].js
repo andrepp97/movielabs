@@ -80,7 +80,7 @@ const MovieDetails = () => {
             <>
 
                 <Head>
-                    <title>Movieku | {details.title}</title>
+                    <title>{details.title} - Movieku</title>
                     <meta name="keyword" content={details.title} />
                 </Head>
 

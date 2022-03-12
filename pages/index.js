@@ -35,8 +35,9 @@ const Home = () => {
         const movies = await result.json()
         const movies2 = await result2.json()
 
-        let temp = [...movies.results]
-        temp = temp.concat(movies2.results)
+        let temp = movies.results.filter(movie => movie.poster_path && movie.release_date)
+        let temp2 = movies2.results.filter(movie => movie.poster_path && movie.release_date)
+        temp = temp.concat(temp2)
 
         setPopular(temp)
         setFiltered(temp)

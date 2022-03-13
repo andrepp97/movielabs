@@ -38,7 +38,7 @@
 }
 
 .embla__slide:hover h1 {
-    transform: scale(1.4);
+    transform: scale(1.25);
     background: rgba(42, 42, 42, 0.9);
 }
 
@@ -57,7 +57,7 @@
     position: fixed;
     top: 0;
     margin: 0;
-    padding: 1rem;
+    padding: 2rem 8rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -162,6 +162,13 @@
 }
 
 
+
+@media only screen and (max-width: 1080px) {
+    .embla__slide__inner h1 {
+        font-size: 24px;
+        padding: 2rem 6rem;
+    }
+}
 
 @media only screen and (max-width: 600px) {
     .embla__slide__inner h1 {

@@ -3,7 +3,6 @@
 }
 
 .imgContainer span {
-    height: 70vh !important;
     border-radius: 1rem;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
@@ -111,6 +110,10 @@
     .movieDetail {
         flex: 2;
     }
+
+    .movieDetail h1 {
+        font-size: 24px;
+    }
     
     .synopsis p {
         width: 100%;
@@ -122,11 +125,12 @@
     }
 }
 
-@media screen and (max-width: 1366px) {
-    .movieDetail h1 {
-        font-size: 24px;
+@media screen and (max-width: 450px) {
+    .imgContainer span {
+        height: 60vh !important;
     }
 }
+
 
 @media only screen and (min-width: 2160px) {
     .imgContainer span {

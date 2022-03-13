@@ -70,14 +70,18 @@ const Movies = () => {
                 <title>{display && display + ' - '}Movieku</title>
             </Head>
 
-            <input
-                type="text"
-                className={styles.searchInput}
-                placeholder="Search for a movie . . ."
-                onKeyDown={e => preventDefault(e)}
-                onChange={e => setText(e.target.value)}
-                value={text}
-            />
+            <AnimatePresence>
+                <motion.input
+                    type="text"
+                    value={text}
+                    className={styles.searchInput}
+                    placeholder="Search for a movie . . ."
+                    onKeyDown={e => preventDefault(e)}
+                    onChange={e => setText(e.target.value)}
+                    initial={{ width: "5%" }}
+                    animate={{ width: "100%" }}
+                />
+            </AnimatePresence>
 
             {(!result && loading === false) && (
                 <div className={styles.searchSvg}>

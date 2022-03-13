@@ -50,7 +50,9 @@ const Home = ({ trending, upcoming, topRated, popular }) => {
     return (
         <div style={{ marginTop: '60px' }}>
 
-            <Carousel movies={trending} />
+            <AnimatePresence>
+                <Carousel movies={trending} />
+            </AnimatePresence>
 
             <MovieSlider
                 movies={upcoming}

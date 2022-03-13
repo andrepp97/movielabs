@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { DotButton, PrevButton, NextButton } from "./CarouselButtons"
 import { Skeleton } from '../components'
+import { motion } from 'framer-motion'
 
 const backdropURL = 'https://image.tmdb.org/t/p/original'
 
@@ -33,7 +34,12 @@ const MovieCarousel = ({ movies }) => {
 
     return movies.length
         ? (
-            <>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                layout
+            >
                 <p className="sectionTitle">
                     What&apos;s Popular
                 </p>
@@ -76,7 +82,7 @@ const MovieCarousel = ({ movies }) => {
                         />
                     ))}
                 </div>
-            </>
+            </motion.div>
         )
         : <Skeleton type="carousel" />
 }

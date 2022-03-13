@@ -38,7 +38,7 @@
 }
 
 .embla__slide:hover h1 {
-    transform: scale(1.25);
+    transform: scale(1.3);
     background: rgba(42, 42, 42, 0.9);
 }
 

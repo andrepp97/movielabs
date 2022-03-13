@@ -1,71 +1,50 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { MovieCard, MovieGenre, MovieSlider, Carousel } from '../components'
 import { motion, AnimatePresence } from 'framer-motion'
 import styles from '../styles/Home.module.css'
 
-const Home = () => {
+// DATA FETCHING
+export async function getStaticProps() {
+    const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const trendingTemp = await result.json()
+    let trending = trendingTemp.results.filter((item, index) => index < 5)
+
+    const result2 = await fetch(process.env.NEXT_PUBLIC_URL + `/upcoming?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const upcomingTemp = await result2.json()
+    const upcoming = upcomingTemp.results
+
+    const result3 = await fetch(process.env.NEXT_PUBLIC_URL + `/top_rated?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const topRatedTemp = await result3.json()
+    const topRated = topRatedTemp.results
+
+    const result4 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=2`)
+    const result5 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=3`)
+    const popularTemp1 = await result4.json()
+    const popularTemp2 = await result5.json()
+
+    let popular = popularTemp1.results.filter(movie => movie.poster_path && movie.release_date)
+    let popular2 = popularTemp2.results.filter(movie => movie.poster_path && movie.release_date)
+    popular = popular.concat(popular2)
+
+    return {
+        props: {
+            trending,
+            upcoming,
+            topRated,
+            popular,
+        },
+        // Next.js will attempt to re-generate the page:
+        // - When a request comes in
+        // - At most once every 10 seconds
+        revalidate: 60, // in seconds
+    }
+}
+
+// COMPONENT
+const Home = ({ trending, upcoming, topRated, popular }) => {
     // State
-    const [trending, setTrending] = useState([])
-    const [upcoming, setUpcoming] = useState([])
-    const [topRated, setTopRated] = useState([])
-    const [popular, setPopular] = useState([])
     const [filtered, setFiltered] = useState([])
     const [activeGenre, setActiveGenre] = useState(0)
-
-    // Function
-    const getTrendingMovies = async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
-        const movies = await result.json()
-
-        let temp = []
-        movies.results.forEach((movie, index) => {
-            if (index < 5) {
-                temp.push(movie)
-            } else {
-                return
-            }
-        })
-
-        setTrending(temp)
-    }
-
-    const getPopularMovies = async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=2`)
-        const result2 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=3`)
-        const movies = await result.json()
-        const movies2 = await result2.json()
-
-        let temp = movies.results.filter(movie => movie.poster_path && movie.release_date)
-        let temp2 = movies2.results.filter(movie => movie.poster_path && movie.release_date)
-        temp = temp.concat(temp2)
-
-        setPopular(temp)
-        setFiltered(temp)
-    }
-
-    const getUpcomingMovies = async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/upcoming?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
-        const movies = await result.json()
-        setTimeout(() => {
-            setUpcoming(movies.results)
-        }, 250)
-    }
-
-    const getTopMovies = async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/top_rated?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
-        const movies = await result.json()
-        setTimeout(() => {
-            setTopRated(movies.results)
-        }, 250)
-    }
-
-    // Lifecycle
-    useEffect(() => {
-        getTrendingMovies()
-        getUpcomingMovies()
-        getTopMovies()
-        getPopularMovies()
-    }, [])
 
     // Render
     return (
@@ -93,7 +72,7 @@ const Home = () => {
 
             <motion.div className={styles.popular}>
                 <AnimatePresence>
-                    {filtered.map(movie => (
+                    {filtered && filtered.map(movie => (
                         <MovieCard
                             key={movie.id}
                             data={movie}

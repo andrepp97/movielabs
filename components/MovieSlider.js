@@ -12,12 +12,14 @@ const MovieSlider = ({ title, movies }) => {
 
     // Lifecycle
     useEffect(() => {
-        let delayDebounceFn = setTimeout(() => {
-            if (movies.length > 0) setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 40)
-        }, 1500)
+        if (movies) {
+            let delayDebounceFn = setTimeout(() => {
+                if (movies.length > 0) setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 40)
+            }, 1500)
 
-        return () => clearTimeout(delayDebounceFn)
-    }, [movies.length])
+            return () => clearTimeout(delayDebounceFn)
+        }
+    }, [movies])
 
     // Render
     return movies.length < 1
@@ -37,7 +39,7 @@ const MovieSlider = ({ title, movies }) => {
                         whileDrag={{ pointerEvents: 'none' }}
                         className="inner-carousel"
                     >
-                        {movies.map(movie => (
+                        {movies && movies.map(movie => (
                             <Link href={'/movies/' + movie.id} key={movie.id} passHref={true}>
                                 <motion.div
                                     className="item"

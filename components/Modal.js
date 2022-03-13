@@ -50,9 +50,9 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                                 <>
                                     <button
                                         onClick={handleClose}
-                                        className="btn-main modalBtn"
+                                        className="modalBtn"
                                     >
-                                        <MdOutlineClose size={20} />
+                                        <MdOutlineClose size={24} />
                                     </button>
                                     <div className="gallery">
                                         <div className="flex-1 p-1">

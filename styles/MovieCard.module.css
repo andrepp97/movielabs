@@ -51,7 +51,13 @@
 
 
 @media only screen and (max-width: 600px) {
+    .movieYear{
+        font-size: 15px;
+    }
+
     .movieTitle {
-        font-size: medium;
+        height: 36px;
+        font-size: 16px;
+        line-height: 18px;
     }
 }

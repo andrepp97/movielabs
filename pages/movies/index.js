@@ -41,16 +41,26 @@ const Movies = () => {
         }
     }
 
+    const checkInput = useCallback(() => {
+        let regExp = /[a-zA-Z]/g
+
+        if (regExp.test(text)) {
+            return true
+        }
+
+        return false
+    }, [text])
+
     // Lifecycle
     useEffect(() => {
-        if (text) {
+        if (checkInput()) {
             let debounceFunction = setTimeout(async () => {
                 searchMovies()
             }, 1000)
 
             return () => clearTimeout(debounceFunction)
         }
-    }, [text, searchMovies])
+    }, [text, checkInput, searchMovies])
 
     // Render
     return (
@@ -72,7 +82,7 @@ const Movies = () => {
             {(!result && loading === false) && (
                 <div className={styles.searchSvg}>
                     <p>
-                        Type a word to start searching
+                        Type a word to start a search
                     </p>
                     <Image
                         width={480}

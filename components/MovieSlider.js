@@ -12,12 +12,9 @@ const MovieSlider = ({ title, movies }) => {
 
     // Lifecycle
     useEffect(() => {
-        if (movies) {
-            let delayDebounceFn = setTimeout(() => {
-                if (movies.length > 0) setWidth((movies.length * 240) - carouselRef.current.offsetWidth)
-            }, 1000)
-
-            return () => clearTimeout(delayDebounceFn)
+        if (movies && movies.length) {
+            const itemWidth = document.getElementsByClassName("item")[0].clientWidth + 26
+            setWidth((movies.length * itemWidth) - carouselRef.current.offsetWidth)
         }
     }, [movies])
 

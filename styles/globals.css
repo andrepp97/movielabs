@@ -133,10 +133,18 @@ footer {
 }
 
 .modalBtn {
+    padding: 6px 12px;
     position: fixed;
     right: 0;
     top: 0;
-    padding: 4px !important;
+    border: none;
+    border-bottom-left-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    transition: .2s;
+}
+.modalBtn:hover {
+    background: #dbdbdb;
 }
 
 .modalContent {
@@ -343,6 +351,13 @@ footer {
         height: 25vh;
     }
 }
+
+@media only screen and (max-width: 376px) {
+    .btn-main {
+        width: 100%;
+    }
+}
+
 
 @media only screen and (min-width: 1081px) {
     .gallery {

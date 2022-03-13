@@ -12,6 +12,7 @@
     "embla-carousel-react": "^6.2.0",
     "framer-motion": "^6.2.8",
     "next": "12.1.0",
+    "nextjs-progressbar": "^0.0.14",
     "react": "17.0.2",
     "react-content-loader": "^6.1.0",
     "react-dom": "17.0.2",

@@ -47,13 +47,15 @@ const genre = [
 const MovieGenre = ({ title, popular, setFiltered, activeGenre, setActiveGenre }) => {
     // Lifecycle
     useEffect(() => {
-        if (activeGenre == 0) {
-            setFiltered(popular)
-            return
-        }
+        if (popular) {
+            if (activeGenre == 0) {
+                setFiltered(popular)
+                return
+            }
 
-        const filtered = popular.filter(movie => movie.genre_ids.includes(activeGenre))
-        setFiltered(filtered)
+            const filtered = popular.filter(movie => movie.genre_ids.includes(activeGenre))
+            setFiltered(filtered)
+        }
     }, [popular, activeGenre, setFiltered])
 
     // Render

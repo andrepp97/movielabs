@@ -86,32 +86,30 @@
 }
 
 .embla__button {
-    outline: 0;
-    padding: 8px;
+    outline: none;
     cursor: pointer;
-    background-color: #eeeeee;
+    background-color: transparent;
     touch-action: manipulation;
     position: absolute;
-    z-index: 1;
+    z-index: 999999;
     top: 50%;
-    width: 36px;
-    height: 36px;
+    width: 4rem;
+    height: 4rem;
+    transition: .2s ease-in-out;
     transform: translateY(-50%);
-    justify-content: center;
-    align-items: center;
-    fill: #663AB7;
-    border: 0;
+    border: 3px solid #F7F7F7;
     border-radius: 50%;
-    transition: .2s ease;
 }
 
 .embla__button:hover {
-    background-color: #ffffff;
+    background-color: #5930a7;
+    border: 3px solid #5930a7;
+    box-shadow: rgba(202, 202, 202, 0.25) 0px 3px 8px;
 }
 
 .embla__button:disabled {
     cursor: default;
-    opacity: 0.3;
+    opacity: 0;
 }
 
 .embla__button__svg {
@@ -120,11 +118,11 @@
 }
 
 .embla__button--prev {
-    left: 24px;
+    left: 2rem;
 }
 
 .embla__button--next {
-    right: 24px;
+    right: 2rem;
 }
 
 .embla__dots {

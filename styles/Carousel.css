@@ -68,7 +68,7 @@
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: .75s ease;
+    transition: .5s ease-in-out;
     background: rgba(36, 36, 36, 0.6);
 }
 

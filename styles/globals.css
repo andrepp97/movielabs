@@ -242,7 +242,6 @@ footer {
     position: absolute;
     top: 0;
     right: 0;
-    bottom: 0;
     pointer-events: none;
     background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
 }

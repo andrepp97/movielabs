@@ -41,26 +41,16 @@ const Movies = () => {
         }
     }
 
-    const checkInput = useCallback(() => {
-        let regExp = /[a-zA-Z]/g
-
-        if (regExp.test(text)) {
-            return true
-        }
-
-        return false
-    }, [text])
-
     // Lifecycle
     useEffect(() => {
-        if (checkInput()) {
+        if (text.trim().split('').length) {
             let debounceFunction = setTimeout(async () => {
                 searchMovies()
             }, 1000)
 
             return () => clearTimeout(debounceFunction)
         }
-    }, [text, checkInput, searchMovies])
+    }, [text, searchMovies])
 
     // Render
     return (

@@ -38,7 +38,6 @@ const MovieCarousel = ({ movies }) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                layout
             >
                 <p className="sectionTitle">
                     What&apos;s Popular

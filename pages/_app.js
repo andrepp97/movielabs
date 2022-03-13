@@ -7,7 +7,7 @@ import '../styles/Carousel.css'
 function MyApp({ Component, pageProps }) {
     return (
         <Layout>
-            <NextNProgress color="#f2f2f2" />
+            <NextNProgress color="#f2f2f2" stopDelayMs={250} />
             <Head>
                 <title>Movieku</title>
                 <link rel="icon" href="/favicon.png" />

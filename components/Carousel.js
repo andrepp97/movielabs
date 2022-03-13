@@ -40,7 +40,7 @@ const MovieCarousel = ({ movies }) => {
                 <div className="embla">
                     <div className="embla__viewport" ref={viewportRef}>
                         <div className="embla__container">
-                            {movies.map((movie, index) => (
+                            {movies && movies.map((movie, index) => (
                                 <Link
                                     href={'/movies/' + movie.id}
                                     passHref={true}

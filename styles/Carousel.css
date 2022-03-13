@@ -91,7 +91,11 @@
     background-color: transparent;
     touch-action: manipulation;
     position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     top: 50%;
+    padding: 0;
     width: 4rem;
     height: 4rem;
     transition: .2s ease-in-out;
@@ -165,14 +169,33 @@
         font-size: 24px;
         padding: 2rem 6rem;
     }
+
+    .embla__button {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    .embla__button--next {
+        right: 1rem;
+    }
+
+    .embla__button--prev {
+        left: 1rem;
+    }
 }
 
 @media only screen and (max-width: 600px) {
     .embla__slide__inner h1 {
         font-size: large;
+        padding: 1rem 3rem;
     }
 
     .embla__slide:hover h1 {
         transform: scale(1.1);
+    }
+
+    .embla__button {
+        width: 2.5rem;
+        height: 2.5rem;
     }
 }

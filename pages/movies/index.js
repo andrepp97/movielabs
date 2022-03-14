@@ -60,67 +60,69 @@ const Movies = () => {
                 <title>{display && display + ' - '}Movieku</title>
             </Head>
 
-            <AnimatePresence>
-                <motion.input
-                    type="text"
-                    value={text}
-                    className={styles.searchInput}
-                    placeholder="Search for a movie . . ."
-                    onKeyDown={e => preventDefault(e)}
-                    onChange={e => setText(e.target.value)}
-                    initial={{ width: "5%" }}
-                    animate={{ width: "100%" }}
-                />
-            </AnimatePresence>
-
-            {(!result && loading === false) && (
-                <div className={styles.searchSvg}>
-                    <p>
-                        Type a word to start a search
-                    </p>
-                    <Image
-                        width={480}
-                        height={480}
-                        src="/search.svg"
-                        alt='Try "The Batman"'
-                    />
-                </div>
-            )}
-
-            {
-                result && loading === false
-                    ? (
-                        <p className={styles.resultText}>
-                            Showing <strong>{result.length}</strong> {result.length > 1 ? "results" : "result"} for &quot;<strong>{display}</strong>&quot;
-                        </p>
-                    )
-                    : null
-            }
-
-            <motion.div className={(loading || result && result.length === 0) ? styles.loadingWrapper : styles.popular}>
+            <div className="p-2">
                 <AnimatePresence>
-                    {
-                        loading
-                            ? <Skeleton type="slider" />
-                            : (
-                                result
-                                    ? result.length
-                                        ? result.map((movie, index) => (
-                                            <MovieCard
-                                                data={movie}
-                                                key={`${movie.id} - ${index}`}
-                                            />
-                                        ))
-                                        : (
-                                            <h3 className={styles.noResult}>
-                                                There are no movies that matched your keyword
-                                            </h3>
-                                        )
-                                    : null
-                            )
-                    }
+                    <motion.input
+                        type="text"
+                        value={text}
+                        className={styles.searchInput}
+                        placeholder="Search for a movie . . ."
+                        onKeyDown={e => preventDefault(e)}
+                        onChange={e => setText(e.target.value)}
+                        initial={{ width: "5%" }}
+                        animate={{ width: "100%" }}
+                    />
                 </AnimatePresence>
-            </motion.div>
+
+                {(!result && loading === false) && (
+                    <div className={styles.searchSvg}>
+                        <p>
+                            Type a word to start a search
+                        </p>
+                        <Image
+                            width={480}
+                            height={480}
+                            src="/search.svg"
+                            alt='Try "The Batman"'
+                        />
+                    </div>
+                )}
+
+                {
+                    result && loading === false
+                        ? (
+                            <p className={styles.resultText}>
+                                Showing <strong>{result.length}</strong> {result.length > 1 ? "results" : "result"} for &quot;<strong>{display}</strong>&quot;
+                            </p>
+                        )
+                        : null
+                }
+
+                <motion.div className={(loading || result && result.length === 0) ? styles.loadingWrapper : styles.popular}>
+                    <AnimatePresence>
+                        {
+                            loading
+                                ? <Skeleton type="slider" />
+                                : (
+                                    result
+                                        ? result.length
+                                            ? result.map((movie, index) => (
+                                                <MovieCard
+                                                    data={movie}
+                                                    key={`${movie.id} - ${index}`}
+                                                />
+                                            ))
+                                            : (
+                                                <h3 className={styles.noResult}>
+                                                    There are no movies that matched your keyword
+                                                </h3>
+                                            )
+                                        : null
+                                )
+                        }
+                    </AnimatePresence>
+                </motion.div>
+            </div>
 
         </div>
     );

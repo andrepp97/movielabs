@@ -33,6 +33,7 @@ footer {
 
 .pageContainer {
     padding-top: 60px;
+    overflow-x: hidden;
     min-height: calc(100vh - 208px);
 }
 
@@ -98,6 +99,10 @@ footer {
 .d-flex {
     display: flex;
     flex-wrap: wrap;
+}
+.d-flex-column {
+    display: flex;
+    flex-direction: column;
 }
 
 .flex-1 {
@@ -212,6 +217,11 @@ footer {
     margin: 16px;
 }
 
+.my-1 {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
 .ml-1 {
     margin-left: 8px;
 }
@@ -236,6 +246,16 @@ footer {
 /* === Carousel === */
 .slider {
     margin: 48px 0;
+    /* width: 100%; */
+}
+
+.sliderTitle {
+    font-size: 18.7px;
+    font-weight: bold;
+    padding-left: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-left: 4px solid #52299e;
 }
 
 .carousel {

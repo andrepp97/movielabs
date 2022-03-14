@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState, useEffect, useCallback } from 'react'
@@ -43,9 +44,7 @@ const MovieDetails = () => {
     const getMovieVideo = useCallback(async () => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/videos?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const data = await result.json()
-        const trailer = data.results.filter(obj => {
-            return obj.type === "Trailer"
-        })
+        const trailer = data.results.filter(obj => obj.type === "Trailer")
 
         let delayDebounceFn = setTimeout(() => {
             setVideo(trailer)
@@ -117,21 +116,28 @@ const MovieDetails = () => {
                                 <div className={styles.castWrapper}>
                                     {casts.map((cast, index) => {
                                         if (index < 6) return (
-                                            <div
+                                            <Link
+                                                passHref={true}
                                                 key={cast.cast_id}
-                                                className={styles.castBox}
+                                                href={`/cast/` + cast.id}
                                             >
-                                                <Image
-                                                    width={80}
-                                                    height={80}
-                                                    alt={cast.name}
-                                                    className={styles.castImg}
-                                                    src={castURL + cast.profile_path}
-                                                />
-                                                <p>
-                                                    {cast.name}
-                                                </p>
-                                            </div>
+                                                <div className={styles.castBox}>
+                                                    <Image
+                                                        width={90}
+                                                        height={90}
+                                                        alt={cast.name}
+                                                        priority={true}
+                                                        className={styles.castImg}
+                                                        src={castURL + cast.profile_path}
+                                                    />
+                                                    <p>
+                                                        {cast.name}
+                                                    </p>
+                                                    <small>
+                                                        {cast.character}
+                                                    </small>
+                                                </div>
+                                            </Link>
                                         )
                                     })}
                                 </div>
@@ -170,8 +176,6 @@ const MovieDetails = () => {
                     initial={false}
                     // Only render one component at a time.
                     exitBeforeEnter={true}
-                    // Fires when all exiting nodes have completed animating out.
-                    onExitComplete={() => null}
                 >
                     {modalOpen && (
                         <Modal

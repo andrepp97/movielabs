@@ -16,7 +16,7 @@ const MovieSlider = ({ title, movies, uppercase }) => {
             let debounceFn = setTimeout(() => {
                 const itemWidth = document.getElementsByClassName("item")[0].clientWidth + 26
                 setWidth((movies.length * itemWidth) - carouselRef.current.offsetWidth)
-            }, 500)
+            }, 1000)
 
             return () => clearTimeout(debounceFn)
         }
@@ -30,10 +30,7 @@ const MovieSlider = ({ title, movies, uppercase }) => {
                 <p className={uppercase ? "sliderTitle" : "sectionTitle"}>
                     {title}
                 </p>
-                <motion.div
-                    ref={carouselRef}
-                    className="carousel"
-                >
+                <motion.div ref={carouselRef} className="carousel">
                     <motion.div
                         drag="x"
                         dragConstraints={{ right: 0, left: -width }}

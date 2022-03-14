@@ -60,7 +60,7 @@
 }
 
 .castBox {
-    width: 160px;
+    width: 152px;
     outline: none;
     padding: 4px 8px;
     margin-bottom: 8px;
@@ -131,11 +131,9 @@
 
 .biography {
     overflow: auto;
+    max-height: 280px;
     line-height: 20px;
     padding-right: 4px;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 12;
 }
 
 
@@ -162,6 +160,11 @@
 @media screen and (max-width: 450px) {
     .imgContainer span {
         height: 62vh !important;
+    }
+
+    .castBox {
+        width: 148px;
+        padding: 4px;
     }
 }
 

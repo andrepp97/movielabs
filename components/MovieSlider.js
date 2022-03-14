@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 const imgURL = 'https://image.tmdb.org/t/p/w300'
 
-const MovieSlider = ({ title, movies }) => {
+const MovieSlider = ({ title, movies, uppercase }) => {
     // Ref & State
     const carouselRef = useRef()
     const [width, setWidth] = useState(0)
@@ -13,8 +13,12 @@ const MovieSlider = ({ title, movies }) => {
     // Lifecycle
     useEffect(() => {
         if (movies && movies.length) {
-            const itemWidth = document.getElementsByClassName("item")[0].clientWidth + 26
-            setWidth((movies.length * itemWidth) - carouselRef.current.offsetWidth)
+            let debounceFn = setTimeout(() => {
+                const itemWidth = document.getElementsByClassName("item")[0].clientWidth + 26
+                setWidth((movies.length * itemWidth) - carouselRef.current.offsetWidth)
+            }, 500)
+
+            return () => clearTimeout(debounceFn)
         }
     }, [movies])
 
@@ -23,7 +27,7 @@ const MovieSlider = ({ title, movies }) => {
         ? <Skeleton type="slider" />
         : (
             <div className="slider">
-                <p className="sectionTitle">
+                <p className={uppercase ? "sliderTitle" : "sectionTitle"}>
                     {title}
                 </p>
                 <motion.div

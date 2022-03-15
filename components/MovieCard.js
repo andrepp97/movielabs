@@ -24,7 +24,7 @@ const MovieCard = ({ data }) => {
                         loading="lazy"
                         alt={data.title}
                         src={imgURL + data.poster_path}
-                        whileHover={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
+                        whileHover={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 10px" }}
                     />
                 </div>
                 <div className={styles.movieText}>

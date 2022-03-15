@@ -1,9 +1,8 @@
+import moment from 'moment'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState, useEffect, useCallback } from 'react'
-import { RiCake2Line } from 'react-icons/ri'
-import { ImLocation } from 'react-icons/im'
 import { Skeleton, MovieSlider } from '../../components'
 import styles from '../../styles/MovieDetails.module.css'
 
@@ -78,17 +77,47 @@ const CastDetails = () => {
                             <h1>
                                 {details.name}
                             </h1>
-                            <div className={styles.birthday}>
-                                <div className="my-1">
-                                    <RiCake2Line color="#A3A3A3" />
-                                    &nbsp;{details.birthday}&nbsp;
-                                    <strong style={{ color: "#8e8e8e" }}>
-                                        ({calculateAge(details.birthday, new Date())} years old)
-                                    </strong>
-                                </div>
-                                <div className="my-1">
-                                    <ImLocation color="#A3A3A3" />
-                                    &nbsp;{details.place_of_birth}
+                            <div className={styles.personal}>
+                                <h3>Personal Information</h3>
+                                <div className={styles.personalWrapper}>
+                                    <div className={styles.personalItem}>
+                                        <h4>Born</h4>
+                                        <p>
+                                            {moment(details.birthday).format("MMMM Do, YYYY")}&nbsp;
+                                            {!details.deathday && (
+                                                <strong style={{ color: "#8e8e8e" }}>
+                                                    ({calculateAge(details.birthday, new Date())} years old)
+                                                </strong>
+                                            )}
+                                        </p>
+                                    </div>
+                                    {details.deathday && (
+                                        <div className={styles.personalItem}>
+                                            <h4>Died</h4>
+                                            <p>
+                                                {moment(details.deathday).format("MMMM Do, YYYY")}&nbsp;
+                                                <strong style={{ color: "#8e8e8e" }}>
+                                                    ({calculateAge(details.birthday, details.deathday)} years old)
+                                                </strong>
+                                            </p>
+                                        </div>
+                                    )}
+                                    <div className={styles.personalItem}>
+                                        <h4>Place of Birth</h4>
+                                        <p>{details.place_of_birth}</p>
+                                    </div>
+                                    <div className={styles.personalItem}>
+                                        <h4>Gender</h4>
+                                        <p>
+                                            {
+                                                details.gender === 1
+                                                    ? "Female"
+                                                    : details.gender === 2
+                                                        ? "Male"
+                                                        : "Others"
+                                            }
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                             <div className={styles.cast}>

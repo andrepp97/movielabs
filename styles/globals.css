@@ -265,7 +265,7 @@ footer {
 
 .carousel::after {
     content: '';
-    width: 60px;
+    width: 50px;
     height: 100%;
     position: absolute;
     top: 0;
@@ -353,6 +353,10 @@ footer {
 @media only screen and (max-width: 600px) {
     .container {
         padding: 2rem;
+    }
+
+    .carousel::after {
+        width: 30px;
     }
 
     .item img {

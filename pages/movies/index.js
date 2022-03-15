@@ -60,7 +60,7 @@ const Movies = () => {
                 <title>{display && display + ' - '}Movieku</title>
             </Head>
 
-            <div className="p-2">
+            <div className="p-1">
                 <AnimatePresence>
                     <motion.input
                         type="text"

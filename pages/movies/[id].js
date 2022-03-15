@@ -45,23 +45,13 @@ const MovieDetails = () => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/videos?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const data = await result.json()
         const trailer = data.results.filter(obj => obj.type === "Trailer")
-
-        let delayDebounceFn = setTimeout(() => {
-            setVideo(trailer)
-        }, 500)
-
-        return () => clearTimeout(delayDebounceFn)
+        setVideo(trailer)
     }, [id])
 
     const getMovieCast = useCallback(async () => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/credits?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const data = await result.json()
-
-        let delayDebounceFn = setTimeout(() => {
-            setCasts(data.cast)
-        }, 500)
-
-        return () => clearTimeout(delayDebounceFn)
+        setCasts(data.cast)
     }, [id])
 
     // Lifecycle

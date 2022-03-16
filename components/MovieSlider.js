@@ -16,7 +16,7 @@ const MovieSlider = ({ title, movies, uppercase }) => {
             let debounceFn = setTimeout(() => {
                 const itemWidth = document.getElementsByClassName("item")[0].clientWidth + 26
                 setWidth((movies.length * itemWidth) - carouselRef.current.offsetWidth)
-            }, 1500)
+            }, 1250)
 
             return () => clearTimeout(debounceFn)
         }

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useState, useEffect, useCallback } from 'react'
 import { BsPlayFill, BsImages } from 'react-icons/bs'
 import { AnimatePresence } from 'framer-motion'
-import { Skeleton, Modal } from '../../components'
+import { MovieSlider, Skeleton, Modal } from '../../components'
 import styles from '../../styles/MovieDetails.module.css'
 
 const imgURL = 'https://image.tmdb.org/t/p/w500'
@@ -19,6 +19,7 @@ const MovieDetails = () => {
     const [details, setDetails] = useState(null)
     const [video, setVideo] = useState(null)
     const [casts, setCasts] = useState([])
+    const [similar, setSimilar] = useState([])
     const [type, setType] = useState("trailer")
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -54,14 +55,21 @@ const MovieDetails = () => {
         setCasts(data.cast)
     }, [id])
 
+    const getSimilarMovies = useCallback(async () => {
+        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/similar?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=3`)
+        const data = await result.json()
+        setSimilar(data.results)
+    }, [id])
+
     // Lifecycle
     useEffect(() => {
         if (id) {
             getMovieDetails()
             getMovieVideo()
             getMovieCast()
+            getSimilarMovies()
         }
-    }, [id, getMovieDetails, getMovieVideo, getMovieCast])
+    }, [id, getMovieDetails, getMovieVideo, getMovieCast, getSimilarMovies])
 
     // Render
     return details
@@ -159,6 +167,11 @@ const MovieDetails = () => {
                             )}
                         </div>
                     </div>
+                    <MovieSlider
+                        title="Similar Movies"
+                        movies={similar}
+                        uppercase={true}
+                    />
                 </div>
 
                 <AnimatePresence

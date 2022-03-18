@@ -61,6 +61,7 @@ const Home = ({ trending, upcoming, topRated, popular }) => {
 
             <MovieSlider
                 movies={topRated}
+                showRating={true}
                 title="Top Rated Movies"
             />
 

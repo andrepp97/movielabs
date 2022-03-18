@@ -43,13 +43,13 @@
     outline: none;
     border-radius: 2rem;
     transition: .2s ease-in-out;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 8px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 8px;
     background: url(/icons8_search.svg);
     background-repeat: no-repeat;
     background-position: 1.5rem;
 }
 .searchInput:focus {
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 
 .searchSvg {

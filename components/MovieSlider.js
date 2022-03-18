@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 const imgURL = 'https://image.tmdb.org/t/p/w300'
 
-const MovieSlider = ({ title, movies, uppercase }) => {
+const MovieSlider = ({ title, movies, uppercase, showRating }) => {
     // Ref & State
     const carouselRef = useRef()
     const [width, setWidth] = useState(0)
@@ -14,8 +14,7 @@ const MovieSlider = ({ title, movies, uppercase }) => {
     useEffect(() => {
         if (movies && movies.length) {
             let debounceFn = setTimeout(() => {
-                const itemWidth = document.getElementsByClassName("item")[0].clientWidth + 26
-                setWidth((movies.length * itemWidth) - carouselRef.current.offsetWidth)
+                setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
             }, 1250)
 
             return () => clearTimeout(debounceFn)
@@ -52,6 +51,7 @@ const MovieSlider = ({ title, movies, uppercase }) => {
                                 >
                                     <motion.img
                                         alt={movie.title}
+                                        className="itemImg"
                                         src={imgURL + movie.poster_path}
                                         whileHover={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
                                     />
@@ -61,6 +61,11 @@ const MovieSlider = ({ title, movies, uppercase }) => {
                                     <p className="movieTitle">
                                         {movie.title}
                                     </p>
+                                    {showRating && (
+                                        <span className="movieRating">
+                                            {movie.vote_average}
+                                        </span>
+                                    )}
                                 </motion.div>
                             </Link>
                         ))}

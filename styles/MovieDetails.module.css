@@ -91,6 +91,20 @@
     object-position: center;
 }
 
+.movieRating {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.movieRating p {
+    margin: 0;
+    margin-bottom: -2px;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #888888;
+}
+
 .synopsis {
     margin: 2rem 0;
 }

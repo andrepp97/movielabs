@@ -263,6 +263,7 @@ footer {
 .carousel {
     overflow-x: hidden;
     position: relative;
+    margin-top: -1rem;
 }
 
 .carousel::after {
@@ -279,6 +280,7 @@ footer {
 .inner-carousel {
     display: flex;
     flex-wrap: nowrap;
+    padding: 1rem 0;
 }
 
 .item {
@@ -318,20 +320,20 @@ footer {
 
 .movieRating {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: -10px;
+    top: -10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px;
+    width: 42px;
+    height: 42px;
     color: #f4f4f4;
     font-weight: 600;
+    border-radius: 50%;
     background: #6037B3;
-    border-top-right-radius: 1rem;
-    border-bottom-left-radius: 1rem;
-    box-shadow: 0px 0px 3px #bbbbbb;
-    -moz-box-shadow: 0 0 3px #bbbbbb;
-    -webkit-box-shadow: 0 0 3px #bbbbbb;
+    box-shadow: 0px 0px 4px #696969;
+    -moz-box-shadow: 0 0 4px #696969;
+    -webkit-box-shadow: 0 0 4px #696969;
 }
 
 .embla {

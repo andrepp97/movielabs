@@ -1,15 +1,13 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState, useEffect, useCallback } from 'react'
-import { BsPlayFill, BsImages } from 'react-icons/bs'
 import { AnimatePresence } from 'framer-motion'
 import { MovieSlider, Skeleton, Modal } from '../../components'
+import MovieDetail from './components/MovieDetail'
 import styles from '../../styles/MovieDetails.module.css'
 
 const imgURL = 'https://image.tmdb.org/t/p/w500'
-const castURL = 'https://image.tmdb.org/t/p/w138_and_h175_face'
 const backdropURL = 'https://image.tmdb.org/t/p/original'
 
 const MovieDetails = () => {
@@ -82,7 +80,9 @@ const MovieDetails = () => {
                 </Head>
 
                 <div className="pageContainer">
+
                     <div className={styles.root}>
+
                         <div className={styles.imgContainer}>
                             <Image
                                 width={480}
@@ -92,86 +92,23 @@ const MovieDetails = () => {
                                 src={imgURL + details.poster_path}
                             />
                         </div>
-                        <div className={styles.movieDetail}>
-                            <h1>
-                                {details.title}
-                                <span>
-                                    ({details.release_date && details.release_date.split('-')[0]})
-                                </span>
-                            </h1>
-                            <div className={styles.movieGenre}>
-                                {details.genres.map((genre, index) => (
-                                    <div key={index}>
-                                        <span>
-                                            {genre.name}
-                                        </span>
-                                        {index === details.genres.length - 1 ? '' : <>&nbsp;&#9679;&nbsp;</>}
-                                    </div>
-                                ))}
-                            </div>
-                            <div className={styles.cast}>
-                                <h3>Main Cast</h3>
-                                <div className={styles.castWrapper}>
-                                    {casts.map((cast, index) => {
-                                        if (index < 6) return (
-                                            <Link
-                                                passHref={true}
-                                                key={cast.cast_id}
-                                                href={`/cast/` + cast.id}
-                                            >
-                                                <div className={styles.castBox}>
-                                                    <Image
-                                                        width={90}
-                                                        height={90}
-                                                        alt={cast.name}
-                                                        priority={true}
-                                                        className={styles.castImg}
-                                                        src={castURL + cast.profile_path}
-                                                    />
-                                                    <p>
-                                                        {cast.name}
-                                                    </p>
-                                                    <small>
-                                                        {cast.character}
-                                                    </small>
-                                                </div>
-                                            </Link>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                            <div className={styles.synopsis}>
-                                <h3>Overview</h3>
-                                <p>
-                                    {details.overview}
-                                </p>
-                            </div>
-                            {video && (
-                                <div className={styles.media}>
-                                    <h3>Media</h3>
-                                    <div className="d-flex">
-                                        <button
-                                            className="btn-main"
-                                            onClick={() => open("trailer")}
-                                        >
-                                            <BsPlayFill size={20} /> &nbsp; Play Trailer
-                                        </button>
-                                        <button
-                                            className="btn-main"
-                                            onClick={() => open("gallery")}
-                                        >
-                                            <BsImages size={20} /> &nbsp; Gallery
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+
+                        <MovieDetail
+                            casts={casts}
+                            video={video}
+                            styles={styles}
+                            details={details}
+                            openModal={open}
+                        />
+                        
                     </div>
+
                     <MovieSlider
                         title="Similar Movies"
                         movies={similar}
                         uppercase={true}
                     />
+
                 </div>
 
                 <AnimatePresence

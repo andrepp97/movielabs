@@ -100,6 +100,7 @@ footer {
     display: flex;
     flex-wrap: wrap;
 }
+
 .d-flex-column {
     display: flex;
     flex-direction: column;
@@ -148,6 +149,7 @@ footer {
     cursor: pointer;
     transition: .2s;
 }
+
 .modalBtn:hover {
     background: #dbdbdb;
 }
@@ -259,7 +261,7 @@ footer {
 }
 
 .carousel {
-    overflow: hidden;
+    overflow-x: hidden;
     position: relative;
 }
 
@@ -286,6 +288,7 @@ footer {
     margin-top: 4px;
     border-radius: 1rem;
     cursor: pointer;
+    position: relative;
 }
 
 .item img {
@@ -293,6 +296,10 @@ footer {
     max-height: 320px;
     pointer-events: none;
     border-radius: 1rem;
+}
+
+.itemImg {
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .movieTitle {
@@ -307,6 +314,24 @@ footer {
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+}
+
+.movieRating {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    color: #f4f4f4;
+    font-weight: 600;
+    background: #6037B3;
+    border-top-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    box-shadow: 0px 0px 3px #bbbbbb;
+    -moz-box-shadow: 0 0 3px #bbbbbb;
+    -webkit-box-shadow: 0 0 3px #bbbbbb;
 }
 
 .embla {

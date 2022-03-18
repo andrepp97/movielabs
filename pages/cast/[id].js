@@ -49,7 +49,7 @@ const CastDetails = () => {
             getCastDetails()
             getCastMovies()
         }
-    }, [id, getCastDetails])
+    }, [id, getCastDetails, getCastMovies])
 
     // Render
     return details

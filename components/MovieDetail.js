@@ -59,7 +59,7 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
                                         alt={cast.name}
                                         priority={true}
                                         className={styles.castImg}
-                                        src={castURL + cast.profile_path}
+                                        src={cast.profile_path ? castURL + cast.profile_path : "/avatar.png"}
                                     />
                                     <p>
                                         {cast.name}

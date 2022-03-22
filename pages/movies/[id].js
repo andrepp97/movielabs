@@ -1,9 +1,10 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState, useEffect, useCallback } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import { MovieSlider, MovieDetail, Skeleton, Modal } from '../../components'
+import { MovieDetail, MovieReview, Skeleton, Modal } from '../../components'
 import styles from '../../styles/MovieDetails.module.css'
 
 const imgURL = 'https://image.tmdb.org/t/p/w500'
@@ -17,6 +18,7 @@ const MovieDetails = () => {
     const [video, setVideo] = useState(null)
     const [casts, setCasts] = useState([])
     const [similar, setSimilar] = useState([])
+    const [reviews, setReviews] = useState([])
     const [type, setType] = useState("trailer")
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -31,12 +33,7 @@ const MovieDetails = () => {
     const getMovieDetails = useCallback(async () => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const data = await result.json()
-
-        let delayDebounceFn = setTimeout(() => {
-            setDetails(data)
-        }, 500)
-
-        return () => clearTimeout(delayDebounceFn)
+        setDetails(data)
     }, [id])
 
     const getMovieVideo = useCallback(async () => {
@@ -58,6 +55,12 @@ const MovieDetails = () => {
         setSimilar(data.results)
     }, [id])
 
+    const getMovieReviews = useCallback(async () => {
+        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/reviews?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+        const data = await result.json()
+        setReviews(data.results)
+    }, [id])
+
     // Lifecycle
     useEffect(() => {
         if (id) {
@@ -65,8 +68,9 @@ const MovieDetails = () => {
             getMovieVideo()
             getMovieCast()
             getSimilarMovies()
+            getMovieReviews()
         }
-    }, [id, getMovieDetails, getMovieVideo, getMovieCast, getSimilarMovies])
+    }, [id, getMovieDetails, getMovieVideo, getMovieCast, getSimilarMovies, getMovieReviews])
 
     // Render
     return details
@@ -99,14 +103,67 @@ const MovieDetails = () => {
                             details={details}
                             openModal={open}
                         />
-                        
+
                     </div>
 
-                    <MovieSlider
-                        title="Similar Movies"
-                        movies={similar}
-                        uppercase={true}
-                    />
+                    <div className={styles.bottomSection}>
+
+                        <div className={styles.left}>
+                            <h3>
+                                Reviews
+                            </h3>
+                            {
+                                reviews.length
+                                    ? reviews.map(review => (
+                                        <MovieReview
+                                            key={review.id}
+                                            styles={styles}
+                                            data={review}
+                                        />
+                                    ))
+                                    : <p>Currently there is no review</p>
+                            }
+                        </div>
+
+                        <div className={styles.right}>
+                            <h3>
+                                Similar Movies
+                            </h3>
+                            {similar.map(item => (
+                                <Link
+                                    key={item.id}
+                                    passHref={true}
+                                    href={"/movies/" + item.id}
+                                >
+                                    <div className={styles.similarMovie}>
+                                        <div className={styles.similarImg}>
+                                            <Image
+                                                width={128}
+                                                height={190}
+                                                loading="lazy"
+                                                alt={item.title}
+                                                src={imgURL + item.poster_path}
+                                            />
+                                        </div>
+                                        <div className={styles.similarDetails}>
+                                            <div>
+                                                <p className={styles.similarYear}>
+                                                    {item.release_date.split('-')[0]}
+                                                </p>
+                                                <p className={styles.similarTitle}>
+                                                    {item.title}
+                                                </p>
+                                            </div>
+                                            <p className={styles.similarOverview}>
+                                                {item.overview}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+
+                    </div>
 
                 </div>
 

@@ -15,11 +15,11 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
         if (movies && movies.length) {
             let debounceFn = setTimeout(() => {
                 setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
-            }, 1250)
+            }, 1000)
 
             return () => clearTimeout(debounceFn)
         }
-    }, [movies])
+    }, [movies.length])
 
     // Render
     return movies.length < 1

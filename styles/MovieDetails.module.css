@@ -96,6 +96,7 @@
     flex-wrap: wrap;
     align-items: center;
 }
+
 .movieRating p {
     margin: 0;
     margin-bottom: -2px;
@@ -148,8 +149,6 @@
 }
 
 .personalItem {
-    /* flex: 1; */
-    /* width: 100%; */
     min-width: 200px;
     margin-right: 2rem;
     margin-bottom: 10px;
@@ -173,6 +172,124 @@
     padding-right: 4px;
 }
 
+.bottomSection {
+    display: flex;
+    margin-top: 2rem;
+    position: relative;
+}
+
+.bottomSection h3 {
+    padding-left: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-left: 4px solid #52299e;
+}
+
+.left {
+    flex: 70%;
+    margin-right: 2rem;
+}
+
+.reviewBox {
+    background: #f8f8f8;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 8px 2rem 8px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.reviewBox h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #747474;
+    letter-spacing: 1px;
+}
+
+.reviewBox small {
+    font-size: 14px;
+    font-weight: 500;
+    color: #999999;
+}
+
+.reviewBox p {
+    line-height: 22px;
+}
+
+.reviewBox button {
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+    color: #52299e;
+    letter-spacing: .5px;
+    background: transparent;
+    text-decoration: underline;
+}
+
+.right {
+    flex: 30%;
+}
+
+.similarMovie {
+    display: flex;
+    margin: 1rem 0;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: .2s ease-in-out;
+}
+
+.similarMovie:hover {
+    background: #f1f1f1;
+}
+
+.similarMovie span {
+    flex: 30%;
+    border-radius: 8px;
+}
+
+.similarImg {
+    border-radius: 8px;
+}
+
+.similarDetails {
+    flex: 70%;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.similarDetails p {
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+.similarYear {
+    font-weight: 500;
+    opacity: .8;
+}
+
+.similarTitle {
+    font-weight: 600;
+    font-size: 17px;
+    opacity: .9;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.similarOverview {
+    font-size: 15px;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    margin: 0 !important;
+}
+
+
 
 
 @media screen and (max-width: 1366px) {
@@ -191,6 +308,26 @@
     .trailer {
         width: 100%;
         height: 360px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .bottomSection {
+        display: block;
+    }
+
+    .left {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .right {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .similarDetails {
+        padding: 0 8px;
     }
 }
 

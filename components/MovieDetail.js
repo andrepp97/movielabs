@@ -6,7 +6,7 @@ import { BsPlayFill, BsImages } from 'react-icons/bs'
 const castURL = 'https://image.tmdb.org/t/p/w138_and_h175_face'
 
 const MovieDetail = ({ styles, casts, video, details, openModal }) => {
-    return (
+    return details && (
         <div className={styles.movieDetail}>
 
             <h1>
@@ -17,7 +17,7 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
             </h1>
 
             <div className={styles.movieGenre}>
-                {details.genres.map((genre, index) => (
+                {details.genres && details.genres.map((genre, index) => (
                     <div key={index}>
                         <span>
                             {genre.name}
@@ -45,7 +45,7 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
             <div className={styles.cast}>
                 <h3>Main Cast</h3>
                 <div className={styles.castWrapper}>
-                    {casts.map((cast, index) => {
+                    {casts && casts.map((cast, index) => {
                         if (index < 6) return (
                             <Link
                                 passHref={true}

@@ -39,7 +39,7 @@ const MovieDetails = () => {
     const getMovieVideo = useCallback(async () => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/videos?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const data = await result.json()
-        const trailer = data.results.filter(obj => obj.type === "Trailer")
+        const trailer = data && data.results.filter(obj => obj.type === "Trailer")
         setVideo(trailer)
     }, [id])
 
@@ -113,15 +113,17 @@ const MovieDetails = () => {
                                 Reviews
                             </h3>
                             {
-                                reviews.length
-                                    ? reviews.map(review => (
-                                        <MovieReview
-                                            key={review.id}
-                                            styles={styles}
-                                            data={review}
-                                        />
-                                    ))
-                                    : <p>Currently there is no review</p>
+                                reviews
+                                    ? reviews.length
+                                        ? reviews.map(review => (
+                                            <MovieReview
+                                                key={review.id}
+                                                styles={styles}
+                                                data={review}
+                                            />
+                                        ))
+                                        : <p>Currently there is no review</p>
+                                    : null
                             }
                         </div>
 
@@ -129,7 +131,7 @@ const MovieDetails = () => {
                             <h3>
                                 Similar Movies
                             </h3>
-                            {similar.map(item => (
+                            {similar && similar.map(item => (
                                 <Link
                                     key={item.id}
                                     passHref={true}
@@ -147,11 +149,11 @@ const MovieDetails = () => {
                                         </div>
                                         <div className={styles.similarDetails}>
                                             <div>
-                                                <p className={styles.similarYear}>
-                                                    {item.release_date.split('-')[0]}
-                                                </p>
                                                 <p className={styles.similarTitle}>
                                                     {item.title}
+                                                </p>
+                                                <p className={styles.similarYear}>
+                                                    {item.release_date.split('-')[0]}
                                                 </p>
                                             </div>
                                             <p className={styles.similarOverview}>

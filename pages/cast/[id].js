@@ -25,7 +25,7 @@ const CastDetails = () => {
     const getCastMovies = useCallback(async () => {
         const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/person/${id}/movie_credits?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`)
         const data = await result.json()
-        const temp = data && data.cast.filter((item, index) => (index < 20) && (item.poster_path && item.release_date))
+        const temp = data.cast && data.cast.filter((item, index) => (index < 20) && (item.poster_path && item.release_date))
         setCastMovies(temp)
     }, [id])
 

@@ -39,7 +39,7 @@ const MovieDetails = () => {
     const getMovieVideo = useCallback(async () => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/videos?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const data = await result.json()
-        const trailer = data && data.results.filter(obj => obj.type === "Trailer")
+        const trailer = data.results && data.results.filter(obj => obj.type === "Trailer")
         setVideo(trailer)
     }, [id])
 

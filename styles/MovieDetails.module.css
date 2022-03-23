@@ -232,8 +232,9 @@
     color: #999999;
 }
 
-.reviewBox p {
+.reviewContent {
     line-height: 22px;
+    margin-top: 1rem;
 }
 
 .reviewBox button {
@@ -352,10 +353,7 @@
     .right {
         display: flex;
         flex-direction: column;
-    }
-
-    .similarDetails {
-        padding: 0 8px;
+        margin-top: 2rem;
     }
 }
 
@@ -371,6 +369,15 @@
 
     .birthday div p {
         font-size: 15px;
+    }
+
+    .similarMovie {
+        margin: 0;
+        margin-bottom: 8px;
+    }
+
+    .similarOverview {
+        font-size: 14px;
     }
 }
 

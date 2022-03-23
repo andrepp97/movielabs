@@ -5,10 +5,6 @@ import styles from '../styles/Home.module.css'
 
 // DATA FETCHING
 export async function getStaticProps() {
-    const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
-    const trendingTemp = await result.json()
-    let trending = trendingTemp.results.filter((item, index) => index < 5)
-
     const result2 = await fetch(process.env.NEXT_PUBLIC_URL + `/upcoming?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
     const upcomingTemp = await result2.json()
     const upcoming = upcomingTemp.results
@@ -28,31 +24,28 @@ export async function getStaticProps() {
 
     return {
         props: {
-            trending,
             upcoming,
             topRated,
             popular,
         },
         // Next.js will attempt to re-generate the page:
         // - When a request comes in
-        // - At most once every 10 seconds
-        revalidate: 60, // in seconds
+        // - At most once every 5 minutes
+        revalidate: 300, // in seconds
     }
 }
 
 // COMPONENT
-const Home = ({ trending, upcoming, topRated, popular }) => {
+const Home = ({ upcoming, topRated, popular }) => {
     // State
     const [filtered, setFiltered] = useState([])
     const [activeGenre, setActiveGenre] = useState(0)
 
     // Render
     return (
-        <div style={{ marginTop: '60px' }}>
+        <div style={{ marginTop: '50px' }}>
 
-            <AnimatePresence>
-                <Carousel movies={trending} />
-            </AnimatePresence>
+            <Carousel />
 
             <MovieSlider
                 movies={upcoming}

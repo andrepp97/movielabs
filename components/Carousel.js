@@ -7,7 +7,21 @@ import { motion } from 'framer-motion'
 
 const backdropURL = 'https://image.tmdb.org/t/p/original'
 
-const MovieCarousel = ({ movies }) => {
+const MovieCarousel = () => {
+    const [movies, setMovies] = useState([])
+
+    const getMovies = async () => {
+        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+        const trendingTemp = await result.json()
+        let trending = trendingTemp.results.filter((item, index) => index < 6)
+
+        setMovies(trending)
+    }
+
+    useEffect(() => {
+        getMovies()
+    }, [])
+
     const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false })
     const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
     const [nextBtnEnabled, setNextBtnEnabled] = useState(false)
@@ -56,12 +70,14 @@ const MovieCarousel = ({ movies }) => {
                                             <h1>
                                                 {movie.title}
                                                 <p className="movieYear">({movie.release_date.split('-')[0]})</p>
+                                                <p className="movieDesc">
+                                                    {movie.overview}
+                                                </p>
                                             </h1>
                                             <img
                                                 src={backdropURL + movie.backdrop_path}
                                                 className="embla__slide__img"
                                                 alt={movie.title}
-                                                loading="lazy"
                                             />
                                         </div>
                                     </div>

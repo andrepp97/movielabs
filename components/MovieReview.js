@@ -35,16 +35,16 @@ const MovieReview = ({ styles, data }) => {
                 </div>
             </div>
 
-            <p>
+            <div className={styles.reviewContent}>
                 {
-                    data.content.length < 780
+                    data.content.length < 785
                         ? data.content
                         : (
                             <>
-                                {data.content.substring(0, 780)}
+                                {data.content.substring(0, 785)}
                                 {readMore ? "" : ". . ."}
                                 <span style={readMore ? { transition: ".2s ease", opacity: 1 } : { opacity: 0, position: "fixed", transition: ".2s ease" }}>
-                                    {data.content.substring(780, data.content.length)}
+                                    {data.content.substring(785, data.content.length)}
                                 </span>
                                 <div className="text-center">
                                     <button onClick={() => setReadMore(!readMore)}>
@@ -54,7 +54,7 @@ const MovieReview = ({ styles, data }) => {
                             </>
                         )
                 }
-            </p>
+            </div>
 
         </div>
     );

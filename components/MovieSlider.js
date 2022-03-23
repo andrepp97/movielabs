@@ -12,17 +12,17 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
 
     // Lifecycle
     useEffect(() => {
-        if (movies && movies.length && carouselRef.current) {
+        if (movies && movies.length) {
             let debounceFn = setTimeout(() => {
                 setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
-            }, 500)
+            }, 750)
 
             return () => clearTimeout(debounceFn)
         }
-    }, [movies, carouselRef.current])
+    }, [movies])
 
     // Render
-    return movies.length < 1
+    return !movies
         ? <Skeleton type="slider" />
         : (
             <div className="slider">

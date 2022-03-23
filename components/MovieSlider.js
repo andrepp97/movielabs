@@ -15,7 +15,7 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
         if (movies && movies.length) {
             let debounceFn = setTimeout(() => {
                 setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
-            }, 750)
+            }, 1000)
 
             return () => clearTimeout(debounceFn)
         }
@@ -50,14 +50,10 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                                         transition: { duration: .15 },
                                     }}
                                 >
-                                    <motion.img
+                                    <img
                                         alt={movie.title}
                                         className="itemImg"
                                         src={imgURL + movie.poster_path}
-                                        whileHover={{
-                                            transition: { duration: .2 },
-                                            boxShadow: "rgba(0, 0, 0, 0.35) 0px 4px 8px",
-                                        }}
                                     />
                                     <p className="movieYear">
                                         ({movie.release_date.split('-')[0]})

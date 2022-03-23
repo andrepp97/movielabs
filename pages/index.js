@@ -43,7 +43,7 @@ const Home = ({ upcoming, topRated, popular }) => {
 
     // Render
     return (
-        <div style={{ marginTop: '50px' }}>
+        <div style={{ marginTop: '3rem' }}>
 
             <Carousel />
 

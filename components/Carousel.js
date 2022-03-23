@@ -54,7 +54,7 @@ const MovieCarousel = () => {
                 exit={{ opacity: 0 }}
             >
                 <p className="sectionTitle">
-                    What&apos;s Popular
+                    Popular Now
                 </p>
                 <div className="embla">
                     <div className="embla__viewport" ref={viewportRef}>

@@ -216,7 +216,7 @@
     border-radius: 8px;
     padding: 1rem;
     margin: 1rem 8px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid #dddddd;
 }
 
 .reviewBox h4 {
@@ -256,12 +256,12 @@
     margin: 1rem 0;
     cursor: pointer;
     border-radius: 8px;
-    transition: .2s ease-in-out;
+    border: 2px solid #ffffff;
+    transition: .2s;
 }
 
 .similarMovie:hover {
-    color: #f5f5f5;
-    background: #6037B3;
+    border: 2px solid #d4d4d4;
 }
 
 .similarMovie:hover span {

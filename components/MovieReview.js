@@ -1,19 +1,40 @@
 import { useState } from "react"
-import moment from "moment";
+import Image from "next/image"
+import moment from "moment"
+
+const imgURL = "https://image.tmdb.org/t/p/w64_and_h64_face"
 
 const MovieReview = ({ styles, data }) => {
     // State
     const [readMore, setReadMore] = useState(false)
 
     // Render
-    return (
+    return data && (
         <div className={styles.reviewBox}>
-            <h4>
-                {data.author}
-            </h4>
-            <small>
-                {moment(data.created_at).format("MMMM Do, YYYY")}
-            </small>
+
+            <div className={styles.authorBox}>
+                <Image
+                    width={64}
+                    height={64}
+                    loading="lazy"
+                    src={
+                        data.author_details.avatar_path
+                            ? data.author_details.avatar_path.includes("gravatar")
+                                ? data.author_details.avatar_path.substring(1, data.author_details.avatar_path.length)
+                                : imgURL + data.author_details.avatar_path
+                            : "/avatar.png"
+                    }
+                />
+                <div className={styles.autorName}>
+                    <h4>
+                        {data.author}
+                    </h4>
+                    <small>
+                        {moment(data.created_at).format("MMMM Do, YYYY")}
+                    </small>
+                </div>
+            </div>
+
             <p>
                 {
                     data.content.length < 780
@@ -34,6 +55,7 @@ const MovieReview = ({ styles, data }) => {
                         )
                 }
             </p>
+
         </div>
     );
 }

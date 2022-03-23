@@ -14,8 +14,10 @@ const MovieCard = ({ data }) => {
                 exit={{ opacity: 0 }}
                 whileTap={{ scale: 1 }}
                 whileHover={{
-                    scale: 1.02,
-                    transition: { duration: .15 },
+                    zIndex: 10,
+                    scale: 1.05,
+                    position: "relative",
+                    transition: { duration: .2 },
                 }}
                 className={styles.movieCard}
             >
@@ -24,7 +26,10 @@ const MovieCard = ({ data }) => {
                         loading="lazy"
                         alt={data.title}
                         src={imgURL + data.poster_path}
-                        whileHover={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 10px" }}
+                        whileHover={{
+                            transition: { duration: .2 },
+                            boxShadow: "rgba(0, 0, 0, 0.35) 0px 4px 8px",
+                        }}
                     />
                 </div>
                 <div className={styles.movieText}>

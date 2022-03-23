@@ -12,14 +12,14 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
 
     // Lifecycle
     useEffect(() => {
-        if (movies && movies.length) {
+        if (movies && movies.length && carouselRef.current) {
             let debounceFn = setTimeout(() => {
                 setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
-            }, 1000)
+            }, 500)
 
             return () => clearTimeout(debounceFn)
         }
-    }, [movies.length])
+    }, [movies, carouselRef.current])
 
     // Render
     return movies.length < 1
@@ -29,12 +29,13 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                 <p className={uppercase ? "sliderTitle" : "sectionTitle"}>
                     {title}
                 </p>
-                <motion.div ref={carouselRef} className="carousel">
+                <div ref={carouselRef} className="carousel">
                     <motion.div
                         drag="x"
                         dragConstraints={{ right: 0, left: -width }}
                         whileDrag={{ pointerEvents: 'none' }}
                         className="inner-carousel"
+                        id="inner-carousel"
                     >
                         {movies && movies.map(movie => (
                             <Link href={'/movies/' + movie.id} key={movie.id} passHref={true}>
@@ -45,7 +46,7 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                                         cursor: "grabbing",
                                     }}
                                     whileHover={{
-                                        y: "-3px",
+                                        y: "-4px",
                                         transition: { duration: .15 },
                                     }}
                                 >
@@ -53,7 +54,10 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                                         alt={movie.title}
                                         className="itemImg"
                                         src={imgURL + movie.poster_path}
-                                        whileHover={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
+                                        whileHover={{
+                                            transition: { duration: .2 },
+                                            boxShadow: "rgba(0, 0, 0, 0.35) 0px 4px 8px",
+                                        }}
                                     />
                                     <p className="movieYear">
                                         ({movie.release_date.split('-')[0]})
@@ -62,15 +66,17 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                                         {movie.title}
                                     </p>
                                     {showRating && (
-                                        <span className="movieRating">
-                                            {movie.vote_average}
-                                        </span>
+                                        <div className="ratingWrapper" style={{ width: "100%" }}>
+                                            <span className="movieRating">
+                                                {movie.vote_average}
+                                            </span>
+                                        </div>
                                     )}
                                 </motion.div>
                             </Link>
                         ))}
                     </motion.div>
-                </motion.div>
+                </div>
             </div>
         );
 };

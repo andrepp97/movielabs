@@ -16,6 +16,7 @@ const MovieReview = ({ styles, data }) => {
                 <Image
                     width={64}
                     height={64}
+                    alt="Reviewer"
                     loading="lazy"
                     src={
                         data.author_details.avatar_path

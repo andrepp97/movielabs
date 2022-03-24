@@ -9,17 +9,12 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
     // Ref & State
     const carouselRef = useRef()
     const [width, setWidth] = useState(0)
+    const [itemIdx, setItemIdx] = useState(0)
 
     // Lifecycle
     useEffect(() => {
-        if (movies && movies.length) {
-            let debounceFn = setTimeout(() => {
-                setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
-            }, 1000)
-
-            return () => clearTimeout(debounceFn)
-        }
-    }, [movies])
+        if (movies) setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
+    }, [movies, itemIdx])
 
     // Render
     return !movies
@@ -37,7 +32,7 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                         className="inner-carousel"
                         id="inner-carousel"
                     >
-                        {movies && movies.map(movie => (
+                        {movies && movies.map((movie, index) => (
                             <Link href={'/movies/' + movie.id} key={movie.id} passHref={true}>
                                 <motion.div
                                     className="item"
@@ -47,12 +42,13 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                                     }}
                                     whileHover={{
                                         y: "-4px",
-                                        transition: { duration: .15 },
+                                        transition: { duration: .2 },
                                     }}
                                 >
                                     <img
                                         alt={movie.title}
                                         className="itemImg"
+                                        onLoad={() => setItemIdx(index)}
                                         src={imgURL + movie.poster_path}
                                     />
                                     <p className="movieYear">

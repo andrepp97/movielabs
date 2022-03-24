@@ -38,7 +38,7 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
                 />
                 &nbsp;
                 <p>
-                    ({details.vote_average} / 10)
+                    ({details.vote_average})
                 </p>
             </div>
 

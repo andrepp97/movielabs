@@ -61,18 +61,16 @@ const Movies = () => {
             </Head>
 
             <div className="p-1">
-                <AnimatePresence>
-                    <motion.input
-                        type="text"
-                        value={text}
-                        className={styles.searchInput}
-                        placeholder="Search for a movie . . ."
-                        onKeyDown={e => preventDefault(e)}
-                        onChange={e => setText(e.target.value)}
-                        initial={{ width: "5%" }}
-                        animate={{ width: "100%" }}
-                    />
-                </AnimatePresence>
+                <motion.input
+                    type="text"
+                    value={text}
+                    className={styles.searchInput}
+                    placeholder="Search for a movie . . ."
+                    onKeyDown={e => preventDefault(e)}
+                    onChange={e => setText(e.target.value)}
+                    initial={{ width: "5%" }}
+                    animate={{ width: "100%" }}
+                />
 
                 {(!result && loading === false) && (
                     <div className={styles.searchSvg}>

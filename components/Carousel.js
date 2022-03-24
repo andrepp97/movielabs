@@ -7,21 +7,7 @@ import { motion } from 'framer-motion'
 
 const backdropURL = 'https://image.tmdb.org/t/p/original'
 
-const MovieCarousel = () => {
-    const [movies, setMovies] = useState([])
-
-    const getMovies = async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
-        const trendingTemp = await result.json()
-        let trending = trendingTemp.results.filter((item, index) => index < 6)
-
-        setMovies(trending)
-    }
-
-    useEffect(() => {
-        getMovies()
-    }, [])
-
+const MovieCarousel = ({ movies }) => {
     const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false })
     const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
     const [nextBtnEnabled, setNextBtnEnabled] = useState(false)
@@ -46,7 +32,7 @@ const MovieCarousel = () => {
         embla.on("select", onSelect)
     }, [embla, setScrollSnaps, onSelect])
 
-    return movies.length
+    return movies
         ? (
             <motion.div
                 initial={{ opacity: 0 }}

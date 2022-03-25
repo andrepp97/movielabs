@@ -60,7 +60,7 @@ const Movies = () => {
                 <title>{display && display + ' - '}Movieku</title>
             </Head>
 
-            <div className="p-1">
+            <div className={styles.searchWrapper}>
                 <motion.input
                     type="text"
                     value={text}

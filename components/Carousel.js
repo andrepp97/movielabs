@@ -5,7 +5,7 @@ import { DotButton, PrevButton, NextButton } from "./CarouselButtons"
 import { Skeleton } from '../components'
 import { motion } from 'framer-motion'
 
-const backdropURL = 'https://image.tmdb.org/t/p/original'
+const backdropURL = 'https://image.tmdb.org/t/p/w780'
 
 const MovieCarousel = ({ movies }) => {
     const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false })

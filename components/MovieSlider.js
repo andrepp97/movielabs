@@ -3,7 +3,7 @@ import { Skeleton } from '../components'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
-const imgURL = 'https://image.tmdb.org/t/p/w300'
+const imgURL = 'https://image.tmdb.org/t/p/w342'
 
 const MovieSlider = ({ title, movies, uppercase, showRating }) => {
     // Ref & State
@@ -13,14 +13,8 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
 
     // Lifecycle
     useEffect(() => {
-        if (movies) {
-            let debounce = setTimeout(() => {
-                setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
-            }, 500)
-
-            return () => clearTimeout(debounce)
-        }
-    }, [movies, itemIdx])
+        if (movies && carouselRef) setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
+    }, [movies, itemIdx, carouselRef])
 
     // Render
     return !movies
@@ -53,8 +47,8 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                                     <img
                                         alt={movie.title}
                                         className="itemImg"
-                                        onLoad={() => setItemIdx(index)}
                                         src={imgURL + movie.poster_path}
+                                        onLoad={() => setItemIdx(index)}
                                     />
                                     <p className="movieYear">
                                         ({movie.release_date.split('-')[0]})

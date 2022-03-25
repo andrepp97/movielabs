@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import styles from '../styles/MovieCard.module.css'
 
-const imgURL = 'https://image.tmdb.org/t/p/w500'
+const imgURL = 'https://image.tmdb.org/t/p/w342'
 
 const MovieCard = ({ data }) => {
     return (

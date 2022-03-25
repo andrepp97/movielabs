@@ -55,7 +55,7 @@ const MovieGenre = ({ title, popular, setFiltered, genreList, activeGenre, setAc
                             className={activeGenre === value.id ? styles.genreActive : styles.genreItem}
                             style={idx !== genre.length - 1 ? { marginRight: '12px' } : { marginright: 0 }}
                         >
-                            {value.name}
+                            <p>{value.name}</p>
                         </div>
                     ))}
                 </motion.div>

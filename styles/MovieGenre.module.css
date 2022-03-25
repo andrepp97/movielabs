@@ -20,17 +20,18 @@
     align-items: center;
 }
 
-.genreItem {
-    letter-spacing: 1px;
-    text-align: center;
+.genreSlider p {
+    margin: 0;
     font-size: 15px;
     font-weight: 500;
-    padding: 6px 0;
-    margin: 6px 0;
+    text-align: center;
+    letter-spacing: 1px;
+    width: max-content;
+}
+
+.genreItem {
     cursor: pointer;
-    width: 100%;
-    min-width: 140px;
-    max-width: 150px;
+    padding: 6px 1rem;
     background: #ffffff;
     border-radius: 1rem;
     border: 2px solid #666666;
@@ -42,17 +43,9 @@
 }
 
 .genreActive {
-    letter-spacing: 1px;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 500;
-    color: #f4f4f4;
-    padding: 6px 0;
-    margin: 4px 0;
     cursor: pointer;
-    width: 100%;
-    min-width: 140px;
-    max-width: 150px;
+    color: #f4f4f4;
+    padding: 6px 1rem;
     border-radius: 1rem;
     border: 2px solid #663AB7;
     background: #663AB7;

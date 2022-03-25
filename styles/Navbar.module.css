@@ -41,20 +41,19 @@
     margin: 2px;
     padding: 8px 16px;
     color: #f5f5f5;
-    background: #5d34aa;
     transition: .2s;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background: transparent;
 }
 .navbarSearch:hover {
-    background: #542c9c;
+    background: #552d9e;
 }
 .navbarSearch:active {
-    background: #663AB7;
+    background: #6136b1;
 }
 
 .navbarSearch span {
     font-family: 'Montserrat';
-    font-size: 15px;
+    font-size: 16px;
     letter-spacing: 1px;
     margin-left: 8px;
 }

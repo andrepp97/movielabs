@@ -41,7 +41,7 @@
 }
 
 .cast {
-    margin: 2rem 0;
+    margin-top: 2rem;
 }
 
 .cast h3 {
@@ -59,11 +59,11 @@
 }
 
 .castBox {
-    width: 152px;
+    width: 150px;
     outline: none;
-    padding: 8px;
+    padding: 4px;
     margin-bottom: 8px;
-    border-radius: 8px;
+    border-radius: 4px;
     text-align: center;
     cursor: pointer;
     transition: .2s ease-in-out;

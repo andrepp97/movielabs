@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { Skeleton, MovieSlider } from '../../components'
 import styles from '../../styles/MovieDetails.module.css'
 
-const imgURL = "https://image.tmdb.org/t/p/w600_and_h900_bestv2"
+const imgURL = "https://image.tmdb.org/t/p/h632"
 
 const CastDetails = () => {
     // State & Params

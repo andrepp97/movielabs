@@ -1,14 +1,13 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState, useEffect, useCallback } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import { MovieDetail, MovieReview, Skeleton, Modal } from '../../components'
+import { MovieDetail, MovieReview, SimilarMovie, Skeleton, Modal } from '../../components'
 import styles from '../../styles/MovieDetails.module.css'
 
 const imgURL = 'https://image.tmdb.org/t/p/w500'
-const backdropURL = 'https://image.tmdb.org/t/p/original'
+const backdropURL = 'https://image.tmdb.org/t/p/w780'
 
 const MovieDetails = () => {
     // State & Params
@@ -21,7 +20,6 @@ const MovieDetails = () => {
     const [reviews, setReviews] = useState([])
     const [type, setType] = useState("trailer")
     const [modalOpen, setModalOpen] = useState(false)
-
 
     // Function
     const close = () => setModalOpen(false)
@@ -69,6 +67,14 @@ const MovieDetails = () => {
             getMovieCast()
             getSimilarMovies()
             getMovieReviews()
+        }
+
+        return () => {
+            getMovieDetails,
+                getMovieVideo,
+                getMovieCast,
+                getSimilarMovies,
+                getMovieReviews
         }
     }, [id, getMovieDetails, getMovieVideo, getMovieCast, getSimilarMovies, getMovieReviews])
 
@@ -132,36 +138,11 @@ const MovieDetails = () => {
                                 Similar Movies
                             </h3>
                             {similar && similar.map(item => (
-                                <Link
+                                <SimilarMovie
+                                    item={item}
                                     key={item.id}
-                                    passHref={true}
-                                    href={"/movies/" + item.id}
-                                >
-                                    <div className={styles.similarMovie}>
-                                        <div className={styles.similarImg}>
-                                            <Image
-                                                width={128}
-                                                height={190}
-                                                loading="lazy"
-                                                alt={item.title}
-                                                src={imgURL + item.poster_path}
-                                            />
-                                        </div>
-                                        <div className={styles.similarDetails}>
-                                            <div>
-                                                <p className={styles.similarTitle}>
-                                                    {item.title}
-                                                </p>
-                                                <p className={styles.similarYear}>
-                                                    {item.release_date.split('-')[0]}
-                                                </p>
-                                            </div>
-                                            <p className={styles.similarOverview}>
-                                                {item.overview}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Link>
+                                    styles={styles}
+                                />
                             ))}
                         </div>
 

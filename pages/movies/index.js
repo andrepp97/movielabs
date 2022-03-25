@@ -65,7 +65,7 @@ const Movies = () => {
                     type="text"
                     value={text}
                     className={styles.searchInput}
-                    placeholder="Search for a movie . . ."
+                    placeholder="Search for a movie. . ."
                     onKeyDown={e => preventDefault(e)}
                     onChange={e => setText(e.target.value)}
                     initial={{ width: "5%" }}
@@ -97,7 +97,7 @@ const Movies = () => {
                 }
 
                 <motion.div className={(loading || result && result.length === 0) ? styles.loadingWrapper : styles.popular}>
-                    <AnimatePresence>
+                    <AnimatePresence exitBeforeEnter={true}>
                         {
                             loading
                                 ? <Skeleton type="slider" />

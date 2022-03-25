@@ -13,7 +13,13 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
 
     // Lifecycle
     useEffect(() => {
-        if (movies) setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
+        if (movies) {
+            let debounce = setTimeout(() => {
+                setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
+            }, 500)
+
+            return () => clearTimeout(debounce)
+        }
     }, [movies, itemIdx])
 
     // Render
@@ -27,10 +33,9 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                 <div ref={carouselRef} className="carousel">
                     <motion.div
                         drag="x"
+                        whileDrag={{ pointerEvents: "none" }}
                         dragConstraints={{ right: 0, left: -width }}
-                        whileDrag={{ pointerEvents: 'none' }}
                         className="inner-carousel"
-                        id="inner-carousel"
                     >
                         {movies && movies.map((movie, index) => (
                             <Link href={'/movies/' + movie.id} key={movie.id} passHref={true}>

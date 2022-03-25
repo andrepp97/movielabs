@@ -26,12 +26,16 @@ export async function getStaticProps() {
     let popular2 = popularTemp2.results.filter(movie => movie.poster_path && movie.release_date)
     popular = popular.concat(popular2)
 
+    const getGenres = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`)
+    const genres = await getGenres.json()
+
     return {
         props: {
             trending,
             upcoming,
             topRated,
             popular,
+            genres,
         },
         // Next.js will attempt to re-generate the page:
         // - When a request comes in
@@ -41,7 +45,7 @@ export async function getStaticProps() {
 }
 
 // COMPONENT
-const Home = ({ trending, upcoming, topRated, popular }) => {
+const Home = ({ trending, upcoming, topRated, popular, genres }) => {
     // State
     const [filtered, setFiltered] = useState([])
     const [activeGenre, setActiveGenre] = useState(0)
@@ -66,6 +70,7 @@ const Home = ({ trending, upcoming, topRated, popular }) => {
             <MovieGenre
                 title="Genres"
                 popular={popular}
+                genreList={genres.genres}
                 setFiltered={setFiltered}
                 activeGenre={activeGenre}
                 setActiveGenre={setActiveGenre}

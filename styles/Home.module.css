@@ -31,6 +31,10 @@
     letter-spacing: 1px;
 }
 
+.searchWrapper {
+    padding: 0 10px 1rem 10px;
+}
+
 .searchInput {
     width: 100%;
     height: fit-content;

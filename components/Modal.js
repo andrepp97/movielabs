@@ -36,7 +36,18 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                 initial="hidden"
                 exit="exit"
             >
-                <div className="modalContent" onKeyPress={e => console.log(e.key)}>
+                <div className={type === "trailer" ? "trailerContent" : "modalContent"}>
+                    <div className="modalHeader">
+                        <p>
+                            {type === "trailer" ? "Trailer" : "Gallery"}
+                        </p>
+                        <button
+                            onClick={handleClose}
+                            className="modalBtn"
+                        >
+                            <MdOutlineClose size={24} />
+                        </button>
+                    </div>
                     {
                         type === "trailer"
                             ? (
@@ -49,27 +60,16 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                                 />
                             )
                             : (
-                                <>
-                                    <div className="modalHeader">
-                                        <p>Gallery</p>
-                                        <button
-                                            onClick={handleClose}
-                                            className="modalBtn"
-                                        >
-                                            <MdOutlineClose size={24} />
-                                        </button>
-                                    </div>
-                                    <div className="gallery">
-                                        {gallery && gallery.map(item => (
-                                            <img
-                                                key={item.file_path}
-                                                loading="lazy"
-                                                alt="Backdrop Image"
-                                                src={backdropURL + item.file_path}
-                                            />
-                                        ))}
-                                    </div>
-                                </>
+                                <div className="gallery">
+                                    {gallery && gallery.map(item => (
+                                        <img
+                                            key={item.file_path}
+                                            loading="lazy"
+                                            alt="Backdrop Image"
+                                            src={backdropURL + item.file_path}
+                                        />
+                                    ))}
+                                </div>
                             )
                     }
                 </div>

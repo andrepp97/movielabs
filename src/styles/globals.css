@@ -105,6 +105,8 @@ footer {
 
 /* === Text === */
 .sectionTitle {
+    position: relative;
+    z-index: 2;
     height: auto;
     color: #663AB7;
     font-size: 20px;

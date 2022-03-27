@@ -1,7 +1,13 @@
 .genreContainer {
     margin-bottom: 24px;
     overflow-x: hidden;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin-top: -3rem;
+    padding-top: 74px;
+    padding-bottom: 1rem;
+    background-color: #ffffff;
 }
 
 .genreContainer::after {

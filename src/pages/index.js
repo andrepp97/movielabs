@@ -54,29 +54,39 @@ const Home = ({ trending, upcoming, topRated, popular, genres }) => {
     const [activeGenre, setActiveGenre] = useState(0)
 
     // Load More
-    const loadMoreData = useCallback(async () => {
-        try {
-            setLoading(true)
-            setActiveGenre(0)
-            const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=${page}`)
-            const movies = await result.json()
-            let arr = [...moreData, ...movies.results]
-            setMoreData(arr)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
-        }
-    }, [page])
+
 
     // Lifecycle
     useEffect(() => {
-        if (page > 3) loadMoreData()
-    }, [page, loadMoreData])
+        if (page > 3) {
+            const loadMoreData = async () => {
+                try {
+                    setActiveGenre(0)
+                    setLoading(true)
+                    setTimeout(() => {
+                        window.scrollTo(0, document.body.scrollHeight)
+                    }, 500)
+
+                    const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=${page}`)
+                    const movies = await result.json()
+
+                    setTimeout(() => {
+                        let arr = [...moreData, ...movies.results]
+                        setMoreData(arr)
+                        setLoading(false)
+                    }, 750)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+
+            loadMoreData()
+        }
+    }, [page])
 
     // Render
     return (
-        <div style={{ marginTop: "3rem" }}>
+        <div style={{ marginTop: "3rem", position: "relative" }}>
 
             <Carousel movies={trending} />
 

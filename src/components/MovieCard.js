@@ -14,9 +14,7 @@ const MovieCard = ({ data }) => {
                 exit={{ opacity: 0 }}
                 whileTap={{ scale: 1 }}
                 whileHover={{
-                    zIndex: 10,
                     scale: 1.05,
-                    position: "relative",
                     transition: { duration: .2 },
                 }}
                 className={styles.movieCard}

@@ -40,9 +40,9 @@ const MovieGenre = ({ title, popular, moreData, setFiltered, genreList, activeGe
     // Render
     return (
         <>
-            <p className="sectionTitle">
+            <div className="sectionTitle">
                 {title}
-            </p>
+            </div>
             <div ref={genreRef} className={styles.genreContainer}>
                 <motion.div
                     drag="x"

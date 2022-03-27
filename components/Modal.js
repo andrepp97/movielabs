@@ -23,6 +23,8 @@ const dropIn = {
     },
 }
 
+const backdropURL = 'https://image.tmdb.org/t/p/w500'
+
 const Modal = ({ handleClose, type, video, gallery }) => {
     return (
         <Backdrop onClick={handleClose}>
@@ -48,31 +50,23 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                             )
                             : (
                                 <>
-                                    <button
-                                        onClick={handleClose}
-                                        className="modalBtn"
-                                    >
-                                        <MdOutlineClose size={24} />
-                                    </button>
+                                    <div className="modalHeader">
+                                        <p>Gallery</p>
+                                        <button
+                                            onClick={handleClose}
+                                            className="modalBtn"
+                                        >
+                                            <MdOutlineClose size={24} />
+                                        </button>
+                                    </div>
                                     <div className="gallery">
-                                        <div className="flex-1 p-1">
-                                            <p>Poster</p>
-                                            <img
-                                                loading="lazy"
-                                                alt="Poster Image"
-                                                className="galleryPoster img-responsive"
-                                                src={gallery.posterURL + gallery.poster}
-                                            />
-                                        </div>
-                                        <div className="flex-2 p-1">
-                                            <p>Backdrop</p>
+                                        {gallery && gallery.map(item => (
                                             <img
                                                 loading="lazy"
                                                 alt="Backdrop Image"
-                                                className="galleryBackdrop  img-responsive"
-                                                src={gallery.backdropURL + gallery.backdrop}
+                                                src={backdropURL + item.file_path}
                                             />
-                                        </div>
+                                        ))}
                                     </div>
                                 </>
                             )

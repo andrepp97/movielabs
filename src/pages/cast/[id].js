@@ -1,10 +1,10 @@
-import moment from 'moment'
-import Head from 'next/head'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import { useState, useEffect, useCallback } from 'react'
-import { Skeleton, MovieSlider } from '../../components'
-import styles from '../../styles/MovieDetails.module.css'
+import moment from "moment"
+import Head from "next/head"
+import Image from "next/image"
+import { useRouter } from "next/router"
+import { useState, useEffect, useCallback } from "react"
+import { Skeleton, MovieSlider } from "../../components"
+import styles from "../../styles/MovieDetails.module.css"
 
 const imgURL = "https://image.tmdb.org/t/p/h632"
 

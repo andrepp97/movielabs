@@ -1,9 +1,9 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import ReactStars from 'react-stars'
-import { BsPlayFill, BsImages } from 'react-icons/bs'
+import Link from "next/link"
+import Image from "next/image"
+import ReactStars from "react-stars"
+import { BsPlayFill, BsImages } from "react-icons/bs"
 
-const castURL = 'https://image.tmdb.org/t/p/w138_and_h175_face'
+const castURL = "https://image.tmdb.org/t/p/w138_and_h175_face"
 
 const MovieDetail = ({ styles, casts, video, details, openModal }) => {
     return details && (
@@ -12,7 +12,7 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
             <h1>
                 {details.title}
                 <span>
-                    ({details.release_date && details.release_date.split('-')[0]})
+                    ({details.release_date && details.release_date.split("-")[0]})
                 </span>
             </h1>
 
@@ -22,7 +22,7 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
                         <span>
                             {genre.name}
                         </span>
-                        {index === details.genres.length - 1 ? '' : <>&nbsp;&#9679;&nbsp;</>}
+                        {index === details.genres.length - 1 ? "" : <>&nbsp;&#9679;&nbsp;</>}
                     </div>
                 ))}
             </div>
@@ -33,7 +33,7 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
                     count={10}
                     half={true}
                     edit={false}
-                    color2={'#ffd700'}
+                    color2={"#ffd700"}
                     value={details.vote_average}
                 />
                 &nbsp;

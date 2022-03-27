@@ -1,9 +1,9 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { MovieCard, Skeleton } from '../../components'
-import styles from '../../styles/Home.module.css'
+import Head from "next/head"
+import Image from "next/image"
+import { useState, useEffect, useCallback } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { MovieCard, Skeleton } from "../../components"
+import styles from "../../styles/Home.module.css"
 
 const Movies = () => {
     // State
@@ -57,7 +57,7 @@ const Movies = () => {
         <div className="pageContainer">
 
             <Head>
-                <title>{display && display + ' - '}Movieku</title>
+                <title>{display && display + " - "}Movieku</title>
             </Head>
 
             <div className={styles.searchWrapper}>

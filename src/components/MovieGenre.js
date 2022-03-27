@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
-import styles from '../styles/MovieGenre.module.css'
+import React, { useState, useEffect, useRef } from "react"
+import { motion } from "framer-motion"
+import styles from "../styles/MovieGenre.module.css"
 
-const MovieGenre = ({ title, popular, setFiltered, genreList, activeGenre, setActiveGenre }) => {
+const MovieGenre = ({ title, popular, moreData, setFiltered, genreList, activeGenre, setActiveGenre }) => {
     // State & Ref
     const genreRef = useRef()
     const [width, setWidth] = useState(0)
@@ -25,15 +25,17 @@ const MovieGenre = ({ title, popular, setFiltered, genreList, activeGenre, setAc
 
     useEffect(() => {
         if (popular) {
+            let arr = [...popular, ...moreData]
+
             if (activeGenre == 0) {
-                setFiltered(popular)
+                setFiltered(arr)
                 return
             }
 
-            const filtered = popular.filter(movie => movie.genre_ids.includes(activeGenre))
+            const filtered = arr.filter(movie => movie.genre_ids.includes(activeGenre))
             setFiltered(filtered)
         }
-    }, [popular, activeGenre, setFiltered])
+    }, [popular, moreData, activeGenre, setFiltered])
 
     // Render
     return (
@@ -53,7 +55,7 @@ const MovieGenre = ({ title, popular, setFiltered, genreList, activeGenre, setAc
                             key={idx}
                             onClick={() => setActiveGenre(value.id)}
                             className={activeGenre === value.id ? styles.genreActive : styles.genreItem}
-                            style={idx !== genre.length - 1 ? { marginRight: '12px' } : { marginright: 0 }}
+                            style={idx !== genre.length - 1 ? { marginRight: "12px" } : { marginright: 0 }}
                         >
                             <p>{value.name}</p>
                         </div>

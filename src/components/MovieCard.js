@@ -1,8 +1,8 @@
-import Link from 'next/link'
-import { motion } from 'framer-motion'
-import styles from '../styles/MovieCard.module.css'
+import Link from "next/link"
+import { motion } from "framer-motion"
+import styles from "../styles/MovieCard.module.css"
 
-const imgURL = 'https://image.tmdb.org/t/p/w342'
+const imgURL = "https://image.tmdb.org/t/p/w342"
 
 const MovieCard = ({ data }) => {
     return (

@@ -1,9 +1,10 @@
-import Head from 'next/head'
-import Layout from '../layout/Layout'
-import NextNProgress from 'nextjs-progressbar'
-import { AnimatePresence, motion } from 'framer-motion'
-import '../styles/globals.css'
-import '../styles/Carousel.css'
+import Head from "next/head"
+import Layout from "../layout/Layout"
+import NextNProgress from "nextjs-progressbar"
+import { AnimatePresence, motion } from "framer-motion"
+import "../styles/globals.css"
+import "../styles/Carousel.css"
+import "../styles/Loader.css"
 
 const meta = {
     keywords: "movies, movie database, movie db, database, film",

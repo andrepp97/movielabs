@@ -6,4 +6,5 @@ export { default as MovieSlider } from './MovieSlider';
 export { default as MovieReview } from './MovieReview';
 export { default as SimilarMovie } from './SimilarMovie';
 export { default as Skeleton } from './Skeleton';
+export { default as Loader } from './Loader';
 export { default as Modal } from './Modal';

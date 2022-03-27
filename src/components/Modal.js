@@ -1,6 +1,6 @@
-import { MdOutlineClose } from 'react-icons/md'
-import { motion } from 'framer-motion'
-import Backdrop from './Backdrop'
+import { MdOutlineClose } from "react-icons/md"
+import { motion } from "framer-motion"
+import Backdrop from "./Backdrop"
 
 const dropIn = {
     hidden: {
@@ -23,7 +23,7 @@ const dropIn = {
     },
 }
 
-const backdropURL = 'https://image.tmdb.org/t/p/w500'
+const backdropURL = "https://image.tmdb.org/t/p/w500"
 
 const Modal = ({ handleClose, type, video, gallery }) => {
     return (

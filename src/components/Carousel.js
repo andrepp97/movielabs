@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { useState, useEffect, useCallback } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { DotButton, PrevButton, NextButton } from "./CarouselButtons"
-import { Skeleton } from '../components'
-import { motion } from 'framer-motion'
+import { Skeleton } from "../components"
+import { motion } from "framer-motion"
 
 const backdropURL = 'https://image.tmdb.org/t/p/w780'
 

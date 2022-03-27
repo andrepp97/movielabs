@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import Image from 'next/image'
+import Link from "next/link"
+import Image from "next/image"
 
-const imgURL = 'https://image.tmdb.org/t/p/w185'
+const imgURL = "https://image.tmdb.org/t/p/w185"
 
 const SimilarMovie = ({ item, styles }) => {
     return (
@@ -22,7 +22,7 @@ const SimilarMovie = ({ item, styles }) => {
                             {item.title}
                         </p>
                         <p className={styles.similarYear}>
-                            {item.release_date.split('-')[0]}
+                            {item.release_date.split("-")[0]}
                         </p>
                     </div>
                     <p className={styles.similarOverview}>

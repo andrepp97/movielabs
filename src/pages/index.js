@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { MovieCard, MovieGenre, MovieSlider, Carousel } from '../components'
-import { motion, AnimatePresence } from 'framer-motion'
-import styles from '../styles/Home.module.css'
+import { useState, useEffect, useCallback } from "react"
+import { MovieCard, MovieGenre, MovieSlider, Carousel, Loader } from "../components"
+import { motion, AnimatePresence } from "framer-motion"
+import styles from "../styles/Home.module.css"
 
 // DATA FETCHING
 export async function getStaticProps() {
@@ -47,12 +47,36 @@ export async function getStaticProps() {
 // COMPONENT
 const Home = ({ trending, upcoming, topRated, popular, genres }) => {
     // State
+    const [page, setPage] = useState(3)
+    const [loading, setLoading] = useState(false)
+    const [moreData, setMoreData] = useState([])
     const [filtered, setFiltered] = useState([])
     const [activeGenre, setActiveGenre] = useState(0)
 
+    // Load More
+    const loadMoreData = useCallback(async () => {
+        try {
+            setLoading(true)
+            setActiveGenre(0)
+            const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=${page}`)
+            const movies = await result.json()
+            let arr = [...moreData, ...movies.results]
+            setMoreData(arr)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }, [page])
+
+    // Lifecycle
+    useEffect(() => {
+        if (page > 3) loadMoreData()
+    }, [page, loadMoreData])
+
     // Render
     return (
-        <div style={{ marginTop: '3rem' }}>
+        <div style={{ marginTop: "3rem" }}>
 
             <Carousel movies={trending} />
 
@@ -70,6 +94,7 @@ const Home = ({ trending, upcoming, topRated, popular, genres }) => {
             <MovieGenre
                 title="Genres"
                 popular={popular}
+                moreData={moreData}
                 genreList={genres.genres}
                 setFiltered={setFiltered}
                 activeGenre={activeGenre}
@@ -78,14 +103,31 @@ const Home = ({ trending, upcoming, topRated, popular, genres }) => {
 
             <motion.div className={styles.popular}>
                 <AnimatePresence>
-                    {filtered && filtered.map(movie => (
+                    {filtered && filtered.map((movie, index) => (
                         <MovieCard
-                            key={movie.id}
                             data={movie}
+                            key={movie.id + "-" + index}
                         />
                     ))}
                 </AnimatePresence>
             </motion.div>
+
+            <div className={styles.loadMore}>
+                {
+                    loading
+                        ? <Loader />
+                        : page < 8
+                            ? (
+                                <button
+                                    className="btn-main"
+                                    onClick={() => setPage(page + 1)}
+                                >
+                                    Load More
+                                </button>
+                            )
+                            : null
+                }
+            </div>
 
         </div>
     )

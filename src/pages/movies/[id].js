@@ -1,12 +1,12 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import { useState, useEffect, useCallback } from 'react'
-import { AnimatePresence } from 'framer-motion'
-import { MovieDetail, MovieReview, SimilarMovie, Skeleton, Modal } from '../../components'
-import styles from '../../styles/MovieDetails.module.css'
+import Head from "next/head"
+import Image from "next/image"
+import { useRouter } from "next/router"
+import { useState, useEffect, useCallback } from "react"
+import { AnimatePresence } from "framer-motion"
+import { MovieDetail, MovieReview, SimilarMovie, Skeleton, Modal } from "../../components"
+import styles from "../../styles/MovieDetails.module.css"
 
-const imgURL = 'https://image.tmdb.org/t/p/w500'
+const imgURL = "https://image.tmdb.org/t/p/w500"
 
 const MovieDetails = () => {
     // State & Params
@@ -104,6 +104,7 @@ const MovieDetails = () => {
                             <Image
                                 width={480}
                                 height={720}
+                                priority={true}
                                 alt={details.title}
                                 className={styles.movieImg}
                                 src={imgURL + details.poster_path}

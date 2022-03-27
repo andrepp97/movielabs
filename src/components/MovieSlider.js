@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from 'react'
-import { Skeleton } from '../components'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
+import { useState, useRef, useEffect } from "react"
+import { motion } from "framer-motion"
+import Skeleton from "./Skeleton"
+import Link from "next/link"
 
-const imgURL = 'https://image.tmdb.org/t/p/w342'
+const imgURL = "https://image.tmdb.org/t/p/w342"
 
 const MovieSlider = ({ title, movies, uppercase, showRating }) => {
     // Ref & State
@@ -42,7 +42,7 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                             <Link
                                 key={movie.id}
                                 passHref={true}
-                                href={'/movies/' + movie.id}
+                                href={"/movies/" + movie.id}
                             >
                                 <motion.div
                                     className="item"
@@ -63,7 +63,7 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                                         onLoad={() => index > 0 && setIndex(index)}
                                     />
                                     <p className="movieYear">
-                                        ({movie.release_date.split('-')[0]})
+                                        ({movie.release_date.split("-")[0]})
                                     </p>
                                     <p className="movieTitle">
                                         {movie.title}

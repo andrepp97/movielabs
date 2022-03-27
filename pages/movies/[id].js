@@ -7,7 +7,6 @@ import { MovieDetail, MovieReview, SimilarMovie, Skeleton, Modal } from '../../c
 import styles from '../../styles/MovieDetails.module.css'
 
 const imgURL = 'https://image.tmdb.org/t/p/w500'
-const backdropURL = 'https://image.tmdb.org/t/p/w780'
 
 const MovieDetails = () => {
     // State & Params
@@ -15,6 +14,7 @@ const MovieDetails = () => {
     const { id } = router.query
     const [details, setDetails] = useState(null)
     const [video, setVideo] = useState(null)
+    const [gallery, setGallery] = useState([])
     const [casts, setCasts] = useState([])
     const [similar, setSimilar] = useState([])
     const [reviews, setReviews] = useState([])
@@ -41,6 +41,12 @@ const MovieDetails = () => {
         setVideo(trailer)
     }, [id])
 
+    const getMovieImages = useCallback(async () => {
+        const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/images?api_key=${process.env.NEXT_PUBLIC_API_KEY}&include_image_language=en,null`)
+        const data = await result.json()
+        setGallery(data.backdrops)
+    }, [id])
+
     const getMovieCast = useCallback(async () => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/credits?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
         const data = await result.json()
@@ -64,6 +70,7 @@ const MovieDetails = () => {
         if (id) {
             getMovieDetails()
             getMovieVideo()
+            getMovieImages()
             getMovieCast()
             getSimilarMovies()
             getMovieReviews()
@@ -72,11 +79,12 @@ const MovieDetails = () => {
         return () => {
             getMovieDetails,
                 getMovieVideo,
+                getMovieImages,
                 getMovieCast,
                 getSimilarMovies,
                 getMovieReviews
         }
-    }, [id, getMovieDetails, getMovieVideo, getMovieCast, getSimilarMovies, getMovieReviews])
+    }, [id])
 
     // Render
     return details
@@ -162,12 +170,7 @@ const MovieDetails = () => {
                             handleClose={close}
                             type={type}
                             video={video}
-                            gallery={{
-                                posterURL: imgURL,
-                                poster: details.poster_path,
-                                backdropURL: backdropURL,
-                                backdrop: details.backdrop_path,
-                            }}
+                            gallery={gallery}
                         />
                     )}
                 </AnimatePresence>

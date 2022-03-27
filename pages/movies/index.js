@@ -68,7 +68,7 @@ const Movies = () => {
                     placeholder="Search for a movie. . ."
                     onKeyDown={e => preventDefault(e)}
                     onChange={e => setText(e.target.value)}
-                    initial={{ width: "5%" }}
+                    initial={{ width: "20%" }}
                     animate={{ width: "100%" }}
                 />
 

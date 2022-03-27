@@ -32,7 +32,7 @@
 }
 
 .searchWrapper {
-    padding: 0 10px 1rem 10px;
+    padding: 0 10px 12px 10px;
 }
 
 .searchInput {
@@ -40,7 +40,7 @@
     height: fit-content;
     border: none;
     padding: 1rem 4rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     font-size: 22px;
     font-family: 'Montserrat';
     letter-spacing: 1px;

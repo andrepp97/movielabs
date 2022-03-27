@@ -35,7 +35,7 @@ footer {
 }
 
 .social {
-    margin-top: 1rem;
+    margin-top: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -58,9 +58,9 @@ footer {
 }
 
 .pageContainer {
-    padding-top: 60px;
+    padding-top: 3rem;
     overflow-x: hidden;
-    min-height: calc(100vh - 240px);
+    min-height: calc(100vh - 256px);
 }
 
 .notFound {
@@ -161,7 +161,7 @@ footer {
     width: 75vw;
     height: 75vh;
     max-height: 75h;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .modalBtn {
@@ -182,6 +182,7 @@ footer {
     top: 0;
     left: 0;
     width: 100%;
+    height: 3rem;
     padding: 0 2rem;
     display: flex;
     align-items: center;
@@ -197,6 +198,14 @@ footer {
     background: #f1f1f1;
 }
 
+.trailerContent {
+    width: 100%;
+    height: 80vh;
+    padding: 2rem;
+    border-radius: 8px;
+    background: #f1f1f1;
+}
+
 .modalContent p {
     font-size: 18px;
     font-weight: 500;
@@ -205,13 +214,15 @@ footer {
 
 .trailer {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 3rem);
     border: none;
-    border-radius: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
 }
 
 .gallery {
     max-height: 100%;
+    margin-top: 1rem;
     overflow: auto;
     gap: 2rem;
     display: grid;
@@ -450,16 +461,28 @@ footer {
 
     .modal {
         width: 90vw;
-        max-height: 75vh;
+    }
+
+    .modalHeader {
+        padding: 0 1rem;
+    }
+
+    .modalContent {
+        padding: 2rem 1rem;
     }
 
     .gallery {
+        gap: 1rem;
         grid-template-columns: repeat(1, 1fr);
     }
 
+    .trailerContent {
+        height: 50vh;
+        padding: 2rem 1rem;
+    }
+
     .trailer {
-        width: 100%;
-        height: 25vh;
+        height: 100%;
     }
 
     .movieRating {

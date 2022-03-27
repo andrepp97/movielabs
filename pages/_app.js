@@ -5,6 +5,11 @@ import { AnimatePresence, motion } from 'framer-motion'
 import '../styles/globals.css'
 import '../styles/Carousel.css'
 
+const meta = {
+    keywords: "movies, movie database, movie db, database, film",
+    description: "A simple movie database website for your needs",
+}
+
 function MyApp({ Component, pageProps, router }) {
     return (
         <Layout>
@@ -12,7 +17,8 @@ function MyApp({ Component, pageProps, router }) {
             <Head>
                 <title>Movieku</title>
                 <link rel="icon" href="/favicon.png" />
-                <meta name="keyword" content="Movie DB" />
+                <meta name="keywords" content={meta.keywords} />
+                <meta name="description" content={meta.description}></meta>
             </Head>
             <AnimatePresence>
                 <motion.div

@@ -1,12 +1,19 @@
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import moment from "moment"
 
 const imgURL = "https://image.tmdb.org/t/p/w64_and_h64_face"
 
 const MovieReview = ({ styles, data }) => {
-    // State
+    // State & Ref
+    const reviewRef = useRef()
+    const [height, setHeigt] = useState(0)
     const [readMore, setReadMore] = useState(false)
+
+    // Lifecycle
+    useEffect(() => {
+        setHeigt(reviewRef?.current?.scrollHeight)
+    }, [reviewRef])
 
     // Render
     return data && (
@@ -37,24 +44,20 @@ const MovieReview = ({ styles, data }) => {
             </div>
 
             <div className={styles.reviewContent}>
-                {
-                    data.content.length < 785
-                        ? data.content
-                        : (
-                            <>
-                                {data.content.substring(0, 785)}
-                                {readMore ? "" : ". . ."}
-                                <span style={readMore ? { transition: ".2s ease", opacity: 1 } : { opacity: 0, position: "fixed", transition: ".2s ease" }}>
-                                    {data.content.substring(785, data.content.length)}
-                                </span>
-                                <div className="text-center">
-                                    <button onClick={() => setReadMore(!readMore)}>
-                                        {readMore ? "Read less" : "Read more"}
-                                    </button>
-                                </div>
-                            </>
-                        )
-                }
+                <p
+                    ref={reviewRef}
+                    className={styles.reviewText}
+                    style={readMore ? { WebkitLineClamp: "unset" } : {}}
+                >
+                    {data.content}
+                </p>
+                {height > 154 && (
+                    <div className="text-center">
+                        <button onClick={() => setReadMore(!readMore)}>
+                            {readMore ? "Read less" : "Read more"}
+                        </button>
+                    </div>
+                )}
             </div>
 
         </div>

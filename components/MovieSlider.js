@@ -9,19 +9,19 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
     // Ref & State
     const carouselRef = useRef()
     const [width, setWidth] = useState(0)
-    const [itemIdx, setItemIdx] = useState(0)
+    const [index, setIndex] = useState(0)
 
     // Lifecycle
     useEffect(() => {
         if (movies && carouselRef) {
             let debounce = setTimeout(() => {
                 const x = carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50
-                if (x !== width) setWidth(x)
-            }, 1000)
+                if (x > width) setWidth(x)
+            }, 750)
 
             return () => clearTimeout(debounce)
         }
-    }, [movies, width, itemIdx, carouselRef])
+    }, [movies, index, carouselRef])
 
     // Render
     return !movies
@@ -39,7 +39,11 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                         className="inner-carousel"
                     >
                         {movies && movies.map((movie, index) => (
-                            <Link href={'/movies/' + movie.id} key={movie.id} passHref={true}>
+                            <Link
+                                key={movie.id}
+                                passHref={true}
+                                href={'/movies/' + movie.id}
+                            >
                                 <motion.div
                                     className="item"
                                     whileTap={{
@@ -56,7 +60,7 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                                         alt={movie.title}
                                         className="itemImg"
                                         src={imgURL + movie.poster_path}
-                                        onLoad={() => setItemIdx(index)}
+                                        onLoad={() => index > 0 && setIndex(index)}
                                     />
                                     <p className="movieYear">
                                         ({movie.release_date.split('-')[0]})

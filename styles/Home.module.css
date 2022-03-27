@@ -8,7 +8,7 @@
 .popular img {
     width: 100%;
     height: auto;
-    max-height: 60vh;
+    max-height: 380px;
     object-fit: cover;
     object-position: center;
     border-radius: 10px;

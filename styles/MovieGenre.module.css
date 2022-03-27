@@ -31,7 +31,7 @@
 
 .genreItem {
     cursor: pointer;
-    padding: 6px 1rem;
+    padding: 5px 15px;
     background: #ffffff;
     border-radius: 1rem;
     border: 2px solid #666666;
@@ -45,7 +45,7 @@
 .genreActive {
     cursor: pointer;
     color: #f4f4f4;
-    padding: 6px 1rem;
+    padding: 5px 15px;
     border-radius: 1rem;
     border: 2px solid #663AB7;
     background: #663AB7;

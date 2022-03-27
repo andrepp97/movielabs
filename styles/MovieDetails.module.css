@@ -233,8 +233,16 @@
 }
 
 .reviewContent {
-    line-height: 22px;
     margin-top: 1rem;
+    line-height: 22px;
+}
+
+.reviewText {
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
 }
 
 .reviewBox button {

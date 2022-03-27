@@ -62,6 +62,7 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                                     <div className="gallery">
                                         {gallery && gallery.map(item => (
                                             <img
+                                                key={item.file_path}
                                                 loading="lazy"
                                                 alt="Backdrop Image"
                                                 src={backdropURL + item.file_path}

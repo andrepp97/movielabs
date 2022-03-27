@@ -84,7 +84,7 @@ const MovieDetails = () => {
                 getSimilarMovies,
                 getMovieReviews
         }
-    }, [id])
+    }, [id, getMovieDetails, getMovieVideo, getMovieImages, getMovieCast, getSimilarMovies, getMovieReviews])
 
     // Render
     return details

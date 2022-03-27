@@ -13,7 +13,14 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
 
     // Lifecycle
     useEffect(() => {
-        if (movies && carouselRef) setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50)
+        if (movies && carouselRef) {
+            let debounce = setTimeout(() => {
+                const x = carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50
+                if (x !== width) setWidth(x)
+            }, 1000)
+
+            return () => clearTimeout(debounce)
+        }
     }, [movies, itemIdx, carouselRef])
 
     // Render
@@ -45,6 +52,7 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                                     }}
                                 >
                                     <img
+                                        loading="eager"
                                         alt={movie.title}
                                         className="itemImg"
                                         src={imgURL + movie.poster_path}

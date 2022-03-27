@@ -21,7 +21,7 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
 
             return () => clearTimeout(debounce)
         }
-    }, [movies, index, carouselRef])
+    }, [movies, width, index, carouselRef])
 
     // Render
     return !movies

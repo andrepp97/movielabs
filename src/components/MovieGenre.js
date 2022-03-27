@@ -20,7 +20,11 @@ const MovieGenre = ({ title, popular, moreData, setFiltered, genreList, activeGe
     }, [genreList])
 
     useEffect(() => {
-        setWidth(genreRef.current.scrollWidth - genreRef.current.offsetWidth + 50)
+        let debounce = setTimeout(() => {
+            setWidth(genreRef.current.scrollWidth - genreRef.current.offsetWidth + 50)
+        }, 750)
+
+        return () => clearTimeout(debounce)
     }, [genre])
 
     useEffect(() => {

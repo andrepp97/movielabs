@@ -97,7 +97,7 @@ const Movies = () => {
                 }
 
                 <motion.div className={(loading || result && result.length === 0) ? styles.loadingWrapper : styles.popular}>
-                    <AnimatePresence exitBeforeEnter={true}>
+                    <AnimatePresence>
                         {
                             loading
                                 ? <Skeleton type="slider" />

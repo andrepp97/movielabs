@@ -1,7 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import ReactStars from "react-stars"
-import { BsPlayFill, BsImages } from "react-icons/bs"
+import { BsFillStarFill, BsPlayFill, BsImages } from "react-icons/bs"
 
 const castURL = "https://image.tmdb.org/t/p/w138_and_h175_face"
 
@@ -28,17 +27,9 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
             </div>
 
             <div className={styles.movieRating}>
-                <ReactStars
-                    size={30}
-                    count={10}
-                    half={true}
-                    edit={false}
-                    color2={"#ffd700"}
-                    value={details.vote_average}
-                />
-                &nbsp;
+                <BsFillStarFill size={22} color="#F7C03E" />
                 <p>
-                    ({details.vote_average})
+                    {details.vote_average} <small>/ 10</small>
                 </p>
             </div>
 

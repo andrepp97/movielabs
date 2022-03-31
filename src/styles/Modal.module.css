@@ -1,0 +1,125 @@
+.modal {
+    width: 75vw;
+    height: 75vh;
+    max-height: 75h;
+    overflow: hidden;
+}
+
+.modalBtn {
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.modalBtn:hover {
+    background: #dbdbdb;
+}
+
+.modalHeader {
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3rem;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modalContent {
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f1f1f1;
+}
+
+.modalHeader p {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.trailer {
+    width: 100%;
+    height: calc(100% - 3rem);
+    border: none;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.trailerContent {
+    width: 100%;
+    height: 80vh;
+    padding: 2rem;
+    border-radius: 8px;
+    background: #f1f1f1;
+}
+
+.gallery {
+    max-height: 100%;
+    margin-top: 1rem;
+    overflow: auto;
+    gap: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.gallery img {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+/* Media Query */
+@media only screen and (max-width: 991px) {
+    .modal {
+        width: 80vw;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .modal {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .modalHeader {
+        padding: 0 1rem;
+    }
+
+    .modalContent {
+        height: 80vh;
+        padding: 2rem 1rem;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .gallery {
+        gap: 1rem;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .trailerContent {
+        height: 50vh;
+        padding: 2rem 1rem;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .trailer {
+        height: 100%;
+    }
+}

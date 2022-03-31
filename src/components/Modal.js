@@ -27,6 +27,12 @@ const slideUp = {
 const backdropURL = "https://image.tmdb.org/t/p/w500"
 
 const Modal = ({ handleClose, type, video, gallery }) => {
+    // Function
+    const dragControls = (e, info) => {
+        if (info.point.y > 2000 || info.velocity.y > 250) handleClose()
+    }
+
+    // Render
     return (
         <Backdrop onClick={handleClose}>
             <motion.div
@@ -37,7 +43,12 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                 initial="hidden"
                 exit="exit"
             >
-                <div className={type === "trailer" ? styles.trailerContent : styles.modalContent}>
+                <motion.div
+                    drag="y"
+                    onDragEnd={dragControls}
+                    dragConstraints={{ top: 0, bottom: 300 }}
+                    className={type === "trailer" ? styles.trailerContent : styles.modalContent}
+                >
                     <div className={styles.modalHeader}>
                         <p>
                             {type === "trailer" ? "Trailer" : "Gallery"}
@@ -73,7 +84,7 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                                 </div>
                             )
                     }
-                </div>
+                </motion.div>
             </motion.div>
         </Backdrop>
     );

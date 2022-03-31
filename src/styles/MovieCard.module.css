@@ -2,17 +2,16 @@
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    height: 100%;
-    width: fit-content;
     cursor: pointer;
+    height: 100%;
+    width: auto;
     float: left;
 }
 
 .movieImage {
     display: flex;
-    justify-content: center;
-    width: 100%;
     height: 100%;
+    width: 100%;
 }
 
 .movieImage img {

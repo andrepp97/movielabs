@@ -15,7 +15,7 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
     useEffect(() => {
         if (movies && carouselRef) {
             let debounce = setTimeout(() => {
-                const x = carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 50
+                const x = carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 40
                 if (x > width) setWidth(x)
             }, 750)
 

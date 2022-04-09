@@ -62,7 +62,7 @@
 .castBox {
     width: 150px;
     outline: none;
-    padding: 4px;
+    padding: 12px 1rem;
     margin-bottom: 8px;
     border-radius: 4px;
     text-align: center;
@@ -180,6 +180,7 @@
 }
 
 .bottomSection {
+    gap: 2rem;
     display: flex;
     margin-top: 2rem;
     position: relative;
@@ -194,7 +195,6 @@
 
 .left {
     flex: 70%;
-    margin-right: 2rem;
 }
 
 .authorBox {
@@ -378,7 +378,6 @@
 
     .castBox {
         width: 148px;
-        padding: 4px;
     }
 
     .birthday div p {

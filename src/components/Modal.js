@@ -29,7 +29,7 @@ const backdropURL = "https://image.tmdb.org/t/p/w500"
 const Modal = ({ handleClose, type, video, gallery }) => {
     // Function
     const dragControls = (e, info) => {
-        if (info.point.y > 2000 || info.velocity.y > 250) handleClose()
+        if (info.point.y > 2000 || info.velocity.y > 200) handleClose()
     }
 
     // Render

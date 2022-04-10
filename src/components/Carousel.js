@@ -55,7 +55,11 @@ const MovieCarousel = ({ movies }) => {
                                         <div className="embla__slide__inner">
                                             <h1>
                                                 {movie.title}
-                                                <p className="movieYear">({movie.release_date.split('-')[0]})</p>
+                                                {movie.release_date && (
+                                                    <p className="movieYear">
+                                                        ({movie.release_date.split('-')[0]})
+                                                    </p>
+                                                )}
                                                 <p className="movieDesc">
                                                     {movie.overview}
                                                 </p>

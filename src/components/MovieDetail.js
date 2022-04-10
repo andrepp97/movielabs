@@ -10,9 +10,11 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
 
             <h1>
                 {details.title}
-                <span>
-                    ({details.release_date && details.release_date.split("-")[0]})
-                </span>
+                {details.release_date && (
+                    <span>
+                        ({details.release_date && details.release_date.split("-")[0]})
+                    </span>
+                )}
             </h1>
 
             <div className={styles.movieGenre}>

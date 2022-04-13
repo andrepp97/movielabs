@@ -63,7 +63,7 @@
     letter-spacing: 1px;
     transition: .5s ease-in-out;
     background: rgb(0, 0, 0);
-    background: linear-gradient(90deg, rgb(0, 0, 0, .9) 0%, rgb(36, 36, 36, .9) 50%, rgb(66, 66, 66, .8) 100%);
+    background: linear-gradient(90deg, rgb(0, 0, 0, .95) 0%, rgb(36, 36, 36, .85) 50%, rgb(66, 66, 66, .75) 100%);
 }
 
 .movieYear {
@@ -74,7 +74,7 @@
 }
 
 .movieDesc {
-    width: 75%;
+    width: 60%;
     font-size: 15px;
     text-transform: none;
     font-weight: 400;
@@ -127,11 +127,11 @@
 }
 
 .embla__button--prev {
-    left: 1rem;
+    left: 1.5rem;
 }
 
 .embla__button--next {
-    right: 1rem;
+    right: 1.5rem;
 }
 
 .embla__dots {

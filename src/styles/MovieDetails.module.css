@@ -54,6 +54,7 @@
 }
 
 .castWrapper {
+    gap: 12px;
     display: flex;
     flex-wrap: wrap;
     padding-top: 1rem;
@@ -63,7 +64,6 @@
     width: 156px;
     border: none;
     outline: none;
-    margin: 0 8px 8px 0;
     text-align: center;
     cursor: pointer;
 }

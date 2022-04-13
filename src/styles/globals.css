@@ -57,7 +57,7 @@ footer {
 
 .pageContainer {
     padding-top: 3rem;
-    overflow-x: hidden;
+    position: relative;
     min-height: calc(100vh - 256px);
 }
 
@@ -260,7 +260,7 @@ footer {
 }
 
 .item {
-    width: 100%;
+    /* width: 100%; */
     height: auto;
     margin-top: 4px;
     margin-right: 24px;

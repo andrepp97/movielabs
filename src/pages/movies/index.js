@@ -75,6 +75,7 @@ const Movies = ({ popular, genres }) => {
                     {filtered && filtered.map((movie, index) => (
                         <MovieCard
                             data={movie}
+                            type="movie"
                             key={movie.id + "-" + index}
                         />
                     ))}

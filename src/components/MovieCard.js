@@ -40,7 +40,7 @@ const MovieCard = ({ data, type }) => {
                 <div className={styles.movieText}>
                     <p className={styles.movieYear}>
                         ({
-                            data.media_type == "movie"
+                            data.media_type == "movie" || type == "movie"
                                 ? data.release_date.split('-')[0]
                                 : data.first_air_date.split('-')[0]
                         })

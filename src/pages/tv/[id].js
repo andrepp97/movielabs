@@ -122,6 +122,7 @@ const TvDetails = () => {
                     <MovieSlider
                         type="season"
                         title="Seasons"
+                        uppercase={true}
                         movies={details.seasons.filter(season => season.air_date)}
                     />
 

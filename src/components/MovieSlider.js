@@ -53,7 +53,7 @@ const MovieSlider = ({ title, type, movies, uppercase, showRating }) => {
                                     }}
                                 >
                                     <img
-                                        loading="lazy"
+                                        loading="eager"
                                         alt={movie.title}
                                         className="itemImg"
                                         src={imgURL + movie.poster_path}

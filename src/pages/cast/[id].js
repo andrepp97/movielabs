@@ -129,6 +129,7 @@ const CastDetails = () => {
                         </div>
                     </div>
                     <MovieSlider
+                        type="movies"
                         uppercase={true}
                         title="Known For"
                         movies={castMovies}

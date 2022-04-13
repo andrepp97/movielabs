@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { useState, useEffect, useCallback } from "react"
 import useEmblaCarousel from "embla-carousel-react"
+import { useState, useEffect, useCallback } from "react"
 import { DotButton, PrevButton, NextButton } from "./CarouselButtons"
 import { Skeleton } from "../components"
 import { motion } from "framer-motion"
@@ -40,26 +40,28 @@ const MovieCarousel = ({ movies }) => {
                 exit={{ opacity: 0 }}
             >
                 <p className="sectionTitle">
-                    Popular Now
+                    Trending
                 </p>
                 <div className="embla">
                     <div className="embla__viewport" ref={viewportRef}>
                         <div className="embla__container">
                             {movies && movies.map((movie, index) => (
                                 <Link
-                                    href={'/movies/' + movie.id}
+                                    href={movie.media_type == "tv" ? '/tv/' + movie.id : '/movies/' + movie.id}
                                     passHref={true}
                                     key={index}
                                 >
                                     <div className="embla__slide" key={index}>
                                         <div className="embla__slide__inner">
                                             <h1>
-                                                {movie.title}
-                                                {movie.release_date && (
-                                                    <p className="movieYear">
-                                                        ({movie.release_date.split('-')[0]})
-                                                    </p>
-                                                )}
+                                                {movie.title || movie.name}
+                                                <p className="movieYear">
+                                                    ({
+                                                        movie.media_type == "movie"
+                                                            ? movie.release_date.split('-')[0]
+                                                            : movie.first_air_date.split('-')[0]
+                                                    })
+                                                </p>
                                                 <p className="movieDesc">
                                                     {movie.overview}
                                                 </p>
@@ -67,7 +69,7 @@ const MovieCarousel = ({ movies }) => {
                                             <img
                                                 src={backdropURL + movie.backdrop_path}
                                                 className="embla__slide__img"
-                                                alt={movie.title}
+                                                alt={movie.title || movie.name}
                                             />
                                         </div>
                                     </div>

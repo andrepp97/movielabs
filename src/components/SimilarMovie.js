@@ -5,7 +5,10 @@ const imgURL = "https://image.tmdb.org/t/p/w185"
 
 const SimilarMovie = ({ item, styles }) => {
     return (
-        <Link passHref={true} href={"/movies/" + item.id}>
+        <Link
+            passHref={true}
+            href={item.name ? "/tv/" + item.id : "/movies/" + item.id}
+        >
             <div className={styles.similarMovie}>
                 <div className={styles.similarImg}>
                     <Image
@@ -19,10 +22,10 @@ const SimilarMovie = ({ item, styles }) => {
                 <div className={styles.similarDetails}>
                     <div>
                         <p className={styles.similarTitle}>
-                            {item.title}
+                            {item.title || item.name}
                         </p>
                         <p className={styles.similarYear}>
-                            {item.release_date.split("-")[0]}
+                            {item.release_date && item.release_date.split("-")[0] || item.first_air_date.split("-")[0]}
                         </p>
                     </div>
                     <p className={styles.similarOverview}>

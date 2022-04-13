@@ -1,125 +1,101 @@
-import Head from "next/head"
-import Image from "next/image"
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { MovieCard, Skeleton } from "../../components"
+import { MovieCard, MovieGenre, Loader } from "../../components"
 import styles from "../../styles/Home.module.css"
 
-const Movies = () => {
-    // State
-    const [text, setText] = useState("")
-    const [display, setDisplay] = useState("")
-    const [result, setResult] = useState(null)
-    const [loading, setLoading] = useState(false)
+export async function getStaticProps() {
+    const result1 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const result2 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=2`)
+    const popularTemp1 = await result1.json()
+    const popularTemp2 = await result2.json()
 
-    // Function
-    const searchMovies = useCallback(async () => {
-        // Get the movies
-        setLoading(true)
-        const query = `&query=${text}`
-        const result = await fetch(process.env.NEXT_PUBLIC_SEARCH_URL + `?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1&include_adult=false${query}`)
-        const result2 = await fetch(process.env.NEXT_PUBLIC_SEARCH_URL + `?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=2&include_adult=false${query}`)
-        const data = await result.json()
-        const data2 = await result2.json()
+    let popular = popularTemp1.results.filter(movie => movie.poster_path && movie.release_date)
+    let popular2 = popularTemp2.results.filter(movie => movie.poster_path && movie.release_date)
+    popular = popular.concat(popular2)
 
-        // Filtering the result
-        let temp = data.results.filter(movie => movie.poster_path && movie.release_date)
-        if (data2.results.length) {
-            let temp2 = data2.results.filter(movie => movie.poster_path && movie.release_date)
-            temp = temp.concat(temp2)
-        }
+    const getGenres = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`)
+    const genres = await getGenres.json()
 
-        // Assign the filtered result to state
-        setResult(temp)
-        setDisplay(text)
-        setLoading(false)
-    }, [text])
-
-    const preventDefault = (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault()
-        }
+    return {
+        props: {
+            popular,
+            genres,
+        },
+        // Next.js will attempt to re-generate the page:
+        // - When a request comes in
+        // - At most once every 30 minutes
+        revalidate: 1800, // in seconds
     }
+}
+
+const Movies = ({ popular, genres }) => {
+    // State
+    const [page, setPage] = useState(2)
+    const [loading, setLoading] = useState(false)
+    const [moreData, setMoreData] = useState([])
+    const [filtered, setFiltered] = useState([])
+    const [activeGenre, setActiveGenre] = useState(0)
 
     // Lifecycle
     useEffect(() => {
-        if (text.trim().split('').length) {
-            let debounceFunction = setTimeout(async () => {
-                searchMovies()
-            }, 1000)
+        if (page > 2) {
+            const loadMoreData = async () => {
+                try {
+                    setLoading(true)
+                    const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=${page}`)
+                    const movies = await result.json()
+                    let arr = [...moreData, ...movies.results]
+                    setMoreData(arr)
+                    setLoading(false)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
 
-            return () => clearTimeout(debounceFunction)
+            loadMoreData()
         }
-    }, [text, searchMovies])
+    }, [page])
 
     // Render
     return (
         <div className="pageContainer">
 
-            <Head>
-                <title>{display && display + " - "}Movieku</title>
-            </Head>
+            <MovieGenre
+                title="Genres"
+                popular={popular}
+                moreData={moreData}
+                genreList={genres.genres}
+                setFiltered={setFiltered}
+                activeGenre={activeGenre}
+                setActiveGenre={setActiveGenre}
+            />
 
-            <div className={styles.searchWrapper}>
-                <motion.input
-                    type="text"
-                    value={text}
-                    className={styles.searchInput}
-                    placeholder="Search for a movie. . ."
-                    onKeyDown={e => preventDefault(e)}
-                    onChange={e => setText(e.target.value)}
-                    initial={{ width: "20%" }}
-                    animate={{ width: "100%" }}
-                />
-
-                {(!result && loading === false) && (
-                    <div className={styles.searchSvg}>
-                        <p>
-                            Type a word to start a search
-                        </p>
-                        <Image
-                            width={480}
-                            height={480}
-                            src="/search.svg"
-                            alt='Try "The Batman"'
+            <motion.div className={styles.popular}>
+                <AnimatePresence>
+                    {filtered && filtered.map((movie, index) => (
+                        <MovieCard
+                            data={movie}
+                            key={movie.id + "-" + index}
                         />
-                    </div>
-                )}
+                    ))}
+                </AnimatePresence>
+            </motion.div>
 
+            <div className={styles.loadMore}>
                 {
-                    result && loading === false
-                        ? (
-                            <p className={styles.resultText}>
-                                Showing <strong>{result.length}</strong> {result.length > 1 ? "results" : "result"} for &quot;<strong>{display}</strong>&quot;
-                            </p>
-                        )
-                        : null
+                    loading
+                        ? <Loader />
+                        : page <= 10
+                            ? (
+                                <button
+                                    className="btn-main"
+                                    onClick={() => setPage(page + 1)}
+                                >
+                                    Load More
+                                </button>
+                            )
+                            : null
                 }
-
-                <motion.div className={(loading || result && result.length === 0) ? styles.loadingWrapper : styles.popular}>
-                    <AnimatePresence>
-                        {
-                            loading
-                                ? <Skeleton type="slider" />
-                                : (
-                                    result
-                                        ? result.length
-                                            ? result.map((movie, index) => (
-                                                <MovieCard
-                                                    data={movie}
-                                                    key={`${movie.id} - ${index}`}
-                                                />
-                                            ))
-                                            : (
-                                                <h3 className={styles.noResult}>
-                                                    There are no movies that matched your keyword
-                                                </h3>
-                                            )
-                                        : null
-                                )
-                        }
-                    </AnimatePresence>
-                </motion.div>
             </div>
 
         </div>

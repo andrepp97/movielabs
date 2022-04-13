@@ -5,7 +5,7 @@ import Link from "next/link"
 
 const imgURL = "https://image.tmdb.org/t/p/w342"
 
-const MovieSlider = ({ title, movies, uppercase, showRating }) => {
+const MovieSlider = ({ title, type, movies, uppercase, showRating }) => {
     // Ref & State
     const carouselRef = useRef()
     const [width, setWidth] = useState(0)
@@ -38,13 +38,10 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                         dragConstraints={{ right: 0, left: -width }}
                         className="inner-carousel"
                     >
-                        {movies && movies.map((movie, index) => (
-                            <Link
-                                key={movie.id}
-                                passHref={true}
-                                href={"/movies/" + movie.id}
-                            >
+                        {movies && movies.map((movie, index) => {
+                            if (type == "season") return (
                                 <motion.div
+                                    key={movie.id}
                                     className="item"
                                     whileTap={{
                                         y: 0,
@@ -56,17 +53,17 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                                     }}
                                 >
                                     <img
-                                        loading="eager"
+                                        loading="lazy"
                                         alt={movie.title}
                                         className="itemImg"
                                         src={imgURL + movie.poster_path}
                                         onLoad={() => index > 0 && setIndex(index)}
                                     />
                                     <p className="movieYear">
-                                        ({movie.release_date.split("-")[0]})
+                                        ({movie.air_date.split('-')[0]}) - {movie.episode_count} episodes
                                     </p>
                                     <p className="movieTitle">
-                                        {movie.title}
+                                        {movie.name}
                                     </p>
                                     {showRating && (
                                         <div className="ratingWrapper" style={{ width: "100%" }}>
@@ -76,8 +73,57 @@ const MovieSlider = ({ title, movies, uppercase, showRating }) => {
                                         </div>
                                     )}
                                 </motion.div>
-                            </Link>
-                        ))}
+                            )
+
+                            return (
+                                <Link
+                                    key={movie.id}
+                                    passHref={true}
+                                    href={
+                                        type == "movies"
+                                            ? "/movies/" + movie.id
+                                            : "/tv/" + movie.id
+                                    }
+                                >
+                                    <motion.div
+                                        className="item"
+                                        whileTap={{
+                                            y: 0,
+                                            cursor: "grabbing",
+                                        }}
+                                        whileHover={{
+                                            y: "-4px",
+                                            transition: { duration: .2 },
+                                        }}
+                                    >
+                                        <img
+                                            loading="eager"
+                                            alt={movie.title}
+                                            className="itemImg"
+                                            src={imgURL + movie.poster_path}
+                                            onLoad={() => index > 0 && setIndex(index)}
+                                        />
+                                        <p className="movieYear">
+                                            ({
+                                                type == "movies"
+                                                    ? movie.release_date.split('-')[0]
+                                                    : movie.first_air_date.split('-')[0]
+                                            })
+                                        </p>
+                                        <p className="movieTitle">
+                                            {movie.title || movie.name}
+                                        </p>
+                                        {showRating && (
+                                            <div className="ratingWrapper" style={{ width: "100%" }}>
+                                                <span className="movieRating">
+                                                    {movie.vote_average}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                </Link>
+                            )
+                        })}
                     </motion.div>
                 </div>
             </div>

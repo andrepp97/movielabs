@@ -4,9 +4,16 @@ import styles from "../styles/MovieCard.module.css"
 
 const imgURL = "https://image.tmdb.org/t/p/w342"
 
-const MovieCard = ({ data }) => {
+const MovieCard = ({ data, type }) => {
     return (
-        <Link href={'/movies/' + data.id} passHref={true}>
+        <Link
+            passHref={true}
+            href={
+                type == "tv"
+                    ? "/tv/" + data.id
+                    : "/movies/" + data.id
+            }
+        >
             <motion.div
                 layout
                 animate={{ opacity: 1 }}
@@ -22,7 +29,7 @@ const MovieCard = ({ data }) => {
                 <div className={styles.movieImage}>
                     <motion.img
                         loading="lazy"
-                        alt={data.title}
+                        alt={data.title || data.name}
                         src={imgURL + data.poster_path}
                         whileHover={{
                             transition: { duration: .2 },
@@ -31,13 +38,15 @@ const MovieCard = ({ data }) => {
                     />
                 </div>
                 <div className={styles.movieText}>
-                    {data.release_date && (
-                        <p className={styles.movieYear}>
-                            ({data.release_date.split('-')[0]})
-                        </p>
-                    )}
+                    <p className={styles.movieYear}>
+                        ({
+                            data.media_type == "movie"
+                                ? data.release_date.split('-')[0]
+                                : data.first_air_date.split('-')[0]
+                        })
+                    </p>
                     <p className={styles.movieTitle}>
-                        {data.title}
+                        {data.title || data.name}
                     </p>
                 </div>
             </motion.div>

@@ -9,17 +9,17 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
         <div className={styles.movieDetail}>
 
             <h1>
-                {details.title}
-                {details.release_date && (
+                {details.title || details.name}
+                {details.first_air_date && (
                     <span>
-                        ({details.release_date && details.release_date.split("-")[0]})
+                        ({details.first_air_date.split("-")[0]})
                     </span>
                 )}
             </h1>
 
             <div className={styles.movieGenre}>
                 {details.genres && details.genres.map((genre, index) => (
-                    <div key={index}>
+                    <div key={genre.id}>
                         <span>
                             {genre.name}
                         </span>
@@ -42,7 +42,7 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
                         if (index < 6) return (
                             <Link
                                 passHref={true}
-                                key={cast.cast_id}
+                                key={cast.id}
                                 href={`/cast/` + cast.id}
                             >
                                 <div className={styles.castBox}>

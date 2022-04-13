@@ -1,13 +1,10 @@
-import { useState, useEffect, useRef } from "react"
-import { MovieCard, MovieGenre, MovieSlider, Carousel, Loader } from "../components"
-import { motion, AnimatePresence } from "framer-motion"
-import styles from "../styles/Home.module.css"
+import { MovieSlider, Carousel } from "../components"
 
 // DATA FETCHING
 export async function getStaticProps() {
-    const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/trending/all/week?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
     const trendingTemp = await result.json()
-    let trending = trendingTemp.results.filter((item, index) => index < 6)
+    const trending = trendingTemp.results.filter((item, index) => index < 8 && (item.media_type == "movie" || item.media_type == "tv"))
 
     const result2 = await fetch(process.env.NEXT_PUBLIC_URL + `/upcoming?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
     const upcomingTemp = await result2.json()
@@ -17,25 +14,26 @@ export async function getStaticProps() {
     const topRatedTemp = await result3.json()
     const topRated = topRatedTemp.results
 
-    const result4 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=2`)
-    const result5 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=3`)
-    const popularTemp1 = await result4.json()
-    const popularTemp2 = await result5.json()
+    const result4 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const popularMoviesTemp = await result4.json()
+    const popularMovies = popularMoviesTemp.results.filter(item => item.release_date)
 
-    let popular = popularTemp1.results.filter(movie => movie.poster_path && movie.release_date)
-    let popular2 = popularTemp2.results.filter(movie => movie.poster_path && movie.release_date)
-    popular = popular.concat(popular2)
+    const result5 = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const popularTvTemp = await result5.json()
+    const popularTv = popularTvTemp.results
 
-    const getGenres = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`)
-    const genres = await getGenres.json()
+    const result6 = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/top_rated?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const topRatedTvTemp = await result6.json()
+    const topRatedTv = topRatedTvTemp.results
 
     return {
         props: {
             trending,
             upcoming,
             topRated,
-            popular,
-            genres,
+            popularMovies,
+            topRatedTv,
+            popularTv,
         },
         // Next.js will attempt to re-generate the page:
         // - When a request comes in
@@ -45,94 +43,43 @@ export async function getStaticProps() {
 }
 
 // COMPONENT
-const Home = ({ trending, upcoming, topRated, popular, genres }) => {
-    // State & Ref
-    const listRef = useRef()
-    const [page, setPage] = useState(3)
-    const [loading, setLoading] = useState(false)
-    const [moreData, setMoreData] = useState([])
-    const [filtered, setFiltered] = useState([])
-    const [activeGenre, setActiveGenre] = useState(0)
-
-    // Lifecycle
-    useEffect(() => {
-        if (page > 3) {
-            const loadMoreData = async () => {
-                try {
-                    setActiveGenre(0)
-                    setLoading(true)
-
-                    const result = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=${page}`)
-                    const movies = await result.json()
-
-                    setTimeout(() => {
-                        let arr = [...moreData, ...movies.results]
-                        setMoreData(arr)
-                        setLoading(false)
-                    }, 750)
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-
-            loadMoreData()
-        }
-    }, [page])
-
-    // Render
+const Home = ({ trending, upcoming, topRated, popularMovies, topRatedTv, popularTv }) => {
     return (
         <div style={{ marginTop: "3rem", position: "relative" }}>
 
             <Carousel movies={trending} />
 
             <MovieSlider
+                type="movies"
                 movies={upcoming}
                 title="Upcoming Movies"
             />
 
             <MovieSlider
+                type="movies"
                 movies={topRated}
                 showRating={true}
                 title="Top Rated Movies"
             />
 
-            <MovieGenre
-                title="Genres"
-                popular={popular}
-                moreData={moreData}
-                genreList={genres.genres}
-                setFiltered={setFiltered}
-                activeGenre={activeGenre}
-                setActiveGenre={setActiveGenre}
+            <MovieSlider
+                type="movies"
+                movies={popularMovies}
+                title="Popular Movies"
             />
 
-            <motion.div className={styles.popular} ref={listRef}>
-                <AnimatePresence>
-                    {filtered && filtered.map((movie, index) => (
-                        <MovieCard
-                            data={movie}
-                            key={movie.id + "-" + index}
-                        />
-                    ))}
-                </AnimatePresence>
-            </motion.div>
+            <MovieSlider
+                type="tv"
+                showRating={true}
+                movies={topRatedTv}
+                title="Top Rated TV Shows"
+            />
 
-            <div className={styles.loadMore}>
-                {
-                    loading
-                        ? <Loader />
-                        : page < 8
-                            ? (
-                                <button
-                                    className="btn-main"
-                                    onClick={() => setPage(page + 1)}
-                                >
-                                    Load More
-                                </button>
-                            )
-                            : null
-                }
-            </div>
+            <MovieSlider
+                type="tv"
+                movies={popularTv}
+                title="Popular TV Shows"
+            />
 
         </div>
     )

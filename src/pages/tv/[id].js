@@ -28,62 +28,58 @@ const TvDetails = () => {
         setModalOpen(true)
     }
 
-    const getMovieDetails = useCallback(async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const getMovieDetails = useCallback(async (signal) => {
+        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`, { signal })
         const data = await result.json()
         setDetails(data)
     }, [id])
 
-    const getMovieVideo = useCallback(async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/videos?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const getMovieVideo = useCallback(async (signal) => {
+        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/videos?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`, { signal })
         const data = await result.json()
         const trailer = data.results && data.results.filter(obj => obj.type === "Trailer")
         setVideo(trailer)
     }, [id])
 
-    const getMovieImages = useCallback(async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/images?api_key=${process.env.NEXT_PUBLIC_API_KEY}&include_image_language=en,null`)
+    const getMovieImages = useCallback(async (signal) => {
+        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/images?api_key=${process.env.NEXT_PUBLIC_API_KEY}&include_image_language=en,null`, { signal })
         const data = await result.json()
         setGallery(data.backdrops)
     }, [id])
 
-    const getMovieCast = useCallback(async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/credits?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const getMovieCast = useCallback(async (signal) => {
+        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/credits?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`, { signal })
         const data = await result.json()
         setCasts(data.cast)
     }, [id])
 
-    const getSimilarMovies = useCallback(async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/similar?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=3`)
+    const getSimilarMovies = useCallback(async (signal) => {
+        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/recommendations?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`, { signal })
         const data = await result.json()
         setSimilar(data.results)
     }, [id])
 
-    const getMovieReviews = useCallback(async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/reviews?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
+    const getMovieReviews = useCallback(async (signal) => {
+        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/reviews?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`, { signal })
         const data = await result.json()
         setReviews(data.results)
     }, [id])
 
     // Lifecycle
     useEffect(() => {
+        const controller = new AbortController()
+        const signal = controller.signal
+
         if (id) {
-            getMovieDetails()
-            getMovieVideo()
-            getMovieImages()
-            getMovieCast()
-            getSimilarMovies()
-            getMovieReviews()
+            getMovieDetails(signal)
+            getMovieVideo(signal)
+            getMovieImages(signal)
+            getMovieCast(signal)
+            getSimilarMovies(signal)
+            getMovieReviews(signal)
         }
 
-        return () => {
-            getMovieDetails,
-                getMovieVideo,
-                getMovieImages,
-                getMovieCast,
-                getSimilarMovies,
-                getMovieReviews
-        }
+        return () => controller.abort()
     }, [id, getMovieDetails, getMovieVideo, getMovieImages, getMovieCast, getSimilarMovies, getMovieReviews])
 
     // Render
@@ -119,12 +115,14 @@ const TvDetails = () => {
                         />
                     </div>
 
-                    <MovieSlider
-                        type="season"
-                        title="Seasons"
-                        uppercase={true}
-                        movies={details.seasons.filter(season => season.air_date)}
-                    />
+                    {details && (
+                        <MovieSlider
+                            type="season"
+                            title="Seasons"
+                            uppercase={true}
+                            movies={details.seasons.filter(season => season.air_date)}
+                        />
+                    )}
 
                     <div className={styles.bottomSection}>
                         <div className={styles.left}>

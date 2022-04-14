@@ -13,7 +13,7 @@ const MovieSlider = ({ title, type, movies, uppercase, showRating }) => {
 
     // Lifecycle
     useEffect(() => {
-        if (movies && carouselRef) {
+        if (carouselRef) {
             let debounce = setTimeout(() => {
                 const x = carouselRef.current.scrollWidth - carouselRef.current.offsetWidth + 40
                 if (x > width) setWidth(x)
@@ -21,7 +21,7 @@ const MovieSlider = ({ title, type, movies, uppercase, showRating }) => {
 
             return () => clearTimeout(debounce)
         }
-    }, [movies, width, index, carouselRef])
+    }, [width, index, carouselRef])
 
     // Render
     return !movies
@@ -105,9 +105,9 @@ const MovieSlider = ({ title, type, movies, uppercase, showRating }) => {
                                         />
                                         <p className="movieYear">
                                             ({
-                                                type == "movies"
-                                                    ? movie.release_date.split('-')[0]
-                                                    : movie.first_air_date.split('-')[0]
+                                                    movie.release_date && movie.release_date.split('-')[0]
+                                                    ||
+                                                    movie.first_air_date && movie.first_air_date.split('-')[0]
                                             })
                                         </p>
                                         <p className="movieTitle">

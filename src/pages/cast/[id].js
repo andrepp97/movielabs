@@ -16,16 +16,22 @@ const CastDetails = () => {
     const [castMovies, setCastMovies] = useState([])
 
     // Function
-    const getCastDetails = useCallback(async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/person/${id}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`)
+    const getCastDetails = useCallback(async (signal) => {
+        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/person/${id}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`, { signal })
         const data = await result.json()
         setDetails(data)
     }, [id])
 
-    const getCastMovies = useCallback(async () => {
-        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/person/${id}/movie_credits?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`)
+    const getCastMovies = useCallback(async (signal) => {
+        const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/person/${id}/combined_credits?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`, { signal })
         const data = await result.json()
-        const temp = data.cast && data.cast.filter((item, index) => (index < 20) && (item.poster_path && item.release_date))
+        let temp = data && [...data.cast]
+        temp = temp.filter((item, index) => index < 22 && item.poster_path)
+        temp = temp.filter((item, index, self) =>
+            index === self.findIndex(t => (
+                t.id === item.id
+            ))
+        )
         setCastMovies(temp)
     }, [id])
 
@@ -45,10 +51,15 @@ const CastDetails = () => {
 
     // Lifecycle
     useEffect(() => {
+        const controller = new AbortController()
+        const signal = controller.signal
+
         if (id) {
-            getCastDetails()
-            getCastMovies()
+            getCastDetails(signal)
+            getCastMovies(signal)
         }
+
+        return () => controller.abort()
     }, [id, getCastDetails, getCastMovies])
 
     // Render
@@ -85,9 +96,11 @@ const CastDetails = () => {
                                         <p>
                                             {moment(details.birthday).format("MMMM Do, YYYY")}&nbsp;
                                             {!details.deathday && (
-                                                <strong style={{ color: "#8e8e8e" }}>
-                                                    ({calculateAge(details.birthday, new Date())} years old)
-                                                </strong>
+                                                <>
+                                                    (<strong style={{ color: "#969696" }}>
+                                                        {calculateAge(details.birthday, new Date())}
+                                                    </strong> years old)
+                                                </>
                                             )}
                                         </p>
                                     </div>
@@ -96,9 +109,9 @@ const CastDetails = () => {
                                             <h4>Died</h4>
                                             <p>
                                                 {moment(details.deathday).format("MMMM Do, YYYY")}&nbsp;
-                                                <strong style={{ color: "#8e8e8e" }}>
-                                                    ({calculateAge(details.birthday, details.deathday)} years old)
-                                                </strong>
+                                                (<strong style={{ color: "#969696" }}>
+                                                    {calculateAge(details.birthday, details.deathday)}
+                                                </strong> years old)
                                             </p>
                                         </div>
                                     )}

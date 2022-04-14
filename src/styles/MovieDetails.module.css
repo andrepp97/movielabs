@@ -96,16 +96,23 @@
     gap: 8px;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: baseline;
     margin-top: 1rem;
 }
 
 .movieRating p {
     margin: 0;
-    font-size: 24px;
     font-weight: 600;
+    font-size: 1.5rem;
     letter-spacing: 1px;
     color: #888888;
+}
+
+.movieRating small {
+    color: #888888;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 1px;
 }
 
 .synopsis {
@@ -134,7 +141,7 @@
 }
 
 .personal {
-    margin-top: 3rem;
+    margin-top: 2.5rem;
 }
 
 .personal h3 {
@@ -146,14 +153,14 @@
 }
 
 .personalWrapper {
+    gap: 1.5rem;
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 2.5rem;
 }
 
 .personalItem {
-    min-width: 200px;
-    margin-right: 2rem;
-    margin-bottom: 10px;
+    width: fit-content;
 }
 
 .personalItem h4 {
@@ -171,7 +178,7 @@
     overflow: auto;
     max-height: 200px;
     line-height: 20px;
-    padding-right: 4px;
+    padding-right: 2px;
 }
 
 .bottomSection {

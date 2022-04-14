@@ -29,10 +29,9 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
             </div>
 
             <div className={styles.movieRating}>
-                <BsFillStarFill size={22} color="#F7C03E" />
-                <p>
-                    {details.vote_average} <small>/ 10</small>
-                </p>
+                <BsFillStarFill size={20} color="#F7C03E" />
+                <p>{details.vote_average}</p>
+                <small>/ 10</small>
             </div>
 
             <div className={styles.cast}>

@@ -260,7 +260,7 @@ footer {
 }
 
 .item {
-    /* width: 100%; */
+    width: auto;
     height: auto;
     margin-top: 4px;
     margin-right: 24px;

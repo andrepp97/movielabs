@@ -23,6 +23,7 @@
 }
 
 .genreSlider {
+    gap: 12px;
     display: flex;
     align-items: center;
 }

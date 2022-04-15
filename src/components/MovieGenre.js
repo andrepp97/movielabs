@@ -22,7 +22,7 @@ const MovieGenre = ({ title, popular, moreData, setFiltered, genreList, activeGe
     useEffect(() => {
         let debounce = setTimeout(() => {
             setWidth(genreRef.current.scrollWidth - genreRef.current.offsetWidth + 40)
-        }, 750)
+        }, 500)
 
         return () => clearTimeout(debounce)
     }, [genre])
@@ -31,12 +31,12 @@ const MovieGenre = ({ title, popular, moreData, setFiltered, genreList, activeGe
         if (popular) {
             let arr = [...popular, ...moreData]
 
-            if (activeGenre == 0) {
+            if (activeGenre.id == 0) {
                 setFiltered(arr)
                 return
             }
 
-            const filtered = arr.filter(movie => movie.genre_ids.includes(activeGenre))
+            const filtered = arr.filter(movie => movie.genre_ids.includes(activeGenre.id))
             setFiltered(filtered)
         }
     }, [popular, moreData, activeGenre, setFiltered])
@@ -57,9 +57,8 @@ const MovieGenre = ({ title, popular, moreData, setFiltered, genreList, activeGe
                     {genre && genre.map((value, idx) => (
                         <div
                             key={idx}
-                            onClick={() => setActiveGenre(value.id)}
-                            className={activeGenre === value.id ? styles.genreActive : styles.genreItem}
-                            style={idx !== genre.length - 1 ? { marginRight: "12px" } : { marginright: 0 }}
+                            onClick={() => setActiveGenre(value)}
+                            className={activeGenre.id === value.id ? styles.genreActive : styles.genreItem}
                         >
                             <p>{value.name}</p>
                         </div>

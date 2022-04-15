@@ -148,13 +148,19 @@ const TvDetails = () => {
                             <h3>
                                 Similar TV Shows
                             </h3>
-                            {similar && similar.map(item => (
-                                <SimilarMovie
-                                    item={item}
-                                    key={item.id}
-                                    styles={styles}
-                                />
-                            ))}
+                            {
+                                similar
+                                    ? similar.length
+                                        ? similar.map(item => (
+                                            <SimilarMovie
+                                                item={item}
+                                                key={item.id}
+                                                styles={styles}
+                                            />
+                                        ))
+                                        : <p>Currently there is no similar TV Show</p>
+                                    : null
+                            }
                         </div>
                     </div>
 

@@ -1,3 +1,4 @@
+import Head from "next/head"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { MovieCard, MovieGenre, Loader } from "../../components"
@@ -34,7 +35,7 @@ const Movies = ({ popular, genres }) => {
     const [loading, setLoading] = useState(false)
     const [moreData, setMoreData] = useState([])
     const [filtered, setFiltered] = useState([])
-    const [activeGenre, setActiveGenre] = useState(0)
+    const [activeGenre, setActiveGenre] = useState({ id: 0, name: "All" })
 
     // Lifecycle
     useEffect(() => {
@@ -60,8 +61,13 @@ const Movies = ({ popular, genres }) => {
     return (
         <div className="pageContainer">
 
+            <Head>
+                <title>{activeGenre.name} Movies - Movieku</title>
+                <meta name="keyword" content={activeGenre.name} />
+            </Head>
+
             <MovieGenre
-                title="Genres"
+                title="Movies"
                 popular={popular}
                 moreData={moreData}
                 genreList={genres.genres}

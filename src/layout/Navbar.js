@@ -63,19 +63,20 @@ const Navbar = () => {
             {
                 open
                     ? (
-                        <RiCloseFill
-                            size={28}
-                            color="#F5F5F5"
+                        <button
                             className={styles.menu}
                             onClick={() => setOpen(false)}
-                        />
+                        >
+                            <RiCloseFill size={28} color="#F5F5F5" />
+                        </button>
                     )
                     : (
-                        <RiMenu4Fill
-                            size={28}
+                        <button
                             className={styles.menu}
                             onClick={() => setOpen(true)}
-                        />
+                        >
+                            <RiMenu4Fill size={28} color="#F5F5F5" />
+                        </button>
                     )
             }
         </nav>

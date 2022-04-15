@@ -64,8 +64,9 @@
 }
 
 .menu {
+    border: none;
     cursor: pointer;
-    color: #F5F5F5;
+    background-color: transparent;
 }
 
 
@@ -81,7 +82,7 @@
         position: absolute;
         right: -100%;
         top: 60px;
-        padding: 2rem 0;
+        padding: 1rem 0;
         flex-direction: column;
         background-color: #6037B3;
         border-bottom-left-radius: 1rem;

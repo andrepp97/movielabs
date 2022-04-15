@@ -26,7 +26,7 @@ const CastDetails = () => {
         const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/person/${id}/combined_credits?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`, { signal })
         const data = await result.json()
         let temp = data && [...data.cast]
-        temp = temp.filter((item, index) => index < 22 && item.poster_path)
+        temp = temp.filter((item, index) => index < 30 && item.poster_path && (item.release_date || item.first_air_date))
         temp = temp.filter((item, index, self) =>
             index === self.findIndex(t => (
                 t.id === item.id

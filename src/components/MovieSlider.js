@@ -80,7 +80,7 @@ const MovieSlider = ({ title, type, movies, uppercase, showRating }) => {
                                     key={movie.id}
                                     passHref={true}
                                     href={
-                                        type == "movies"
+                                        movie.release_date
                                             ? "/movies/" + movie.id
                                             : "/tv/" + movie.id
                                     }

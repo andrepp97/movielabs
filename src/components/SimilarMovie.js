@@ -25,7 +25,7 @@ const SimilarMovie = ({ item, styles }) => {
                             {item.title || item.name}
                         </p>
                         <p className={styles.similarYear}>
-                            {item.release_date && item.release_date.split("-")[0] || item.first_air_date.split("-")[0]}
+                            {item.release_date && item.release_date.split("-")[0] || item.first_air_date && item.first_air_date.split("-")[0]}
                         </p>
                     </div>
                     <p className={styles.similarOverview}>

@@ -36,7 +36,7 @@ const Navbar = () => {
             <Link href="/" passHref={true}>
                 <a className={styles.navbarLogo}>
                     <h2>
-                        Movieku
+                        Movieset
                     </h2>
                 </a>
             </Link>

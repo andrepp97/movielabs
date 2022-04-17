@@ -68,8 +68,8 @@ const MovieCarousel = ({ movies }) => {
                                             </h1>
                                             <img
                                                 src={backdropURL + movie.backdrop_path}
-                                                className="embla__slide__img"
                                                 alt={movie.title || movie.name}
+                                                className="embla__slide__img"
                                             />
                                         </div>
                                     </div>

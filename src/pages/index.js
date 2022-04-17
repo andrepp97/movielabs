@@ -16,7 +16,7 @@ export async function getStaticProps() {
 
     const result4 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
     const popularMoviesTemp = await result4.json()
-    const popularMovies = popularMoviesTemp.results.filter(item => item.release_date)
+    const popularMovies = popularMoviesTemp.results.filter(item => (item.release_date && item.poster_path))
 
     const result5 = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
     const popularTvTemp = await result5.json()

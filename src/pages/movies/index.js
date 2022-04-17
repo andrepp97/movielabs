@@ -62,7 +62,7 @@ const Movies = ({ popular, genres }) => {
         <div className="pageContainer">
 
             <Head>
-                <title>{activeGenre.name} Movies - Movieku</title>
+                <title>{activeGenre.name} Movies - Movieset</title>
                 <meta name="keyword" content={activeGenre.name} />
             </Head>
 

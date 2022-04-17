@@ -57,7 +57,7 @@ const Search = () => {
         <div className="pageContainer">
 
             <Head>
-                <title>{display && display + " - "}Movieku</title>
+                <title>{display && display + " - "}Movieset</title>
             </Head>
 
             <div className={styles.searchWrapper}>

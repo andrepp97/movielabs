@@ -88,7 +88,7 @@ const MovieDetails = () => {
             <>
 
                 <Head>
-                    <title>{details.title} - Movieku</title>
+                    <title>{details.title} - Movieset</title>
                     <meta name="keyword" content={details.title} />
                 </Head>
 

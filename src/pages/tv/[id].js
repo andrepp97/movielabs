@@ -44,7 +44,8 @@ const TvDetails = () => {
     const getMovieImages = useCallback(async (signal) => {
         const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/images?api_key=${process.env.NEXT_PUBLIC_API_KEY}&include_image_language=en,null`, { signal })
         const data = await result.json()
-        setGallery(data.backdrops)
+        const temp = data.backdrops.slice(0, 18)
+        setGallery(temp)
     }, [id])
 
     const getMovieCast = useCallback(async (signal) => {

@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps, router }) {
         <Layout>
             <NextNProgress color="#f2f2f2" stopDelayMs={250} />
             <Head>
-                <title>Movieset</title>
+                <title>Movieset - A Simple Movie Database Website</title>
                 <link rel="icon" href="/favicon.png" />
                 <meta name="keywords" content={meta.keywords} />
                 <meta name="description" content={meta.description}></meta>

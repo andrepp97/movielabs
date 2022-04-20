@@ -15,8 +15,11 @@ const socials = [
 
 const Footer = () => {
     return (
-        <footer>
-            &copy; 2022 - <strong>Andre Putera Pratama</strong>
+        <footer className="container">
+            <div className="divider" />
+            <div className="copyright">
+                <strong>2022</strong> - Andre Putera Pratama
+            </div>
             <div className="social">
                 {socials.map(social => (
                     <a

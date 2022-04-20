@@ -95,7 +95,7 @@
     width: 100%;
     object-fit: cover;
     object-position: center;
-    transition: .25s ease-in-out;
+    transition: .4s ease-in-out;
 }
 
 .embla__button {

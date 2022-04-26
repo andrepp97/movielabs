@@ -44,7 +44,7 @@ const MovieDetails = () => {
     const getMovieImages = useCallback(async (signal) => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/images?api_key=${process.env.NEXT_PUBLIC_API_KEY}&include_image_language=en,null`, { signal })
         const data = await result.json()
-        const temp = data.backdrops.slice(0, 18)
+        const temp = data.backdrops?.slice(0, 18)
         setGallery(temp)
     }, [id])
 

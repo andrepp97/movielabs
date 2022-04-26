@@ -25,9 +25,13 @@ const CastDetails = () => {
     const getCastMovies = useCallback(async (signal) => {
         const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/person/${id}/combined_credits?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`, { signal })
         const data = await result.json()
-        let temp = data && [...data.cast]
-        temp = temp.filter((item, index) => index < 30 && item.poster_path && (item.release_date || item.first_air_date))
-        temp = temp.filter((item, index, self) =>
+        let temp = data.cast && [...data.cast]
+
+        // Filter 21 first items
+        temp = temp?.filter((item) => item.poster_path && (item.release_date || item.first_air_date)).slice(0, 20)
+
+        // Filter Duplicate Items
+        temp = temp?.filter((item, index, self) =>
             index === self.findIndex(t => (
                 t.id === item.id
             ))
@@ -86,7 +90,7 @@ const CastDetails = () => {
                         </div>
                         <div id="movie-detail" className={styles.movieDetail}>
                             <h1>
-                                {details.name}
+                                {details.name || ""}
                             </h1>
                             <div className={styles.personal}>
                                 <h3>Personal Information</h3>
@@ -94,14 +98,18 @@ const CastDetails = () => {
                                     <div className={styles.personalItem}>
                                         <h4>Born</h4>
                                         <p>
-                                            {moment(details.birthday).format("MMMM Do, YYYY")}&nbsp;
-                                            {!details.deathday && (
-                                                <>
-                                                    (<strong style={{ color: "#969696" }}>
-                                                        {calculateAge(details.birthday, new Date())}
-                                                    </strong> years old)
-                                                </>
-                                            )}
+                                            {details.birthday ? moment(details.birthday).format("MMMM Do, YYYY") : "-"}&nbsp;
+                                            {
+                                                !details.deathday && details.birthday
+                                                    ? (
+                                                        <>
+                                                            (<strong style={{ color: "#969696" }}>
+                                                                {calculateAge(details.birthday, new Date())}
+                                                            </strong> years old)
+                                                        </>
+                                                    )
+                                                    : null
+                                            }
                                         </p>
                                     </div>
                                     {details.deathday && (
@@ -117,7 +125,7 @@ const CastDetails = () => {
                                     )}
                                     <div className={styles.personalItem}>
                                         <h4>Place of Birth</h4>
-                                        <p>{details.place_of_birth}</p>
+                                        <p>{details.place_of_birth || "-"}</p>
                                     </div>
                                     <div className={styles.personalItem}>
                                         <h4>Gender</h4>

@@ -2,6 +2,7 @@ import { MdOutlineClose } from "react-icons/md"
 import { motion } from "framer-motion"
 import Backdrop from "./Backdrop"
 import styles from "../styles/Modal.module.css"
+import useWindowSize from "../hooks/useWindowSize"
 
 const slideUp = {
     hidden: {
@@ -27,6 +28,9 @@ const slideUp = {
 const backdropURL = "https://image.tmdb.org/t/p/w500"
 
 const Modal = ({ handleClose, type, video, gallery }) => {
+    // Variables
+    const { width } = useWindowSize();
+
     // Function
     const dragControls = (e, info) => {
         if (info.point.y > 2000 || info.velocity.y > 200) handleClose()
@@ -44,9 +48,9 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                 exit="exit"
             >
                 <motion.div
-                    drag="y"
-                    onDragEnd={dragControls}
+                    drag={width <= 600 ? "y" : ""}
                     dragConstraints={{ top: 0, bottom: 300 }}
+                    onDragEnd={width <= 600 ? dragControls : null}
                     className={type === "trailer" ? styles.trailerContent : styles.modalContent}
                 >
                     <div className={styles.modalHeader}>

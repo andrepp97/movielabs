@@ -54,7 +54,7 @@
 }
 
 .castWrapper {
-    gap: 12px;
+    gap: .5rem;
     display: flex;
     flex-wrap: wrap;
     padding-top: 1rem;

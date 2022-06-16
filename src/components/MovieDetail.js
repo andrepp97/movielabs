@@ -23,7 +23,7 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
                         <span>
                             {genre.name}
                         </span>
-                        {index === details.genres.length - 1 ? "" : <>&nbsp;&#9679;&nbsp;</>}
+                        {index === details.genres.length - 1 ? "" : <small>&nbsp;&#9679;&nbsp;</small>}
                     </div>
                 ))}
             </div>

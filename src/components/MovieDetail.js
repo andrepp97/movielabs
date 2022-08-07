@@ -4,6 +4,8 @@ import { BsFillStarFill, BsPlayFill, BsImages } from "react-icons/bs"
 
 const castURL = "https://image.tmdb.org/t/p/w138_and_h175_face"
 
+const round = (val = 1) => Math.round(val * 10) / 10
+
 const MovieDetail = ({ styles, casts, video, details, openModal }) => {
     return details && (
         <div className={styles.movieDetail}>
@@ -23,14 +25,14 @@ const MovieDetail = ({ styles, casts, video, details, openModal }) => {
                         <span>
                             {genre.name}
                         </span>
-                        {index === details.genres.length - 1 ? "" : <small>&nbsp;&#9679;&nbsp;</small>}
+                        {index === details.genres.length - 1 ? "" : <strong>&nbsp;&#183;&nbsp;</strong>}
                     </div>
                 ))}
             </div>
 
             <div className={styles.movieRating}>
                 <BsFillStarFill size={20} color="#F7C03E" />
-                <p>{details.vote_average}</p>
+                <p>{round(details.vote_average)}</p>
                 <small>/ 10</small>
             </div>
 

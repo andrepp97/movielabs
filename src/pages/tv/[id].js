@@ -44,7 +44,7 @@ const TvDetails = () => {
     const getMovieImages = useCallback(async (signal) => {
         const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/images?api_key=${process.env.NEXT_PUBLIC_API_KEY}&include_image_language=en,null`, { signal })
         const data = await result.json()
-        const temp = data.backdrops.slice(0, 18)
+        const temp = data.backdrops.slice(0, 9)
         setGallery(temp)
     }, [id])
 
@@ -57,7 +57,9 @@ const TvDetails = () => {
     const getSimilarMovies = useCallback(async (signal) => {
         const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/recommendations?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`, { signal })
         const data = await result.json()
-        setSimilar(data.results)
+        const sortedData = data.results.sort((a,b) => b.vote_average - a.vote_average).slice(0, 10)
+        console.log(sortedData)
+        setSimilar(sortedData)
     }, [id])
 
     const getMovieReviews = useCallback(async (signal) => {
@@ -74,14 +76,21 @@ const TvDetails = () => {
         if (id) {
             getMovieDetails(signal)
             getMovieVideo(signal)
-            getMovieImages(signal)
             getMovieCast(signal)
             getSimilarMovies(signal)
             getMovieReviews(signal)
         }
 
         return () => controller.abort()
-    }, [id, getMovieDetails, getMovieVideo, getMovieImages, getMovieCast, getSimilarMovies, getMovieReviews])
+    }, [id, getMovieDetails, getMovieVideo, getMovieCast, getSimilarMovies, getMovieReviews])
+
+    useEffect(() => {
+        const controller = new AbortController()
+        const signal = controller.signal
+
+        if (modalOpen) getMovieImages(signal)
+        return () => controller.abort()
+    }, [modalOpen, getMovieImages])
 
     // Render
     return details
@@ -89,7 +98,7 @@ const TvDetails = () => {
             <>
 
                 <Head>
-                    <title>{details.title || details.name} - Movieset</title>
+                    <title>{details.title || details.name} - Movielabs</title>
                     <meta name="keyword" content={details.title} />
                 </Head>
 

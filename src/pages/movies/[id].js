@@ -44,7 +44,7 @@ const MovieDetails = () => {
     const getMovieImages = useCallback(async (signal) => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/images?api_key=${process.env.NEXT_PUBLIC_API_KEY}&include_image_language=en,null`, { signal })
         const data = await result.json()
-        const temp = data.backdrops?.slice(0, 18)
+        const temp = data.backdrops?.slice(0, 9)
         setGallery(temp)
     }, [id])
 
@@ -57,7 +57,8 @@ const MovieDetails = () => {
     const getSimilarMovies = useCallback(async (signal) => {
         const result = await fetch(process.env.NEXT_PUBLIC_URL + `/${id}/recommendations?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`, { signal })
         const data = await result.json()
-        setSimilar(data.results)
+        const sortedData = data.results.sort((a, b) => b.vote_average - a.vote_average).slice(0, 10)
+        setSimilar(sortedData)
     }, [id])
 
     const getMovieReviews = useCallback(async (signal) => {
@@ -74,14 +75,21 @@ const MovieDetails = () => {
         if (id) {
             getMovieDetails(signal)
             getMovieVideo(signal)
-            getMovieImages(signal)
             getMovieCast(signal)
             getSimilarMovies(signal)
             getMovieReviews(signal)
         }
 
         return () => controller.abort()
-    }, [id, getMovieDetails, getMovieVideo, getMovieImages, getMovieCast, getSimilarMovies, getMovieReviews])
+    }, [id, getMovieDetails, getMovieVideo, getMovieCast, getSimilarMovies, getMovieReviews])
+
+    useEffect(() => {
+        const controller = new AbortController()
+        const signal = controller.signal
+
+        if (modalOpen) getMovieImages(signal)
+        return () => controller.abort()
+    }, [modalOpen, getMovieImages])
 
     // Render
     return details
@@ -89,7 +97,7 @@ const MovieDetails = () => {
             <>
 
                 <Head>
-                    <title>{details.title} - Movieset</title>
+                    <title>{details.title} - Movielabs</title>
                     <meta name="keyword" content={details.title} />
                 </Head>
 

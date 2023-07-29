@@ -28,7 +28,7 @@ const CastDetails = () => {
         let temp = data.cast && [...data.cast]
 
         // Filter 21 first items
-        temp = temp?.filter((item) => item.poster_path && (item.release_date || item.first_air_date)).slice(0, 20)
+        temp = temp?.filter((item) => item.poster_path && (item.release_date || item.first_air_date)).slice(0, 10)
 
         // Filter Duplicate Items
         temp = temp?.filter((item, index, self) =>
@@ -72,7 +72,7 @@ const CastDetails = () => {
             <>
 
                 <Head>
-                    <title>{details.name} - Movieset</title>
+                    <title>{details.name} - Movielabs</title>
                     <meta name="keyword" content={details.name} />
                 </Head>
 

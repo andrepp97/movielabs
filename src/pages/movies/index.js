@@ -6,13 +6,9 @@ import styles from "../../styles/Home.module.css"
 
 export async function getStaticProps() {
     const result1 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`)
-    const result2 = await fetch(process.env.NEXT_PUBLIC_URL + `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=2`)
     const popularTemp1 = await result1.json()
-    const popularTemp2 = await result2.json()
 
     let popular = popularTemp1.results.filter(movie => movie.poster_path && movie.release_date)
-    let popular2 = popularTemp2.results.filter(movie => movie.poster_path && movie.release_date)
-    popular = popular.concat(popular2)
 
     const getGenres = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`)
     const genres = await getGenres.json()
@@ -25,13 +21,13 @@ export async function getStaticProps() {
         // Next.js will attempt to re-generate the page:
         // - When a request comes in
         // - At most once every 30 minutes
-        revalidate: 1800, // in seconds
+        revalidate: 3600, // in seconds
     }
 }
 
 const Movies = ({ popular, genres }) => {
     // State
-    const [page, setPage] = useState(2)
+    const [page, setPage] = useState(1)
     const [loading, setLoading] = useState(false)
     const [moreData, setMoreData] = useState([])
     const [filtered, setFiltered] = useState([])
@@ -39,7 +35,7 @@ const Movies = ({ popular, genres }) => {
 
     // Lifecycle
     useEffect(() => {
-        if (page > 2) {
+        if (page > 1) {
             const loadMoreData = async () => {
                 try {
                     setLoading(true)
@@ -62,7 +58,7 @@ const Movies = ({ popular, genres }) => {
         <div className="pageContainer">
 
             <Head>
-                <title>{activeGenre.name} Movies - Movieset</title>
+                <title>{activeGenre.name} Movies - Movielabs</title>
                 <meta name="keyword" content={activeGenre.name} />
             </Head>
 
@@ -92,7 +88,7 @@ const Movies = ({ popular, genres }) => {
                 {
                     loading
                         ? <Loader />
-                        : page <= 10
+                        : page <= 5
                             ? (
                                 <button
                                     className="btn-main"

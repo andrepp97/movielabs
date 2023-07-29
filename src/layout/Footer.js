@@ -26,7 +26,7 @@ const Footer = () => {
                         key={social.name}
                         href={social.url}
                         target="_blank"
-                        rel="nofollow"
+                        rel="nofollow noreferrer"
                     >
                         <Image
                             width={30}

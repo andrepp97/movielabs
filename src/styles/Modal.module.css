@@ -68,7 +68,7 @@
     grid-template-columns: repeat(3, 1fr);
 }
 
-.gallery img {
+.gallery .galleryImg {
     width: 100%;
     object-fit: cover;
     object-position: center;

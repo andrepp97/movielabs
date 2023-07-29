@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { MdOutlineClose } from "react-icons/md"
 import { motion } from "framer-motion"
 import Backdrop from "./Backdrop"
@@ -78,10 +79,13 @@ const Modal = ({ handleClose, type, video, gallery }) => {
                             : (
                                 <div className={styles.gallery}>
                                     {gallery && gallery.map(item => (
-                                        <img
+                                        <Image
+                                            width={300}
+                                            height={250}
                                             loading="lazy"
                                             key={item.file_path}
                                             alt="Backdrop Image"
+                                            className={styles.galleryImg}
                                             src={backdropURL + item.file_path}
                                         />
                                     ))}

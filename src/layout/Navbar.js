@@ -36,7 +36,7 @@ const Navbar = () => {
             <Link href="/" passHref={true}>
                 <a className={styles.navbarLogo}>
                     <h2>
-                        Movieset
+                        Movielabs
                     </h2>
                 </a>
             </Link>

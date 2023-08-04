@@ -57,8 +57,7 @@ const TvDetails = () => {
     const getSimilarMovies = useCallback(async (signal) => {
         const result = await fetch(process.env.NEXT_PUBLIC_BASE_URL + `/tv/${id}/recommendations?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`, { signal })
         const data = await result.json()
-        const sortedData = data.results.sort((a,b) => b.vote_average - a.vote_average).slice(0, 10)
-        console.log(sortedData)
+        const sortedData = data?.results?.sort((a,b) => b.vote_average - a.vote_average).slice(0, 10)
         setSimilar(sortedData)
     }, [id])
 
@@ -130,7 +129,7 @@ const TvDetails = () => {
                             type="season"
                             title="Seasons"
                             uppercase={true}
-                            movies={details.seasons.filter(season => season.air_date)}
+                            movies={details?.seasons?.filter(season => season.air_date)}
                         />
                     )}
 

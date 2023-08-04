@@ -27,7 +27,7 @@ const CastDetails = () => {
         const data = await result.json()
         let temp = data.cast && [...data.cast]
 
-        // Filter 21 first items
+        // Filter & Sort only Top 10
         temp = temp?.filter((item) => item.poster_path && (item.release_date || item.first_air_date)).slice(0, 10)
 
         // Filter Duplicate Items

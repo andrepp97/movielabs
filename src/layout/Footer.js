@@ -18,7 +18,7 @@ const Footer = () => {
         <footer className="container">
             <div className="divider" />
             <div className="copyright">
-                <strong>2022</strong> - Andre Putera Pratama
+                <strong>&copy; 2022</strong> - Andre Putera Pratama
             </div>
             <div className="social">
                 {socials.map(social => (

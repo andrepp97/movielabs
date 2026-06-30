@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
-import {useRouter} from "next/router";
-import {useState, useEffect, useCallback} from "react";
-import {AnimatePresence} from "framer-motion";
+import { useRouter } from "next/router";
+import { useState, useEffect, useCallback } from "react";
+import { AnimatePresence } from "framer-motion";
 import {
   MovieDetail,
   MovieReview,
@@ -12,12 +12,15 @@ import {
 } from "../../components";
 import styles from "../../styles/MovieDetails.module.css";
 
-const imgURL = "https://image.tmdb.org/t/p/w500";
+import { fetchTMDB } from "../../utils/tmdb";
+
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 const MovieDetails = () => {
-  // State & Params
   const router = useRouter();
-  const {id} = router.query;
+  const { id } = router.query;
+
+  // Grouped UI States
   const [details, setDetails] = useState(null);
   const [video, setVideo] = useState(null);
   const [gallery, setGallery] = useState([]);
@@ -26,134 +29,86 @@ const MovieDetails = () => {
   const [reviews, setReviews] = useState([]);
   const [type, setType] = useState("trailer");
   const [modalOpen, setModalOpen] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
 
-  // Function
   const close = () => setModalOpen(false);
-  const open = (type) => {
-    setType(type);
+  const open = (modalType) => {
+    setType(modalType);
     setModalOpen(true);
   };
 
-  const getMovieDetails = useCallback(
-    async (signal) => {
-      const result = await fetch(
-        process.env.NEXT_PUBLIC_URL +
-          `/${id}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`,
-        {signal}
-      );
-      const data = await result.json();
-      setDetails(data);
-    },
-    [id]
-  );
+  const loadPageData = useCallback(async (movieId, signal) => {
+    try {
+      setPageLoading(true);
+      const fetchOpts = { signal };
 
-  const getMovieVideo = useCallback(
-    async (signal) => {
-      const result = await fetch(
-        process.env.NEXT_PUBLIC_URL +
-          `/${id}/videos?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`,
-        {signal}
-      );
-      const data = await result.json();
-      const trailer = data.results && data.results.filter((obj) => obj.type === "Trailer");
-      console.log(trailer)
+      // Fires all core endpoints simultaneously
+      const [detailsData, videoData, creditsData, recommendationsData, reviewsData] = await Promise.all([
+        fetchTMDB(`/movie/${movieId}`, 1, fetchOpts),
+        fetchTMDB(`/movie/${movieId}/videos`, 1, fetchOpts),
+        fetchTMDB(`/movie/${movieId}/credits`, 1, fetchOpts),
+        fetchTMDB(`/movie/${movieId}/recommendations`, 1, fetchOpts),
+        fetchTMDB(`/movie/${movieId}/reviews`, 1, fetchOpts)
+      ]);
+
+      setDetails(detailsData);
+
+      const trailer = videoData.results?.filter((obj) => obj.type === "Trailer") || [];
       setVideo(trailer);
-    },
-    [id]
-  );
 
-  const getMovieImages = useCallback(
-    async (signal) => {
-      const result = await fetch(
-        process.env.NEXT_PUBLIC_URL +
-          `/${id}/images?api_key=${process.env.NEXT_PUBLIC_API_KEY}&include_image_language=en,null`,
-        {signal}
-      );
-      const data = await result.json();
-      const temp = data.backdrops?.slice(0, 9);
-      setGallery(temp);
-    },
-    [id]
-  );
+      setCasts(creditsData.cast || []);
 
-  const getMovieCast = useCallback(
-    async (signal) => {
-      const result = await fetch(
-        process.env.NEXT_PUBLIC_URL +
-          `/${id}/credits?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`,
-        {signal}
-      );
-      const data = await result.json();
-      setCasts(data.cast);
-    },
-    [id]
-  );
-
-  const getSimilarMovies = useCallback(
-    async (signal) => {
-      const result = await fetch(
-        process.env.NEXT_PUBLIC_URL +
-          `/${id}/recommendations?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`,
-        {signal}
-      );
-      const data = await result.json();
-      const temp = data?.results?.filter(
-        (item) => item.poster_path && (item.release_date || item.first_air_date)
-      );
-      const sortedData = temp
+      const recsFiltered = (recommendationsData.results || [])
+        .filter((item) => item.poster_path && (item.release_date || item.first_air_date))
         .sort((a, b) => b.vote_average - a.vote_average)
         .slice(0, 10);
-      setSimilar(sortedData);
-    },
-    [id]
-  );
+      setSimilar(recsFiltered);
 
-  const getMovieReviews = useCallback(
-    async (signal) => {
-      const result = await fetch(
-        process.env.NEXT_PUBLIC_URL +
-          `/${id}/reviews?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`,
-        {signal: signal}
-      );
-      const data = await result.json();
-      setReviews(data.results);
-    },
-    [id]
-  );
-
-  // Lifecycle
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    if (id) {
-      getMovieDetails(signal);
-      getMovieVideo(signal);
-      getMovieCast(signal);
-      getSimilarMovies(signal);
-      getMovieReviews(signal);
+      setReviews(reviewsData.results || []);
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.error("Failed loading movie layout profile:", error);
+      }
+    } finally {
+      setPageLoading(false);
     }
+  }, []);
 
-    return () => controller.abort();
-  }, [
-    id,
-    getMovieDetails,
-    getMovieVideo,
-    getMovieCast,
-    getSimilarMovies,
-    getMovieReviews,
-  ]);
+  const loadGalleryAssets = useCallback(async (movieId, signal) => {
+    try {
+      // Append explicit language search constraints directly onto the endpoint path
+      const data = await fetchTMDB(`/movie/${movieId}/images?include_image_language=en,null`, 1, { signal });
+      setGallery(data.backdrops?.slice(0, 9) || []);
+    } catch (error) {
+      if (error.name !== 'AbortError') console.error("Gallery asset failure:", error);
+    }
+  }, []);
 
+  // Core Mount Controller Lifecycle
   useEffect(() => {
+    if (!id) return;
     const controller = new AbortController();
-    const signal = controller.signal;
 
-    if (modalOpen) getMovieImages(signal);
+    loadPageData(id, controller.signal);
+
     return () => controller.abort();
-  }, [modalOpen, getMovieImages]);
+  }, [id, loadPageData]);
 
-  // Render
-  return details ? (
+  // Gallery Modal Controller Lifecycle
+  useEffect(() => {
+    if (!id || !modalOpen) return;
+    const controller = new AbortController();
+
+    loadGalleryAssets(id, controller.signal);
+
+    return () => controller.abort();
+  }, [id, modalOpen, loadGalleryAssets]);
+
+  if (pageLoading || !details) {
+    return <Skeleton type="movie" />;
+  }
+
+  return (
     <>
       <Head>
         <title>{details.title} - Movielabs</title>
@@ -166,10 +121,10 @@ const MovieDetails = () => {
             <Image
               width={480}
               height={720}
-              priority={true}
+              priority
               alt={details.title}
               className={styles.movieImg}
-              src={imgURL + details.poster_path}
+              src={`${IMG_BASE_URL}${details.poster_path}`}
             />
           </div>
 
@@ -185,38 +140,29 @@ const MovieDetails = () => {
         <div className={styles.bottomSection}>
           <div className={styles.left}>
             <h3>Reviews</h3>
-            {reviews ? (
-              reviews.length ? (
-                reviews.map((review) => (
-                  <MovieReview key={review.id} styles={styles} data={review} />
-                ))
-              ) : (
-                <p>Currently there is no review</p>
-              )
-            ) : null}
+            {reviews.length ? (
+              reviews.map((review) => (
+                <MovieReview key={review.id} styles={styles} data={review} />
+              ))
+            ) : (
+              <p>Currently there is no review</p>
+            )}
           </div>
 
           <div className={styles.right}>
             <h3>Similar Movies</h3>
-            {similar ? (
-              similar.length ? (
-                similar.map((item) => (
-                  <SimilarMovie item={item} key={item.id} styles={styles} />
-                ))
-              ) : (
-                <p>Currently there is no similar Movie</p>
-              )
-            ) : null}
+            {similar.length ? (
+              similar.map((item) => (
+                <SimilarMovie item={item} key={item.id} styles={styles} />
+              ))
+            ) : (
+              <p>Currently there is no similar Movie</p>
+            )}
           </div>
         </div>
       </div>
 
-      <AnimatePresence
-        // Disable any initial animations on children.
-        initial={false}
-        // Only render one component at a time.
-        exitBeforeEnter={true}
-      >
+      <AnimatePresence mode="popLayout">
         {modalOpen && (
           <Modal
             modalOpen={modalOpen}
@@ -228,8 +174,6 @@ const MovieDetails = () => {
         )}
       </AnimatePresence>
     </>
-  ) : (
-    <Skeleton type="movie" />
   );
 };
 

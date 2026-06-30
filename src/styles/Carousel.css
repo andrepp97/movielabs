@@ -4,9 +4,10 @@
 .fullscreen-carousel-wrapper {
   position: relative;
   width: 100vw;
-  height: 95vh;
+  height: 75vh;
   left: 50%;
   right: 50%;
+  margin-top: 12px;
   margin-left: -50vw;
   margin-right: -50vw;
   overflow: hidden;
@@ -41,7 +42,7 @@
 .fullscreen-carousel-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 10%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 20%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
 }
 
 .fullscreen-carousel-content {
@@ -49,17 +50,16 @@
   z-index: 2;
   padding: 0 5% 8rem 5%;
   /* Shifts text safely above the bottom dots dock */
-  max-width: 850px;
+  max-width: 900px;
   color: #fff;
   pointer-events: auto;
+  text-align: justify;
 }
 
 .carousel-view-btn {
   display: inline-block;
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
-
-  /* Applied your brand accent color */
   background-color: #6037B3;
   color: #ffffff;
 
@@ -68,14 +68,11 @@
   text-decoration: none;
   transition: background-color 0.2s, transform 0.2s;
   box-shadow: 0 4px 14px rgba(96, 55, 179, 0.4);
-  /* Subtle matching glow */
 }
 
 .carousel-view-btn:hover {
   background-color: #4a2794;
-  /* Slightly darker shade for the hover state */
   transform: translateY(-1px);
-  /* Gentle lift effect */
 }
 
 .carousel-view-btn:active {
@@ -137,7 +134,6 @@
 
 .carousel__dot {
   width: 12px;
-  /* Consolidated to enlarged size */
   height: 12px;
   border-radius: 50%;
   border: none;
@@ -148,5 +144,4 @@
 
 .carousel__dot.is-selected {
   transform: scale(1.35);
-  /* Consolidated to matching active scale */
 }

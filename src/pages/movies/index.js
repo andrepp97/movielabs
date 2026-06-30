@@ -1,69 +1,70 @@
 import Head from "next/head";
-import {useState, useEffect, useCallback} from "react";
-import {motion, AnimatePresence} from "framer-motion";
-import {MovieCard, MovieGenre, Loader} from "../../components";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MovieCard, MovieGenre, Loader } from "../../components";
 import styles from "../../styles/Home.module.css";
 
+// Import your new global utility function
+import { fetchTMDB } from "../../utils/tmdb";
+
+// DATA FETCHING (Runs on Server)
 export async function getStaticProps() {
-  const result = await fetch(
-    process.env.NEXT_PUBLIC_URL +
-      `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`
-  );
-  const data = await result.json();
-  const popular = data.results.filter(
-    (movie) => movie.poster_path && movie.release_date
-  );
+  try {
+    // Fired simultaneously with the global helper
+    const [popularData, genresData] = await Promise.all([
+      fetchTMDB("/movie/popular"),
+      fetchTMDB("/genre/movie/list")
+    ]);
 
-  const getGenres = await fetch(
-    process.env.NEXT_PUBLIC_BASE_URL +
-      `/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`
-  );
-  const genres = await getGenres.json();
+    const popular = (popularData.results || []).filter(
+      (movie) => movie.poster_path && movie.release_date
+    );
 
-  return {
-    props: {
-      popular,
-      genres,
-    },
-    // Next.js will attempt to re-generate the page:
-    // - When a request comes in
-    // - At most once every 60 minutes
-    revalidate: 3600, // in seconds
-  };
+    return {
+      props: {
+        popular,
+        genres: genresData.genres || [],
+      },
+      revalidate: 3600,
+    };
+  } catch (error) {
+    console.error("Static build error on Movies Page:", error);
+    return {
+      props: { popular: [], genres: [] },
+      revalidate: 60,
+    };
+  }
 }
 
-const Movies = ({popular, genres}) => {
-  // State
+// COMPONENT (Runs on Client)
+const Movies = ({ popular, genres }) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [moreData, setMoreData] = useState([]);
   const [filtered, setFiltered] = useState([]);
-  const [activeGenre, setActiveGenre] = useState({id: 0, name: "All"});
+  const [activeGenre, setActiveGenre] = useState({ id: 0, name: "All" });
 
-  // Functions
-  const loadMoreData = useCallback(async () => {
-    if (page < 2) return;
+  const loadMoreData = useCallback(async (targetPage) => {
+    if (targetPage < 2) return;
+
     try {
       setLoading(true);
-      const result = await fetch(
-        process.env.NEXT_PUBLIC_URL +
-          `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=${page}`
-      );
-      const movies = await result.json();
-      let arr = [...moreData, ...movies.results];
-      setMoreData(arr);
-      setLoading(false);
+      // Re-using the exact same helper cleanly on the client-side network call
+      const data = await fetchTMDB("/movie/popular", targetPage);
+      setMoreData((prevData) => [...prevData, ...(data.results || [])]);
     } catch (error) {
-      console.log(error);
+      console.error("Failed loading client data pagination page:", error);
+    } finally {
+      setLoading(false);
     }
-  }, [page]);
+  }, []);
 
-  // Lifecycle
   useEffect(() => {
-    loadMoreData();
-  }, [loadMoreData]);
+    if (page > 1) {
+      loadMoreData(page);
+    }
+  }, [page, loadMoreData]);
 
-  // Render
   return (
     <div className="pageContainer">
       <Head>
@@ -75,22 +76,21 @@ const Movies = ({popular, genres}) => {
         title="Movies"
         popular={popular}
         moreData={moreData}
-        genreList={genres.genres}
+        genreList={genres}
         setFiltered={setFiltered}
         activeGenre={activeGenre}
         setActiveGenre={setActiveGenre}
       />
 
-      <motion.div className={styles.popular}>
-        <AnimatePresence>
-          {filtered &&
-            filtered.map((movie, index) => (
-              <MovieCard
-                data={movie}
-                type="movie"
-                key={movie.id + "-" + index}
-              />
-            ))}
+      <motion.div className={styles.popular} layout>
+        <AnimatePresence mode="popLayout">
+          {filtered?.map((movie, index) => (
+            <MovieCard
+              data={movie}
+              type="movie"
+              key={`${movie.id}-${index}`}
+            />
+          ))}
         </AnimatePresence>
       </motion.div>
 
@@ -98,7 +98,11 @@ const Movies = ({popular, genres}) => {
         {loading ? (
           <Loader />
         ) : page <= 5 ? (
-          <button className="btn-main" onClick={() => setPage(page + 1)}>
+          <button
+            className="btn-main"
+            style={{ backgroundColor: "#6037B3", color: "#fff" }}
+            onClick={() => setPage((prevPage) => prevPage + 1)}
+          >
             Load More
           </button>
         ) : null}

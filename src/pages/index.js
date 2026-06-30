@@ -1,22 +1,9 @@
 import { MovieSlider, Carousel } from "../components";
-
-const TMDB_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://api.themoviedb.org/3";
-
-const fetchTMDB = async (endpoint) => {
-  const url = `${TMDB_BASE_URL}${endpoint}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`;
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    // This will print the exact HTTP status (like 401 for bad API key, or 404 for bad URL)
-    throw new Error(`Failed to fetch ${endpoint}. Status: ${response.status}`);
-  }
-
-  return response.json();
-};
+import { fetchTMDB } from "../utils/tmdb";
 
 export async function getStaticProps() {
   try {
+    // Fired cleanly in parallel using the centralized token helper
     const [
       trendingData,
       upcomingData,
@@ -51,7 +38,7 @@ export async function getStaticProps() {
       revalidate: 1800,
     };
   } catch (error) {
-    console.error("Data Fetching Error:", error);
+    console.error("Data Fetching Error on Home Page:", error);
 
     return {
       props: {

@@ -1,230 +1,152 @@
-.embla {
-    width: 100%;
-    max-height: 60vh;
-    position: relative;
-    background-color: #f7f7f7;
-    border-radius: 1rem;
+/* ==========================================================================
+   1. FULLSCREEN CAROUSEL LAYOUT
+   ========================================================================== */
+.fullscreen-carousel-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 95vh;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  background-color: #000;
 }
 
-.embla__viewport {
-    width: 100%;
-    overflow: hidden;
+.fullscreen-carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.embla__viewport.is-draggable {
-    cursor: move;
-    cursor: grab;
+.fullscreen-carousel-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
 }
 
-.embla__viewport.is-dragging {
-    cursor: grabbing;
+.fullscreen-carousel-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
-.embla__container {
-    display: flex;
-    user-select: none;
-    margin-left: -10px;
-    -khtml-user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-tap-highlight-color: transparent;
+/* ==========================================================================
+   2. CONTENT & OVERLAYS
+   ========================================================================== */
+.fullscreen-carousel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 10%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
 }
 
-.embla__slide {
-    width: 100%;
-    height: auto;
-    cursor: pointer;
-    padding-left: 10px;
-    border-radius: 1rem;
+.fullscreen-carousel-content {
+  position: absolute;
+  z-index: 2;
+  padding: 0 5% 8rem 5%;
+  /* Shifts text safely above the bottom dots dock */
+  max-width: 850px;
+  color: #fff;
+  pointer-events: auto;
 }
 
-.embla__slide__inner:hover img {
-    z-index: 0;
-    transform: scale(1.25);
+.carousel-view-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+
+  /* Applied your brand accent color */
+  background-color: #6037B3;
+  color: #ffffff;
+
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.2s, transform 0.2s;
+  box-shadow: 0 4px 14px rgba(96, 55, 179, 0.4);
+  /* Subtle matching glow */
 }
 
-.embla__slide__inner {
-    border-radius: 1rem;
-    position: relative;
-    overflow: hidden;
-    height: auto;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.carousel-view-btn:hover {
+  background-color: #4a2794;
+  /* Slightly darker shade for the hover state */
+  transform: translateY(-1px);
+  /* Gentle lift effect */
 }
 
-.embla__slide__inner h1 {
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    margin: 0;
-    padding: 2rem 8rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    max-height: 60vh;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: .5s ease-in-out;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(90deg, rgb(0, 0, 0, .95) 0%, rgb(36, 36, 36, .8) 50%, rgb(66, 66, 66, .6) 100%);
+.carousel-view-btn:active {
+  transform: translateY(1px);
 }
 
-.movieYear {
-    opacity: .8;
-    margin: 8px 0;
-    font-weight: 500;
-    letter-spacing: 1px;
+/* ==========================================================================
+   3. NAVIGATION ACTIONS (ARROWS)
+   ========================================================================== */
+.carousel__button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, scale 0.2s;
 }
 
-.movieDesc {
-    width: 60%;
-    font-size: 15px;
-    text-transform: none;
-    font-weight: 400;
-    overflow: hidden;
-    display: -webkit-box;
-    text-overflow: ellipsis;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
+.carousel__button:hover {
+  scale: 1.1;
 }
 
-.embla__slide__img {
-    width: 100%;
-    object-fit: cover;
-    object-position: center;
-    transition: .5s ease-in-out;
+.carousel__button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
-.embla__button {
-    outline: none;
-    cursor: pointer;
-    background-color: transparent;
-    touch-action: manipulation;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 50%;
-    padding: 0;
-    width: 3.5rem;
-    height: 3.5rem;
-    transition: .2s ease-in-out;
-    transform: translateY(-50%);
-    border: 3px solid #F7F7F7;
-    border-radius: 50%;
+.carousel__button--prev {
+  left: 20px;
 }
 
-.embla__button:hover {
-    background-color: #5930a7;
-    border: 3px solid #5930a7;
-    box-shadow: rgba(202, 202, 202, 0.25) 0px 3px 8px;
+.carousel__button--next {
+  right: 20px;
 }
 
-.embla__button:disabled {
-    cursor: default;
-    opacity: 0;
+/* ==========================================================================
+   4. HIGH-VISIBILITY PAGINATION (DOTS)
+   ========================================================================== */
+.visible-carousel-dots {
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 20px;
+  border-radius: 30px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.embla__button__svg {
-    width: 100%;
-    height: 100%;
+.carousel__dot {
+  width: 12px;
+  /* Consolidated to enlarged size */
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
-.embla__button--prev {
-    left: 1.5rem;
-}
-
-.embla__button--next {
-    right: 1.5rem;
-}
-
-.embla__dots {
-    display: flex;
-    list-style: none;
-    justify-content: center;
-    padding-top: 10px;
-}
-
-.embla__dot {
-    background-color: transparent;
-    position: relative;
-    cursor: pointer;
-    padding: 0;
-    outline: 0;
-    border: 0;
-    width: 30px;
-    height: 30px;
-    margin: 0 4px;
-    display: flex;
-    align-items: center;
-}
-
-.embla__dot:after {
-    background-color: #efefef;
-    width: 100%;
-    height: 4px;
-    border-radius: 2px;
-    content: "";
-}
-
-.embla__dot.is-selected:after {
-    background-color: #663AB7;
-    opacity: 1;
-}
-
-
-
-@media only screen and (max-width: 1080px) {
-    .embla__slide__inner h1 {
-        font-size: 24px;
-        padding: 2rem 6rem;
-    }
-
-    .embla__button {
-        width: 3rem;
-        height: 3rem;
-    }
-
-    .embla__button--next {
-        right: 1rem;
-    }
-
-    .embla__button--prev {
-        left: 1rem;
-    }
-
-    .movieDesc {
-        width: 100%;
-    }
-}
-
-@media only screen and (max-width: 720px) {
-    .movieDesc {
-        display: none;
-    }
-}
-
-@media only screen and (max-width: 600px) {
-    .embla__slide__inner h1 {
-        font-size: large;
-        padding: 0 4rem;
-        text-align: center;
-        align-items: center;
-    }
-
-    .embla__button {
-        width: 2.5rem;
-        height: 2.5rem;
-    }
-
-    .embla__button--next {
-        right: 4px;
-    }
-
-    .embla__button--prev {
-        left: 4px;
-    }
+.carousel__dot.is-selected {
+  transform: scale(1.35);
+  /* Consolidated to matching active scale */
 }

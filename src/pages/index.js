@@ -1,107 +1,82 @@
-import {MovieSlider, Carousel} from "../components";
+import { MovieSlider, Carousel } from "../components";
 
-// DATA FETCHING
+const TMDB_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://api.themoviedb.org/3";
+
+const fetchTMDB = async (endpoint) => {
+  const url = `${TMDB_BASE_URL}${endpoint}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    // This will print the exact HTTP status (like 401 for bad API key, or 404 for bad URL)
+    throw new Error(`Failed to fetch ${endpoint}. Status: ${response.status}`);
+  }
+
+  return response.json();
+};
+
 export async function getStaticProps() {
-  const result = await fetch(
-    process.env.NEXT_PUBLIC_BASE_URL +
-      `/trending/all/week?api_key=${process.env.NEXT_PUBLIC_API_KEY}`
-  );
-  const trendingTemp = await result.json();
-  const trending = trendingTemp.results.filter(
-    (item, index) =>
-      index < 8 && (item.media_type == "movie" || item.media_type == "tv")
-  );
+  try {
+    const [
+      trendingData,
+      upcomingData,
+      topRatedData,
+      popularMoviesData,
+      popularTvData,
+      topRatedTvData,
+    ] = await Promise.all([
+      fetchTMDB("/trending/all/week"),
+      fetchTMDB("/movie/upcoming"),
+      fetchTMDB("/movie/top_rated"),
+      fetchTMDB("/movie/popular"),
+      fetchTMDB("/tv/popular"),
+      fetchTMDB("/tv/top_rated"),
+    ]);
 
-  const result2 = await fetch(
-    process.env.NEXT_PUBLIC_URL +
-      `/upcoming?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`
-  );
-  const upcomingTemp = await result2.json();
-  const upcoming = upcomingTemp.results;
+    const trending = (trendingData.results || [])
+      .filter((item, index) => index < 8 && (item.media_type === "movie" || item.media_type === "tv"));
 
-  const result3 = await fetch(
-    process.env.NEXT_PUBLIC_URL +
-      `/top_rated?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`
-  );
-  const topRatedTemp = await result3.json();
-  const topRated = topRatedTemp.results;
+    const popularMovies = (popularMoviesData.results || [])
+      .filter((item) => item.release_date && item.poster_path);
 
-  const result4 = await fetch(
-    process.env.NEXT_PUBLIC_URL +
-      `/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`
-  );
-  const popularMoviesTemp = await result4.json();
-  const popularMovies = popularMoviesTemp.results.filter(
-    (item) => item.release_date && item.poster_path
-  );
+    return {
+      props: {
+        trending,
+        upcoming: upcomingData.results || [],
+        topRated: topRatedData.results || [],
+        popularMovies,
+        popularTv: popularTvData.results || [],
+        topRatedTv: topRatedTvData.results || [],
+      },
+      revalidate: 1800,
+    };
+  } catch (error) {
+    console.error("Data Fetching Error:", error);
 
-  const result5 = await fetch(
-    process.env.NEXT_PUBLIC_BASE_URL +
-      `/tv/popular?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`
-  );
-  const popularTvTemp = await result5.json();
-  const popularTv = popularTvTemp.results;
-
-  const result6 = await fetch(
-    process.env.NEXT_PUBLIC_BASE_URL +
-      `/tv/top_rated?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=1`
-  );
-  const topRatedTvTemp = await result6.json();
-  const topRatedTv = topRatedTvTemp.results;
-
-  return {
-    props: {
-      trending,
-      upcoming,
-      topRated,
-      popularMovies,
-      topRatedTv,
-      popularTv,
-    },
-    // Next.js will attempt to re-generate the page:
-    // - When a request comes in
-    // - At most once every 30 minutes
-    revalidate: 1800, // in seconds
-  };
+    return {
+      props: {
+        trending: [],
+        upcoming: [],
+        topRated: [],
+        popularMovies: [],
+        popularTv: [],
+        topRatedTv: [],
+      },
+      revalidate: 60,
+    };
+  }
 }
 
-// COMPONENT
-const Home = ({
-  trending,
-  upcoming,
-  topRated,
-  popularMovies,
-  topRatedTv,
-  popularTv,
-}) => {
+const Home = ({ trending, upcoming, topRated, popularMovies, topRatedTv, popularTv }) => {
   return (
-    <div style={{marginTop: "3rem", position: "relative"}}>
+    <main>
       <Carousel movies={trending} />
-
       <MovieSlider type="movies" movies={upcoming} title="Upcoming Movies" />
-
-      <MovieSlider
-        type="movies"
-        movies={topRated}
-        showRating={true}
-        title="Top Rated Movies"
-      />
-
-      <MovieSlider
-        type="movies"
-        movies={popularMovies}
-        title="Popular Movies"
-      />
-
-      <MovieSlider
-        type="tv"
-        showRating={true}
-        movies={topRatedTv}
-        title="Top Rated TV Shows"
-      />
-
+      <MovieSlider type="movies" movies={topRated} showRating title="Top Rated Movies" />
+      <MovieSlider type="movies" movies={popularMovies} title="Popular Movies" />
+      <MovieSlider type="tv" showRating movies={topRatedTv} title="Top Rated TV Shows" />
       <MovieSlider type="tv" movies={popularTv} title="Popular TV Shows" />
-    </div>
+    </main>
   );
 };
 

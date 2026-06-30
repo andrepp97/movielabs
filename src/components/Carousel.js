@@ -1,97 +1,130 @@
-import Link from 'next/link'
-import useEmblaCarousel from "embla-carousel-react"
-import { useState, useEffect, useCallback } from "react"
-import { DotButton, PrevButton, NextButton } from "./CarouselButtons"
-import { Skeleton } from "../components"
-import { motion } from "framer-motion"
+import Link from 'next/link';
+import Image from 'next/image';
+import { useState, useEffect } from "react";
+import { Skeleton } from "../components";
+import { motion, AnimatePresence } from "framer-motion";
+import { PrevButton, NextButton, DotButton } from "./CarouselButtons";
 
-const backdropURL = 'https://image.tmdb.org/t/p/w780'
+const BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/original';
+const SWIPE_THRESHOLD = 50;
+const ACCENT_COLOR = "#6037B3";
+
+const slideVariants = {
+  enter: (direction) => ({
+    x: direction > 0 ? "100%" : "-100%",
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    transition: { x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }
+  },
+  exit: (direction) => ({
+    x: direction < 0 ? "100%" : "-100%",
+    opacity: 0,
+    transition: { x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }
+  })
+};
 
 const MovieCarousel = ({ movies }) => {
-    const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false })
-    const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
-    const [nextBtnEnabled, setNextBtnEnabled] = useState(false)
-    const [selectedIndex, setSelectedIndex] = useState(0)
-    const [scrollSnaps, setScrollSnaps] = useState([])
+  const [[page, direction], setPage] = useState([0, 0]);
 
-    const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla])
-    const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla])
-    const scrollTo = useCallback((index) => embla && embla.scrollTo(index), [embla])
+  if (!movies || movies.length === 0) {
+    return <Skeleton type="carousel" />;
+  }
 
-    const onSelect = useCallback(() => {
-        if (!embla) return
-        setSelectedIndex(embla.selectedScrollSnap())
-        setPrevBtnEnabled(embla.canScrollPrev())
-        setNextBtnEnabled(embla.canScrollNext())
-    }, [embla, setSelectedIndex])
+  const activeIndex = (page % movies.length + movies.length) % movies.length;
+  const currentMovie = movies[activeIndex];
 
-    useEffect(() => {
-        if (!embla) return
-        onSelect()
-        setScrollSnaps(embla.scrollSnapList())
-        embla.on("select", onSelect)
-    }, [embla, setScrollSnaps, onSelect])
+  const paginate = (newDirection) => {
+    setPage([page + newDirection, newDirection]);
+  };
 
-    return movies
-        ? (
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-            >
-                <p className="sectionTitle">
-                    Trending
-                </p>
-                <div className="embla">
-                    <div className="embla__viewport" ref={viewportRef}>
-                        <div className="embla__container">
-                            {movies && movies.map((movie, index) => (
-                                <Link
-                                    href={movie.media_type == "tv" ? '/tv/' + movie.id : '/movies/' + movie.id}
-                                    passHref={true}
-                                    key={index}
-                                >
-                                    <div className="embla__slide" key={index}>
-                                        <div className="embla__slide__inner">
-                                            <h1>
-                                                {movie.title || movie.name}
-                                                <p className="movieYear">
-                                                    ({
-                                                        movie.media_type == "movie"
-                                                            ? movie.release_date.split('-')[0]
-                                                            : movie.first_air_date.split('-')[0]
-                                                    })
-                                                </p>
-                                                <p className="movieDesc">
-                                                    {movie.overview}
-                                                </p>
-                                            </h1>
-                                            <img
-                                                src={backdropURL + movie.backdrop_path}
-                                                alt={movie.title || movie.name}
-                                                className="embla__slide__img"
-                                            />
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                    <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
-                    <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
-                </div>
-                <div className="embla__dots">
-                    {scrollSnaps.map((_, index) => (
-                        <DotButton
-                            key={index}
-                            selected={index === selectedIndex}
-                            onClick={() => scrollTo(index)}
-                        />
-                    ))}
-                </div>
-            </motion.div>
-        )
-        : <Skeleton type="carousel" />
-}
+  const handleDragEnd = (event, info) => {
+    const swipeDistance = info.offset.x;
+    if (swipeDistance < -SWIPE_THRESHOLD) {
+      paginate(1);
+    } else if (swipeDistance > SWIPE_THRESHOLD) {
+      paginate(-1);
+    }
+  };
 
-export default MovieCarousel
+  const movieYear = currentMovie.media_type === "movie"
+    ? currentMovie.release_date?.split('-')[0]
+    : currentMovie.first_air_date?.split('-')[0];
+
+  const detailUrl = currentMovie.media_type === "tv"
+    ? `/tv/${currentMovie.id}`
+    : `/movies/${currentMovie.id}`;
+
+  return (
+    <div className="fullscreen-carousel-wrapper">
+      <div className="fullscreen-carousel-container">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={page}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={handleDragEnd}
+            className="fullscreen-carousel-slide"
+            style={{ cursor: "grab" }}
+            whileTap={{ cursor: "grabbing" }}
+          >
+            <div className="fullscreen-carousel-image">
+              <Image
+                src={`${BACKDROP_BASE_URL}${currentMovie.backdrop_path}`}
+                alt={currentMovie.title || currentMovie.name}
+                layout="fill"
+                objectFit="cover"
+                priority
+                quality={90}
+                draggable={false}
+              />
+              <div className="fullscreen-carousel-overlay" />
+            </div>
+
+            <div className="fullscreen-carousel-content">
+              <h1>
+                {currentMovie.title || currentMovie.name}{" "}
+                {movieYear && <span className="movieYear">({movieYear})</span>}
+              </h1>
+              <p className="movieDesc">{currentMovie.overview}</p>
+              <Link href={detailUrl} passHref>
+                <a className="carousel-view-btn">View Details</a>
+              </Link>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        <PrevButton onClick={() => paginate(-1)} enabled={true} style={{ color: ACCENT_COLOR }} />
+        <NextButton onClick={() => paginate(1)} enabled={true} style={{ color: ACCENT_COLOR }} />
+
+        {/* Placed inside the container box for absolute tracking visibility */}
+        <div className="visible-carousel-dots">
+          {movies.map((_, index) => (
+            <DotButton
+              key={index}
+              selected={index === activeIndex}
+              onClick={() => {
+                const dir = index > activeIndex ? 1 : -1;
+                setPage([index, dir]);
+              }}
+              style={{
+                backgroundColor: index === activeIndex ? ACCENT_COLOR : "rgba(255, 255, 255, 0.35)",
+                boxShadow: "0 0 4px rgba(0,0,0,0.6)"
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MovieCarousel;

@@ -45,6 +45,8 @@
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    /* Standard property for compatibility with non-WebKit browsers */
+    line-clamp: 2;
 }
 
 
